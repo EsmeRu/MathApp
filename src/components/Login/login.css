@@ -1,0 +1,10 @@
+.bgLogin {
+  background-image: url("../../assets/img/fondoLog1.png");
+  background-size: cover;
+}
+.logo {
+  width: 10rem;
+}
+.text-align {
+  text-align: right;
+}

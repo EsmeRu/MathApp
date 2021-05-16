@@ -5,37 +5,44 @@ import objetos from "../../assets/img/objetos.png";
 import Header from "../Header";
 import "./home.css";
 import { navigate } from "hookrouter";
+import Container from "../Container";
 
 const Home = () => {
-  const handleGameOne = () => navigate("juego-contar");
-  const handleGameTwo = () => navigate("juego-sumar");
-  const handleGameThree = () => navigate("juego-objetos");
+  const handleGameOne = () => navigate("juego-contar"),
+    handleGameTwo = () => navigate("juego-sumar"),
+    handleGameThree = () => navigate("juego-objetos"),
+    estilosHome = [
+      "text-2xl text-center", //titulo de card
+      "card p-7 shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110", //Color y tamaño de card
+    ];
+
   return (
     <div className="bgHome">
-      <Header />
-      <main className="flex justify-center flex-wrap">
-        <div
-          className="card p-7 bg-red-400 shadow-2xl shadow-2xl transition duration-500 ease-in-out hover:bg-red-500 transform hover:-translate-y-1 hover:scale-110"
-          onClick={handleGameOne}
-        >
-          <h2 className="text-2xl">Contar</h2>
-          <img src={contar} />
+      <Container>
+        <div className="flex justify-center flex-wrap">
+          <div
+            className={`bg-red-400 ${estilosHome[1]} hover:bg-red-500`}
+            onClick={handleGameOne}
+          >
+            <h2 className={estilosHome[0]}>Contar</h2>
+            <img src={contar} />
+          </div>
+          <div
+            className={`bg-blue-300 ${estilosHome[1]} hover:bg-blue-500`}
+            onClick={handleGameTwo}
+          >
+            <h2 className={estilosHome[0]}>Sumar</h2>
+            <img src={sumar} />
+          </div>
+          <div
+            className={`bg-green-300 ${estilosHome[1]} hover:bg-green-500`}
+            onClick={handleGameThree}
+          >
+            <h2 className={estilosHome[0]}>Identificar Objetos</h2>
+            <img src={objetos} />
+          </div>
         </div>
-        <div
-          className="card p-7 bg-blue-300 shadow-2xl shadow-2xl transition duration-500 ease-in-out hover:bg-blue-500 transform hover:-translate-y-1 hover:scale-110"
-          onClick={handleGameTwo}
-        >
-          <h2 className="text-2xl">Sumar</h2>
-          <img src={sumar} />
-        </div>
-        <div
-          className="card p-7 bg-green-300 shadow-2xl transition duration-500 ease-in-out hover:bg-green-500 transform hover:-translate-y-1 hover:scale-110"
-          onClick={handleGameThree}
-        >
-          <h2 className="text-2xl text-center">Identificar Objetos</h2>
-          <img src={objetos} />
-        </div>
-      </main>
+      </Container>
     </div>
   );
 };

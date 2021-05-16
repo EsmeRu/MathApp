@@ -1,23 +1,5 @@
-.bgHome {
-  background-image: url("../../assets/img/fondo1-a.png");
-  height: 100%;
-}
 @media (min-width: 1000px) {
   .bgHome {
     height: 100vh;
   }
-}
-.card {
-  margin: 2rem 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  border-radius: 2%;
-  cursor: pointer;
-  color: white;
-}
-.card img {
-  max-width: 15rem;
 }

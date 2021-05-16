@@ -4,18 +4,15 @@ import inicio from "../assets/img/i-casa.png";
 import juego from "../assets/img/i-estrella.png";
 import sesion from "../assets/img/i-corazon.png";
 import ajustes from "../assets/img/i-nube.png";
-import { useRoutes } from "hookrouter";
-import { routes } from "../App";
 
 const Header = () => {
-  const routeResult = useRoutes(routes);
   return (
     <header className="flex flex-col justify-center items-center bg-gradient-to-b from-yellow-500">
       <div className="mt-4">
         <img src={logo} className="w-24" />
         <h1 className="text-3xl">Mate +</h1>
       </div>
-      <nav className="w-screen">
+      <nav className="w-screen mb-5">
         <div className="flex my-4 justify-center">
           <a
             href="/"

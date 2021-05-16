@@ -34,6 +34,7 @@ function Objetos() {
     "Toca el animal del mismo color que el changuito",
     "Toca la pieza que corresponde",
   ];
+  const [count, setCount] = useState(0);
 
   const contarFuncion = () => {
     swal({
@@ -46,41 +47,50 @@ function Objetos() {
 
   return (
     <Container>
-      {/* <div className="recolectar w-full text-center mb-10">
-        <h2>{preguntas[aux]}</h2>
-        <div className="flex justify-evenly">
-          <div
-            className="objetos p-3 shadow-2xl shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
-            onClick={contarFuncion}
-          >
-            <img src={imagenes[aux]} className="w-40" />
+      {count == 1 ? (
+        <div className="recolectar w-full text-center mb-10">
+          <h2>{preguntas[aux]}</h2>
+          <div className="flex justify-evenly">
+            <div
+              className="objetos p-3 shadow-2xl shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+              onClick={contarFuncion}
+            >
+              <img src={imagenes[aux]} className="w-40" />
+            </div>
+            <div
+              className="objetos objetos p-3 shadow-2xl shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+              onClick={contarFuncion}
+            >
+              <img src={imagenes[aux + 1]} className="w-40" />
+            </div>
           </div>
-          <div
-            className="objetos objetos p-3 shadow-2xl shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
-            onClick={contarFuncion}
-          >
-            <img src={imagenes[aux + 1]} className="w-40" />
+          <div className="pregunta flex justify-center">
+            <img src={imgPregunta[aux]} className="w-60" />
+          </div>
+          <div className="flex justify-evenly">
+            <div
+              className="objetos objetos p-3 shadow-2xl shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+              onClick={contarFuncion}
+            >
+              <img src={imagenes[aux + 3]} className="w-40" />
+            </div>
+            <div
+              className="objetos objetos p-3 shadow-2xl shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+              onClick={contarFuncion}
+            >
+              <img src={imagenes[aux + 4]} className="w-40" />
+            </div>
           </div>
         </div>
-        <div className="pregunta flex justify-center">
-          <img src={imgPregunta[aux]} className="w-60" />
+      ) : count == 2 ? (
+        <Memoria></Memoria>
+      ) : (
+        <div>
+          <button onClick={() => setCount(1)}>Presiona</button>
+          <button onClick={() => setCount(2)}>Memoria</button>
         </div>
-        <div className="flex justify-evenly">
-          <div
-            className="objetos objetos p-3 shadow-2xl shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
-            onClick={contarFuncion}
-          >
-            <img src={imagenes[aux + 3]} className="w-40" />
-          </div>
-          <div
-            className="objetos objetos p-3 shadow-2xl shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
-            onClick={contarFuncion}
-          >
-            <img src={imagenes[aux + 4]} className="w-40" />
-          </div>
-        </div>
-      </div> */}
-      <Memoria></Memoria>
+      )}
+      ;
     </Container>
   );
 }

@@ -10,6 +10,8 @@ import Juegos from "./components/Juegos/Juegos.js";
 import { useRoutes } from "hookrouter";
 import "./App.css";
 
+import { useFirebaseApp } from 'reactfire'; //Import para usar firebase
+
 export const routes = {
   "/": () => <Home />,
   "/login": () => <Login />,
@@ -20,6 +22,8 @@ export const routes = {
 };
 
 const App = () => {
+  const firebase = useFirebaseApp();
+  console.log(firebase);
   const routeResult = useRoutes(routes);
 
   return routeResult;

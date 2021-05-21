@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import "./login.css";
 import { navigate } from "hookrouter";
+import Auth from './Auth';
 
 import logo from "../../assets/img/logo.png";
 
-const Login = () => {
+/*const Login = () => {
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -19,6 +20,7 @@ const Login = () => {
     console.log(form);
     // history.push("/");
   };
+  
   const handleLog = () => navigate("/");
 
   return (
@@ -101,5 +103,15 @@ const Login = () => {
     </div>
   );
 };
+
+export default Login;*/
+
+function Login() {
+  return (
+    <div className="Login">
+      <Auth />
+    </div>
+  );
+}
 
 export default Login;

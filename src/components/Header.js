@@ -2,10 +2,14 @@ import React from "react";
 import logo from "../assets/img/logo.png";
 import inicio from "../assets/img/i-casa.png";
 import juego from "../assets/img/i-estrella.png";
-import sesion from "../assets/img/i-corazon.png";
+
 import ajustes from "../assets/img/i-nube.png";
+import { useFirebaseApp } from 'reactfire';
+import AuthLogUser from "./AuthLogUser";
 
 const Header = () => {
+
+
   return (
     <header className="flex flex-col justify-center items-center bg-gradient-to-b from-yellow-500">
       <div className="mt-4">
@@ -35,13 +39,9 @@ const Header = () => {
             <img src={ajustes} className="icon p-1" />
             Ajustes
           </a>
-          <a
-            href="/login"
-            className="flex h-7 cursor-pointer hover:text-blue-500 text-xl"
-          >
-            <img src={sesion} className="icon p-1" />
-            Iniciar Sesión
-          </a>
+
+          <AuthLogUser />
+
         </div>
       </nav>
     </header>

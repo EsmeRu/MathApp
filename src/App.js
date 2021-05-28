@@ -22,8 +22,6 @@ export const routes = {
 };
 
 const App = () => {
-  const firebase = useFirebaseApp();
-  console.log(firebase);
   const routeResult = useRoutes(routes);
 
   return routeResult;

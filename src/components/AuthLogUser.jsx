@@ -8,6 +8,7 @@ export default (props) => {
     const firebase = useFirebaseApp();
 
     const logout = async () => {
+        localStorage.removeItem("Email");
         await firebase.auth().signOut();
     }
 

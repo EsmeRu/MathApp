@@ -5,7 +5,7 @@ import { LockClosedIcon } from "@heroicons/react/solid";
 import { navigate } from "hookrouter";
 import swal from "sweetalert";
 
-import { useFirebaseApp, useUser } from 'reactfire'; //Hooks para usar firebase
+import { useFirebaseApp } from 'reactfire'; //Hooks para usar firebase
 
 export default (props) => {
     const [email, setEmail] = useState('');
@@ -22,6 +22,7 @@ export default (props) => {
                         text: "Usuario creado con éxito, bienvenido",
                         icon: "success"
                     })
+                    localStorage.setItem('Email', email);
                     handleNav();
                 })
                 .catch((error) => {
@@ -58,6 +59,7 @@ export default (props) => {
                     icon: "success",
                     button: "aceptar"
                 })
+                localStorage.setItem('Email', email);
                 handleNav();
             })
             .catch((error) => {

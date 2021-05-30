@@ -6,11 +6,9 @@ import Sketch from "react-p5";
 import "firebase/firestore";
 import "firebase/database";
 
-import {
-  useFirestoreDocData,
-  useFirestore,
-} from "reactfire";
-import state from "sweetalert/typings/modules/state";
+import { useFirestoreDocData, useFirestore } from "reactfire";
+
+// import state from "sweetalert/typings/modules/state";
 
 const IMGS = {
   cero: "/assets/img/numeros/num-cero.png",
@@ -39,19 +37,15 @@ const IMGS = {
 
 const Contar = () => {
   const preguntasRef = useFirestore().collection("juegos").doc("contar");
+  // const puntosRef = useFirestore().collection("puntos").doc("contar");
+  // const puntosActuales = useFirestoreDocData(puntosRef).data[0];
+  // console.log(puntosActuales);
+  // const obtenerPuntos = () => {};
+
   const { status, data } = useFirestoreDocData(preguntasRef);
   const [buttons, setButtons] = useState([]);
   const [aux, setAux] = useState(0);
-
-  const puntosRef = useFirestore().collection("puntos").doc("contar");
-  const puntosActuales = useFirestoreDocData(puntosRef).data[0];
-  console.log(puntosActuales);
-
-  const obtenerPuntos = () => {
-
-
-
-  }
+  const [puntos, setPuntos] = useState(0);
 
   const contarFuncion = (value) => {
     if (value === data?.preguntas[aux]?.respuesta || aux === 3 || aux == 20) {
@@ -60,6 +54,7 @@ const Contar = () => {
         icon: "success",
         value: true,
       });
+      setPuntos(puntos + 10);
       setButtons([]);
       setAux(aux + 1);
     } else {
@@ -115,9 +110,9 @@ const Contar = () => {
           </div>
         ) : data.preguntas.length > aux ? (
           <div>
-            <div className="puntuacion text-center">
+            {/* <div className="puntuacion text-center">
               <h2> {obtenerPuntos} puntos</h2>
-            </div>
+            </div> */}
             <div className="pregunta w-full text-center">
               <h2 id="tituloContar">{data.preguntas[aux].pregunta}</h2>
             </div>

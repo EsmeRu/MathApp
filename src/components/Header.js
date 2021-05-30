@@ -6,15 +6,13 @@ const ICONOS = {
   logo: "/assets/img/logo.png",
   inicio: "/assets/img/i-casa.png",
   juego: "/assets/img/i-estrella.png",
-  ajustes: "/assets/img/i-nube.png",
 };
 
 const Header = () => {
   return (
-    <header className="flex flex-col justify-center items-center bg-gradient-to-b from-yellow-500">
+    <header className="flex flex-col justify-center items-center bg-gradient-to-b from-blue-800">
       <div className="mt-4">
-        <img src={ICONOS["logo"]} className="w-24" />
-        <h1 className="text-3xl">Mate +</h1>
+        <img src={ICONOS["logo"]} className="w-64" />
       </div>
       <nav className="w-screen mb-5">
         <div className="flex my-4 justify-center">
@@ -31,13 +29,6 @@ const Header = () => {
           >
             <img src={ICONOS["juego"]} className="icon p-1" />
             Juegos
-          </a>
-          <a
-            onClick={() => console.log("object")}
-            className="flex h-7 cursor-pointer hover:text-blue-500 text-xl"
-          >
-            <img src={ICONOS["ajustes"]} className="icon p-1" />
-            Ajustes
           </a>
 
           <AuthLogUser />

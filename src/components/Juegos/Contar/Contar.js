@@ -1,33 +1,80 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "../../Container";
 import "./juegoContar.css";
-import swal from "sweetalert";
-import uno from "../../../assets/img/a.png";
-import pieza from "../../../assets/img/fondo.png";
-import dos from "../../../assets/img/dos.png";
-import tres from "../../../assets/img/contar.png";
-import canasta from "../../../assets/img/canasta.png";
+import swal from "@sweetalert/with-react";
 import Sketch from "react-p5";
+import "firebase/firestore";
+import { useFirestoreDocData, useFirestore } from "reactfire";
+
+const IMGS = {
+  cero: "/assets/img/numeros/num-cero.png",
+  uno: "/assets/img/letras/letras-abc.png",
+  dos: "/assets/img/frutas/frutas-dos.png",
+  tres: "/assets/img/contar.png",
+  cuatro: "/assets/img/objetos/canasta.png",
+  cinco: "/assets/img/personas/niños-cinco.png",
+  seis: "/assets/img/contar/contar-papeleria.png",
+  siete: "/assets/img/contar/contar-papeleria.png",
+  ocho: "/assets/img/contar/michis-ocho.png",
+  nueve: "/assets/img/contar/contar-animales-granja.png",
+  diez: "/assets/img/contar/contar-animales-granja.png",
+  once: "/assets/img/contar/contar-animales-granja.png",
+  doce: "/assets/img/contar/contar-varios.png",
+  trece: "/assets/img/contar/contar-varios.png",
+  catorce: "/assets/img/contar/gatos-16.png",
+  quince: "/assets/img/contar/contar-manos-estrella.png",
+  dieciseis: "/assets/img/contar/contar-manos-estrella.png",
+  diecisiete: "/assets/img/",
+  dieciocho: "/assets/img/animales/animales-18.png",
+  diecinueve: "/assets/img/contar/contar-animales-granja.png",
+  veinte: "/assets/img/punteado20.png",
+  fin: "/assets/img/fin-juego-sfondo.png",
+};
 
 const Contar = () => {
-  const preguntas = [
-    "¿Cuantos animales hay?",
-    "¿Cuantas letras hay?",
-    "¿Cuantos objetos hay?",
-    "Dibuja sobre la línea",
-    "Cuenta las piezas",
-  ];
-  const imagenes = [canasta, uno, dos, tres, pieza];
+  const preguntasRef = useFirestore().collection("juegos").doc("contar");
+  const { status, data } = useFirestoreDocData(preguntasRef);
+  const [buttons, setButtons] = useState([]);
   const [aux, setAux] = useState(0);
 
-  const contarFuncion = () => {
-    swal({
-      text: "Respuesta Correcta",
-      icon: "success",
-      value: true,
-    });
-    setAux(aux + 1);
+  const contarFuncion = (value) => {
+    if (value === data?.preguntas[aux]?.respuesta || aux === 3 || aux == 20) {
+      swal({
+        content: <div>Respuesta Correcta</div>,
+        icon: "success",
+        value: true,
+      });
+      setButtons([]);
+      setAux(aux + 1);
+    } else {
+      swal({
+        content: <div>Ups! Intenta de nuevo</div>,
+        icon: "warning",
+        value: false,
+      });
+    }
   };
+
+  useEffect(() => {
+    if (status === "success") {
+      const btn = buttons;
+      let res = 0,
+        auxRes = 0;
+      btn.push(data?.preguntas[aux]?.respuesta);
+
+      Array.from(Array(2), (_, index) => {
+        do {
+          res = Math.floor(Math.random() * (20 - 1)) + 1;
+          if (res !== auxRes) {
+            btn.push(res);
+            auxRes = res;
+            res = 0;
+          }
+        } while (res !== 0);
+      });
+      setButtons([...btn]);
+    }
+  }, [status, data, aux]);
 
   const setup = (p5, canvasParentRef) => {
     p5.createCanvas(p5.windowWidth / 2, p5.windowWidth / 4).parent(
@@ -44,51 +91,55 @@ const Contar = () => {
 
   return (
     <Container>
-      <div className="contar">
-        <div className="pregunta w-full text-center">
-          <h2 id="tituloContar">{preguntas[aux]}</h2>
-        </div>
-        <div className="img w-full flex justify-center my-7 h-60">
-          {aux == 3 ? (
-            <div className="flex flex-col">
-              <Sketch className="dibujo" setup={setup} draw={draw} />
-              <button
-                className="card p-8 bg-green-600 shadow-2xl shadow-2xl transition duration-500 ease-in-out hover:bg-green-500 transform hover:-translate-y-1 hover:scale-110"
-                onClick={contarFuncion}
-              >
-                Revisar
-              </button>
+      <div className="w-screen h-screen">
+        {status !== "success" ? (
+          <div className="flex flex-col items-center">
+            Espera un momento
+            <div className="loader"></div>
+          </div>
+        ) : data.preguntas.length > aux ? (
+          <div>
+            <div className="pregunta w-full text-center">
+              <h2 id="tituloContar">{data.preguntas[aux].pregunta}</h2>
             </div>
-          ) : (
-            <img src={imagenes[aux]} className="img-pregunta" />
-          )}
-        </div>
-
-        {aux == 3 ? (
-          <></>
+            <div className="img w-full flex justify-center my-7 h-60">
+              {aux === 3 ? (
+                <div className="flex flex-col">
+                  <Sketch className="dibujo" setup={setup} draw={draw} />
+                  <button
+                    className="card p-8 bg-green-600 shadow-2xl shadow-2xl transition duration-500 ease-in-out hover:bg-green-500 transform hover:-translate-y-1 hover:scale-110"
+                    onClick={contarFuncion}
+                  >
+                    Revisar
+                  </button>
+                </div>
+              ) : (
+                <img
+                  src={IMGS[data?.preguntas[aux]?.img]}
+                  className="img-pregunta"
+                />
+              )}
+            </div>
+            {aux === 3 ? (
+              <></>
+            ) : (
+              <div className="respuesta w-full text-center flex justify-center flex-wrap">
+                {buttons.map((v, index) => (
+                  <button
+                    id="res1"
+                    className="card p-8 bg-red-400 shadow-2xl transition duration-500 ease-in-out hover:bg-red-500 transform hover:-translate-y-1 hover:scale-110"
+                    onClick={() => contarFuncion(v)}
+                    key={index}
+                  >
+                    <h1>{v}</h1>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         ) : (
-          <div className="respuesta w-full text-center flex justify-center flex-wrap">
-            <button
-              id="res1"
-              className="card p-8 bg-red-400 shadow-2xl shadow-2xl transition duration-500 ease-in-out hover:bg-red-500 transform hover:-translate-y-1 hover:scale-110"
-              onClick={contarFuncion}
-            >
-              <h1>{aux}</h1>
-            </button>
-            <button
-              id="res2"
-              className="card p-7 bg-blue-300 shadow-2xl shadow-2xl transition duration-500 ease-in-out hover:bg-blue-500 transform hover:-translate-y-1 hover:scale-110"
-              onClick={contarFuncion}
-            >
-              <h1>{aux + 5}</h1>
-            </button>
-            <button
-              id="res3"
-              className="card p-7 bg-green-300 shadow-2xl transition duration-500 ease-in-out hover:bg-green-500 transform hover:-translate-y-1 hover:scale-110"
-              onClick={contarFuncion}
-            >
-              <h1>{aux + 4}</h1>
-            </button>
+          <div>
+            <img src={IMGS["fin"]}></img>
           </div>
         )}
       </div>
@@ -97,27 +148,3 @@ const Contar = () => {
 };
 
 export default Contar;
-
-// const Contar = () => {
-//   const aux = 50;
-//   let img;
-//   const setup = (p5, canvasParentRef) => {
-//     p5.createCanvas(p5.windowWidth - aux, p5.windowHeight - aux).parent(
-//       canvasParentRef
-//     );
-//   };
-
-//   const draw = (p5) => {};
-
-//   const handleWindowResize = (p5) =>
-//     p5.resizeCanvas(p5.windowWidth - aux, p5.windowHeight - aux);
-
-//   /**Container manda llamar el Header */
-//   return (
-//     <Container>
-//       <Sketch setup={setup} draw={draw} windowResized={handleWindowResize} />
-//     </Container>
-//   );
-// };
-
-// export default Contar;

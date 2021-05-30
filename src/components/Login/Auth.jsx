@@ -15,7 +15,7 @@ export default (props) => {
     const handleNav = () => navigate("/");
 
     const submit = async () => {
-        if (confirmPassword == password) {
+        if (confirmPassword === password) {
             await firebase.auth().createUserWithEmailAndPassword(email, password)
                 .then(() => {
                     swal({
@@ -26,7 +26,7 @@ export default (props) => {
                 })
                 .catch((error) => {
                     var errorCode = error.code;
-                    if (errorCode == 'auth/weak-password') {
+                    if (errorCode === 'auth/weak-password') {
                         swal({
                             text: "La contraseña es muy débil",
                             icon: "warning",
@@ -62,7 +62,7 @@ export default (props) => {
             })
             .catch((error) => {
                 var errorCode = error.code;
-                if (errorCode == "auth/wrong-password") {
+                if (errorCode === "auth/wrong-password") {
                     swal({
                         title: "Contraseña incorrecta",
                         text: "Contraseña del correo incorrecta",

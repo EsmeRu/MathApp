@@ -1,11 +1,13 @@
 import React from "react";
-import contar from "../../assets/img/contar.png";
-import sumar from "../../assets/img/sumar.png";
-import objetos from "../../assets/img/objetos.png";
-import Header from "../Header";
 import "./home.css";
 import { navigate } from "hookrouter";
 import Container from "../Container";
+
+const IMGS = {
+  contar: "/assets/img/contar.png",
+  sumar: "/assets/img/sumar.png",
+  objetos: "/assets/img/objetos.png",
+};
 
 const Home = () => {
   const handleGameOne = () => navigate("juego-contar"),
@@ -25,21 +27,21 @@ const Home = () => {
             onClick={handleGameOne}
           >
             <h2 className={estilosHome[0]}>Contar</h2>
-            <img src={contar} />
+            <img src={IMGS["contar"]} />
           </div>
           <div
             className={`bg-blue-300 ${estilosHome[1]} hover:bg-blue-500`}
             onClick={handleGameTwo}
           >
             <h2 className={estilosHome[0]}>Sumar</h2>
-            <img src={sumar} />
+            <img src={IMGS["sumar"]} />
           </div>
           <div
             className={`bg-green-300 ${estilosHome[1]} hover:bg-green-500`}
             onClick={handleGameThree}
           >
             <h2 className={estilosHome[0]}>Identificar Objetos</h2>
-            <img src={objetos} />
+            <img src={IMGS["objetos"]} />
           </div>
         </div>
       </Container>

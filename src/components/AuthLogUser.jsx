@@ -18,8 +18,8 @@ export default (props) => {
                 className="flex h-7 cursor-pointer hover:text-blue-500 text-xl"
                 onClick={logout}
             >
-                <img src={sesion} className="icon p-1" />
-                Cerrar Sesión
+                <img src={sesion} className="p-1" />
+                Cerrar sesión
             </a>
         )
     } else {
@@ -28,7 +28,7 @@ export default (props) => {
                 href="/login"
                 className="flex h-7 cursor-pointer hover:text-blue-500 text-xl"
             >
-                <img src={sesion} className="icon p-1" />
+                <img src={sesion} className="p-1" />
                 Iniciar Sesión
             </a>
         )

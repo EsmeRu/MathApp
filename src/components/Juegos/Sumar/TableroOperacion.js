@@ -1,6 +1,5 @@
 import React from "react";
 import swal from "sweetalert";
-import Card from "./Card.js";
 
 const Tablero = ({ children, id, className }) => {
   const drop = (e) => {
@@ -8,7 +7,7 @@ const Tablero = ({ children, id, className }) => {
 
     const card_id = e.dataTransfer.getData("card_id");
 
-    if (card_id == "card-2") {
+    if (card_id === "card-2") {
       console.log("correcto");
       swal({
         text: "Respuesta Correcta",

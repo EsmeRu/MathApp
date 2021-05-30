@@ -14,6 +14,12 @@ import "./objetos.css";
 import Container from "../Container";
 import Memoria from "./Memoria/Memoria";
 
+// const IMGS = {
+//   contar: "/assets/img/contar.png",
+//   sumar: "/assets/img/sumar.png",
+//   objetos: "/assets/img/objetos.png",
+// };
+
 function Objetos() {
   const imagenes = [
     manzana,
@@ -47,7 +53,7 @@ function Objetos() {
 
   return (
     <Container>
-      {count == 1 ? (
+      {count === 1 ? (
         <div className="recolectar w-full text-center mb-10">
           <h2>{preguntas[aux]}</h2>
           <div className="flex justify-evenly">
@@ -82,7 +88,7 @@ function Objetos() {
             </div>
           </div>
         </div>
-      ) : count == 2 ? (
+      ) : count === 2 ? (
         <Memoria></Memoria>
       ) : (
         <div>

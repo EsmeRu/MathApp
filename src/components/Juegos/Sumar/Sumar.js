@@ -39,18 +39,18 @@ function Sumar() {
   const { status, data } = useFirestoreDocData(preguntasRef);
   const [aux, setAux] = useState(0);
   const [buttons, setButtons] = useState([]);
-
   const dataBaseKey = localStorage.getItem("key");
   const [puntos, setPuntos] = useState(0);
-  const handleNav = () => navigate("/");
-
 
   var userEmail = localStorage.getItem("Email").split("@").toString();
   userEmail = userEmail.split(".").toString();
   userEmail = userEmail.split("-").toString();
   userEmail = userEmail.split("_").toString();
 
-  const puntosRef = useDatabase().ref(dataBaseKey).child('puntosContar');
+  const puntosRef = useDatabase().ref(dataBaseKey).child('puntosSumar');
+
+  const handleNav = () => navigate("/");
+
 
   const obtenerPuntos = () => {
     puntosRef.on('value', puntaje => {
@@ -60,11 +60,9 @@ function Sumar() {
     })
   };
 
-  const sumarPuntos = () => {
-    var nuevosPuntos = puntos + 50;
-    setPuntos(nuevosPuntos);
-    puntosRef.set(nuevosPuntos);
-  };
+
+
+
 
   /*const perderVida = () => {
     const vidaPerida = document.getElementById("vida" + vidasRestantes);
@@ -102,7 +100,7 @@ function Sumar() {
 
   useEffect(() => {
     if (status === "success") {
-      obtenerPuntos();
+      obtenerPuntos()
       let btn = buttons;
       btn = [];
       let res = 0,
@@ -139,7 +137,7 @@ function Sumar() {
         ) : data?.suma?.length > aux ? (
           <div>
             <div className="puntuacion text-center flex my-4 justify-center">
-              <h3 className="mr-10 pt-4">  Puntos: {puntos} </h3>
+              <h3 className="mr-10 pt-4" id="hPuntos"> Puntos: {puntos} </h3>
               <div className="flex my-4 justify-center" name="divVidas">
                 <h3 className="mr-3"> Vidas: </h3>
                 <a className="flex h-12 w-12 mr-5" id="vida1">

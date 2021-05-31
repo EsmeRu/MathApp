@@ -22,6 +22,7 @@ const Memoria = () => {
   const [shuffledMemoBlocks, setShuffleMemoBlocks] = useState([]);
   const [selectedMemoBlock, setSelectedMemoBlock] = useState(null);
   const [animating, setAnimating] = useState(false);
+  const [finJuego, setFinJuego] = useState(0);
 
   useEffect(() => {
     const shuffledEmojiList = shuffleArray([...emojiList, ...emojiList]);
@@ -50,10 +51,15 @@ const Memoria = () => {
     setShuffleMemoBlocks(shuffledMemoBlocksCopy);
     if (selectedMemoBlock === null) {
       setSelectedMemoBlock(memoBlock);
+      console.log("este es el primero que se levanta");
     } else if (selectedMemoBlock.emoji === memoBlock.emoji) {
       setSelectedMemoBlock(null);
+      console.log("este es cuando coincide con el segundo");
+      setFinJuego(finJuego + 2);
     } else {
       setAnimating(true);
+      console.log("este es cuando no coincide con el segundo");
+
       setTimeout(() => {
         shuffledMemoBlocksCopy.splice(memoBlock.index, 1, memoBlock);
         shuffledMemoBlocksCopy.splice(
@@ -73,6 +79,7 @@ const Memoria = () => {
       memoBlocks={shuffledMemoBlocks}
       animating={animating}
       handleMemoClick={handleMemoClick}
+      finJuego={finJuego}
     />
   );
 };

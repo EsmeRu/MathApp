@@ -106,7 +106,11 @@ function Objetos() {
             </div>
           ) : (
             <div>
-              <img src={IMGS["fin"]}></img>
+              <div className="flex justify-center">
+                <div className="m-10 max-w-screen-md items-center">
+                  <img src={IMGS["fin"]}></img>
+                </div>
+              </div>
             </div>
           )}
         </div>

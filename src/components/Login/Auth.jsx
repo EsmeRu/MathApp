@@ -1,20 +1,24 @@
 import React, { useState } from 'react';
 import 'firebase/auth';
 import 'firebase/database';
+import "firebase/firestore";
 import logo from "../../assets/img/logo.png";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { navigate } from "hookrouter";
 import swal from "sweetalert";
 
-import { useFirebaseApp, useDatabase } from 'reactfire'; //Hooks para usar firebase
+import { useFirebaseApp, useDatabase, useFirestore, useFirestoreDocData } from 'reactfire'; //Hooks para usar firebase
 
 export default (props) => {
+    const keysRef = useFirestore().collection("keys").doc('userKeys');
+    const [state, data] = useFirestoreDocData(keysRef)
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const firebase = useFirebaseApp();
     const handleNav = () => navigate("/");
     const puntosRef = useDatabase();
+
 
     const addPointRecord = () => {
         var userEmail = localStorage.getItem("Email").split("@", 1).toString();
@@ -25,6 +29,8 @@ export default (props) => {
             puntosSumar: 0,
             puntosMemorama: 0
         }).key)
+
+        data.set()
     }
 
     const submit = async () => {
@@ -48,6 +54,7 @@ export default (props) => {
                             button: "Aceptar"
                         })
                     } else {
+                        console.log(error)
                         swal({
                             text: "Ese correo ya esta registrado",
                             icon: "warning",

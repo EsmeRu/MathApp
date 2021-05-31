@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import 'firebase/auth';
 import 'firebase/database';
+import "firebase/firestore";
 import logo from "../../assets/img/logo.png";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { navigate } from "hookrouter";
 import swal from "sweetalert";
 
-import { useFirebaseApp, useDatabase } from 'reactfire'; //Hooks para usar firebase
+import { useFirebaseApp, useDatabase, useFirestore } from 'reactfire'; //Hooks para usar firebase
 
 export default (props) => {
+    const keysRef = useFirestore();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -16,8 +18,21 @@ export default (props) => {
     const handleNav = () => navigate("/");
     const puntosRef = useDatabase();
 
-    const addPointRecord = () => {
 
+    const addPointRecord = () => {
+        var userEmail = localStorage.getItem("Email").split("@", 1).toString();
+        userEmail = userEmail.split(".").toString();
+        localStorage.setItem("key", puntosRef.ref().push({
+            email: userEmail,
+            puntosContar: 0,
+            puntosSumar: 0,
+            puntosMemorama: 0
+        }).key)
+
+        keysRef.collection("keys").add({
+            email: userEmail,
+            key: localStorage.getItem("key")
+        })
     }
 
     const submit = async () => {
@@ -29,7 +44,7 @@ export default (props) => {
                         icon: "success"
                     })
                     localStorage.setItem('Email', email);
-
+                    addPointRecord();
                     handleNav();
                 })
                 .catch((error) => {
@@ -41,6 +56,7 @@ export default (props) => {
                             button: "Aceptar"
                         })
                     } else {
+                        console.log(error)
                         swal({
                             text: "Ese correo ya esta registrado",
                             icon: "warning",
@@ -57,6 +73,19 @@ export default (props) => {
         }
     }
 
+    const getKey = async () => {
+        var keyValue;
+        await keysRef.collection("keys").get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                keyValue = doc.data().key;
+            });
+        }).catch((error) => {
+            console.log(error)
+        });
+
+        localStorage.setItem("key", keyValue);
+    }
+
     const login = async () => {
         await firebase.auth().signInWithEmailAndPassword(email, password)
             .then(() => {
@@ -66,6 +95,7 @@ export default (props) => {
                     icon: "success",
                     button: "aceptar"
                 })
+                getKey();
                 localStorage.setItem('Email', email);
                 handleNav();
             })
@@ -79,6 +109,7 @@ export default (props) => {
                         button: "aceptar"
                     })
                 } else {
+                    console.log(error)
                     swal({
                         title: "Correo no registrado",
                         text: "Parece que ese correo no se encuentra registrado",

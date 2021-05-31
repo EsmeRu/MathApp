@@ -39,30 +39,27 @@ const Contar = () => {
   const { status, data } = useFirestoreDocData(preguntasRef);
   const [buttons, setButtons] = useState([]);
   const [aux, setAux] = useState(0);
+  const dataBaseKey = localStorage.getItem("key");
+
 
   const [puntos, setPuntos] = useState(0);
   var userEmail = localStorage.getItem("Email").split("@", 1).toString();
   userEmail = userEmail.split(".").toString();
 
-  const puntosRef = useDatabase().ref("sumar");
+  const puntosRef = useDatabase().ref(dataBaseKey).child('puntosContar');
 
   const obtenerPuntos = () => {
-    puntosRef
-      .child(userEmail)
-      .child("puntos")
-      .on("value", (puntaje) => {
-        if (puntaje != null) {
-          setPuntos(puntaje.val());
-        }
-      });
+    puntosRef.on('value', puntaje => {
+      if (puntaje != null) {
+        setPuntos(puntaje.val())
+      }
+    })
   };
 
   const sumarPuntos = () => {
     var nuevosPuntos = puntos + 50;
     setPuntos(nuevosPuntos);
-    puntosRef.child(userEmail).set({
-      puntos: nuevosPuntos,
-    });
+    puntosRef.set(nuevosPuntos);
   };
 
   const contarFuncion = (value) => {

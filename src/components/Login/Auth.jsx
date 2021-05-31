@@ -26,7 +26,8 @@ export default (props) => {
             email: userEmail,
             puntosContar: 0,
             puntosSumar: 0,
-            puntosMemorama: 0
+            puntosMemoria: 0,
+            puntosObjetos: 0
         }).key)
 
         keysRef.collection("keys").add({

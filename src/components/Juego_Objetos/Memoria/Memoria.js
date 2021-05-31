@@ -1,6 +1,9 @@
 import "../objetos.css";
 import React, { useEffect, useState } from "react";
 import TableroMemoria from "./TableroMemoria.js";
+import 'firebase/database';
+import { useDatabase } from 'reactfire';
+
 const emojiList = [
   "⚡",
   "🍕",
@@ -24,7 +27,32 @@ const Memoria = () => {
   const [animating, setAnimating] = useState(false);
   const [finJuego, setFinJuego] = useState(0);
 
+  const dataBaseKey = localStorage.getItem("key");
+  const [puntos, setPuntos] = useState(0);
+
+  var userEmail = localStorage.getItem("Email").split("@").toString();
+  userEmail = userEmail.split(".").toString();
+  userEmail = userEmail.split("-").toString();
+  userEmail = userEmail.split("_").toString();
+
+  const puntosRef = useDatabase().ref(dataBaseKey).child('puntosMemoria');
+
+  const obtenerPuntos = () => {
+    puntosRef.on('value', puntaje => {
+      if (puntaje != null) {
+        setPuntos(puntaje.val())
+      }
+    })
+  };
+
+  const sumarPuntos = () => {
+    var nuevosPuntos = puntos + 50;
+    setPuntos(nuevosPuntos);
+    puntosRef.set(nuevosPuntos);
+  };
+
   useEffect(() => {
+    obtenerPuntos();
     const shuffledEmojiList = shuffleArray([...emojiList, ...emojiList]);
     setShuffleMemoBlocks(
       shuffledEmojiList.map((emoji, i) => ({ index: i, emoji, flipped: false }))
@@ -54,6 +82,7 @@ const Memoria = () => {
       console.log("este es el primero que se levanta");
     } else if (selectedMemoBlock.emoji === memoBlock.emoji) {
       setSelectedMemoBlock(null);
+      sumarPuntos();
       console.log("este es cuando coincide con el segundo");
       setFinJuego(finJuego + 2);
     } else {
@@ -75,12 +104,18 @@ const Memoria = () => {
   };
 
   return (
-    <TableroMemoria
-      memoBlocks={shuffledMemoBlocks}
-      animating={animating}
-      handleMemoClick={handleMemoClick}
-      finJuego={finJuego}
-    />
+    <div>
+      <div className="puntuacion text-center">
+        <h2> {puntos} puntos</h2>
+      </div>
+      <TableroMemoria
+        memoBlocks={shuffledMemoBlocks}
+        animating={animating}
+        handleMemoClick={handleMemoClick}
+        finJuego={finJuego}
+      />
+    </div>
+
   );
 };
 

@@ -17,7 +17,9 @@ export default (props) => {
     const puntosRef = useDatabase();
 
     const addPointRecord = () => {
-
+        var userEmail = localStorage.getItem("Email").split("@", 1).toString();
+        userEmail = userEmail.split(".").toString();
+        //puntosRef.ref("sumar").push();
     }
 
     const submit = async () => {
@@ -29,7 +31,7 @@ export default (props) => {
                         icon: "success"
                     })
                     localStorage.setItem('Email', email);
-
+                    //addPointRecord();
                     handleNav();
                 })
                 .catch((error) => {

@@ -7,7 +7,7 @@ const Tablero = ({ children, id, className }) => {
 
     const card_id = e.dataTransfer.getData("card_id");
 
-    if (card_id === "card-2") {
+    if (id === "board") {
       console.log("correcto");
       swal({
         text: "Respuesta Correcta",
@@ -17,9 +17,8 @@ const Tablero = ({ children, id, className }) => {
     }
     const card = document.getElementById(card_id);
 
-    card.style.display = "flex";
-
     e.target.appendChild(card);
+    console.log(e.target.appendChild(card));
   };
 
   const dragOver = (e) => {

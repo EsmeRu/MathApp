@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import Card from "./Card";
 import Container from "../../Container";
 import Tablero from "./TableroOperacion";
 import "./operaciones.css";
+
+const IMGS = {
+  suma4_2: "/assets/img/operaciones/sumas/suma-cuatro-dos.png",
+  suma3_3: "/assets/img/operaciones/sumas/suma-seis.png",
+  suma1_2: "/assets/img/operaciones/sumas/suma-tres.png",
+  fin: "/assets/img/fin-juego-sfondo.png",
+};
 
 function Sumar() {
   const estilo = [
@@ -15,7 +22,7 @@ function Sumar() {
       <div className="w-full text-center mb-10">
         <h2>Sumar</h2>
         <div className="flex justify-center items-center">
-          <div className="card p-20 bg-red-400 shadow-2xl">2</div>
+          <div className="card p-20 bg-red-400 shadow-2xl">1111</div>
           <h2 className="">+</h2>
           <div className="card p-20 bg-red-400 shadow-2xl">3</div>
           <h2 className="">=</h2>

@@ -6,14 +6,7 @@ import Sketch from "react-p5";
 import "firebase/firestore";
 import "firebase/database";
 
-import {
-  useFirestoreDocData,
-  useFirestore,
-  useDatabaseObjectData,
-  useDatabase,
-} from "reactfire";
-
-//import state from "sweetalert/typings/modules/state";
+import { useFirestoreDocData, useFirestore, useDatabase } from "reactfire";
 
 const IMGS = {
   cero: "/assets/img/numeros/num-cero.png",
@@ -46,22 +39,31 @@ const Contar = () => {
   const { status, data } = useFirestoreDocData(preguntasRef);
   const [buttons, setButtons] = useState([]);
   const [aux, setAux] = useState(0);
-  const userEmail = localStorage.getItem("Email").split("@", 1).toString();
+
+  const [puntos, setPuntos] = useState(0);
+  var userEmail = localStorage.getItem("Email").split("@", 1).toString();
+  userEmail = userEmail.split(".").toString();
 
   const puntosRef = useDatabase().ref("sumar");
-  var puntos = 0;
 
   const obtenerPuntos = () => {
-    puntosRef.child(userEmail).on("value", (usuario) => {
-      if (usuario.val() != null) {
-        console.log(usuario.val());
-        puntos = usuario.val();
-        console.log(puntos);
-      }
-    });
+    puntosRef
+      .child(userEmail)
+      .child("puntos")
+      .on("value", (puntaje) => {
+        if (puntaje != null) {
+          setPuntos(puntaje.val());
+        }
+      });
   };
 
-  obtenerPuntos();
+  const sumarPuntos = () => {
+    var nuevosPuntos = puntos + 50;
+    setPuntos(nuevosPuntos);
+    puntosRef.child(userEmail).set({
+      puntos: nuevosPuntos,
+    });
+  };
 
   const contarFuncion = (value) => {
     if (value === data?.preguntas[aux]?.respuesta || aux === 3 || aux == 20) {
@@ -72,6 +74,7 @@ const Contar = () => {
       });
       setButtons([]);
       setAux(aux + 1);
+      sumarPuntos();
     } else {
       swal({
         content: <div>Ups! Intenta de nuevo</div>,
@@ -83,6 +86,7 @@ const Contar = () => {
 
   useEffect(() => {
     if (status === "success") {
+      obtenerPuntos();
       const btn = buttons;
       let res = 0,
         auxRes = 0;
@@ -126,7 +130,7 @@ const Contar = () => {
         ) : data.preguntas.length > aux ? (
           <div>
             <div className="puntuacion text-center">
-              <h2> {puntos.valueOf()} puntos</h2>
+              <h2> {puntos} puntos</h2>
             </div>
             <div className="pregunta w-full text-center">
               <h2 id="tituloContar">{data.preguntas[aux].pregunta}</h2>

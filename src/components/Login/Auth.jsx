@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import 'firebase/auth';
+import 'firebase/database';
 import logo from "../../assets/img/logo.png";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { navigate } from "hookrouter";
 import swal from "sweetalert";
 
-import { useFirebaseApp } from 'reactfire'; //Hooks para usar firebase
+import { useFirebaseApp, useDatabase } from 'reactfire'; //Hooks para usar firebase
 
 export default (props) => {
     const [email, setEmail] = useState('');
@@ -13,6 +14,11 @@ export default (props) => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const firebase = useFirebaseApp();
     const handleNav = () => navigate("/");
+    const puntosRef = useDatabase();
+
+    const addPointRecord = () => {
+
+    }
 
     const submit = async () => {
         if (confirmPassword === password) {
@@ -23,6 +29,7 @@ export default (props) => {
                         icon: "success"
                     })
                     localStorage.setItem('Email', email);
+
                     handleNav();
                 })
                 .catch((error) => {

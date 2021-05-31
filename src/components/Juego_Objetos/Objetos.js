@@ -30,6 +30,15 @@ const IMGS = {
   maseta1: "/assets/img/juego-objetos/plantas/maseta-1-5-8-10.png",
   maseta2: "/assets/img/juego-objetos/plantas/maseta-2-3-9.png",
   maseta3: "/assets/img/juego-objetos/plantas/maseta-4-6-7.png",
+  animales: "",
+  gallinas: "",
+  pollito: "",
+  borregos: "",
+  borreguito: "",
+  vacas: "",
+  becerro: "",
+  cerdos: "",
+  cerdito: "",
 };
 
 function Objetos() {

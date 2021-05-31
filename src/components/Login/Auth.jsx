@@ -7,11 +7,10 @@ import { LockClosedIcon } from "@heroicons/react/solid";
 import { navigate } from "hookrouter";
 import swal from "sweetalert";
 
-import { useFirebaseApp, useDatabase, useFirestore, useFirestoreDocData } from 'reactfire'; //Hooks para usar firebase
+import { useFirebaseApp, useDatabase, useFirestore } from 'reactfire'; //Hooks para usar firebase
 
 export default (props) => {
-    const keysRef = useFirestore().collection("keys").doc('userKeys');
-    const [state, data] = useFirestoreDocData(keysRef)
+    const keysRef = useFirestore();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -30,7 +29,10 @@ export default (props) => {
             puntosMemorama: 0
         }).key)
 
-        data.set()
+        keysRef.collection("keys").add({
+            email: userEmail,
+            key: localStorage.getItem("key")
+        })
     }
 
     const submit = async () => {
@@ -71,13 +73,17 @@ export default (props) => {
         }
     }
 
-    const getKey = () => {
-        var refToPuntaje;
-        puntosRef.ref().on('value', puntaje => {
-            refToPuntaje = puntaje.ref;
-
-            console.log(refToPuntaje.child('email').toString());
+    const getKey = async () => {
+        var keyValue;
+        await keysRef.collection("keys").get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                keyValue = doc.data().key;
+            });
+        }).catch((error) => {
+            console.log(error)
         });
+
+        localStorage.setItem("key", keyValue);
     }
 
     const login = async () => {

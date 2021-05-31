@@ -9,6 +9,7 @@ import { useFirestoreDocData, useFirestore, useDatabase } from "reactfire";
 import { navigate } from "hookrouter";
 
 const IMGS = {
+  titulo: "/assets/img/operaciones/sumas-restas.png",
   suma2: "/assets/img/operaciones/sumas/suma-1-1.png",
   suma3: "/assets/img/operaciones/sumas/suma-1-2.png",
   suma4: "/assets/img/operaciones/sumas/suma-2-2.png",
@@ -53,11 +54,11 @@ function Sumar() {
 
 
   const obtenerPuntos = () => {
-    puntosRef.on('value', puntaje => {
+    puntosRef.on("value", (puntaje) => {
       if (puntaje != null) {
-        setPuntos(puntaje.val())
+        setPuntos(puntaje.val());
       }
-    })
+    });
   };
 
 
@@ -123,7 +124,7 @@ function Sumar() {
 
   const estilo = [
     "flex w-60 h-60 bg-red-400 transition duration-500 ease-in-out hover:bg-red-500 transform hover:-translate-y-1 hover:scale-110",
-    "flex justify-center items-center w-40 h-40 bg-red-400",
+    "flex justify-center items-center w-40 h-40 bg-red-400 text-white text-6xl rounded-md transition duration-500 ease-in-out hover:bg-red-500 transform hover:-translate-y-1 hover:scale-110",
   ];
 
   return (
@@ -136,10 +137,16 @@ function Sumar() {
           </div>
         ) : data?.suma?.length > aux ? (
           <div>
-            <div className="puntuacion text-center flex my-4 justify-center">
-              <h3 className="mr-10 pt-4" id="hPuntos"> Puntos: {puntos} </h3>
+            <div className="flex justify-center">
+              <img src={IMGS["titulo"]} alt="" />
+            </div>
+            <div className="puntuacion text-center flex justify-center">
+              <h4 className="mr-10 pt-4 font-black">
+                {" "}
+                Puntos: <span className="text-yellow-500">{puntos}</span>
+              </h4>
               <div className="flex my-4 justify-center" name="divVidas">
-                <h3 className="mr-3"> Vidas: </h3>
+                <h4 className="mr-3 font-black"> Vidas: </h4>
                 <a className="flex h-12 w-12 mr-5" id="vida1">
                   <img src={IMGS["vidas"]} className="icon" />
                 </a>
@@ -152,14 +159,15 @@ function Sumar() {
               </div>
             </div>
             <div className="w-full text-center mb-10">
-              <h2>Vamos a sumar...</h2>
-              <div className="flex justify-center items-center">
-                <img src={IMGS[data.suma[aux].img]} alt="" />
-                <h2 className="">=</h2>
-                <div className="card p-10 bg-red-400 shadow-2xl">
+              <div className="flex justify-center items-center m-10">
+                <div className="">
+                  <img src={IMGS[data.suma[aux].img]} alt="" />
+                </div>
+                <h1 className="font-black"> = </h1>
+                <div className="flex card p-10 bg-red-400 shadow-2xl">
                   <Tablero
                     id="board"
-                    className="board w-40"
+                    className="board w-20 h-20"
                     state={[aux, setAux]}
                   ></Tablero>
                 </div>
@@ -181,7 +189,6 @@ function Sumar() {
               </div>
             </div>
           </div>
-
         ) : (
           <div>
             <div className="flex justify-center">

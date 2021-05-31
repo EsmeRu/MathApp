@@ -138,10 +138,16 @@ function Sumar() {
           </div>
         ) : data?.suma?.length > aux ? (
           <div>
-            <div className="puntuacion text-center flex my-4 justify-center">
-              <h3 className="mr-10 pt-4"> Puntos: {puntos} </h3>
+            <div className="flex justify-center">
+              <img src={IMGS["titulo"]} alt="" />
+            </div>
+            <div className="puntuacion text-center flex justify-center">
+              <h4 className="mr-10 pt-4 font-black">
+                {" "}
+                Puntos: <span className="text-yellow-500">{puntos}</span>
+              </h4>
               <div className="flex my-4 justify-center" name="divVidas">
-                <h3 className="mr-3"> Vidas: </h3>
+                <h4 className="mr-3 font-black"> Vidas: </h4>
                 <a className="flex h-12 w-12 mr-5" id="vida1">
                   <img src={IMGS["vidas"]} className="icon" />
                 </a>
@@ -154,9 +160,6 @@ function Sumar() {
               </div>
             </div>
             <div className="w-full text-center mb-10">
-              <div className="m-8 flex justify-center">
-                <img src={IMGS["titulo"]} alt="" />
-              </div>
               <div className="flex justify-center items-center m-10">
                 <div className="">
                   <img src={IMGS[data.suma[aux].img]} alt="" />
@@ -165,7 +168,7 @@ function Sumar() {
                 <div className="flex card p-10 bg-red-400 shadow-2xl">
                   <Tablero
                     id="board"
-                    className="board w-40"
+                    className="board w-20 h-20"
                     state={[aux, setAux]}
                   ></Tablero>
                 </div>

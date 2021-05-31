@@ -85,7 +85,11 @@ const Contar = () => {
           })
           window.location.reload();
         } else {
-
+          swal({
+            title: "Has regresado a la pantalla de inicio",
+            timer: "2000"
+          })
+          handleNav();
         }
       })
     } else {

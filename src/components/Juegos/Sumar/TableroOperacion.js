@@ -1,12 +1,51 @@
 import React, { useState, useEffect } from "react";
 import swal from "@sweetalert/with-react";
 import { useFirestoreDocData, useFirestore } from "reactfire";
+import { navigate } from "hookrouter";
 
 const Tablero = ({ children, id, className, state = [] }) => {
   const preguntasRef = useFirestore().collection("juegos").doc("operaciones");
 
   const { status, data } = useFirestoreDocData(preguntasRef);
   const [aux, setAux] = state;
+
+  var vidasRestantes = 3;
+
+  const handleNav = () => navigate("/");
+
+  const perderVida = () => {
+    const vidaPerida = document.getElementById("vida" + vidasRestantes);
+    vidaPerida.parentElement.removeChild(vidaPerida);
+    vidasRestantes--;
+    if (vidasRestantes === 0) {
+      swal({
+        title: "Oh no... :(",
+        text: "Has perdido todas tus vidas\n¿Te gustaria intentarlo de nuevo?",
+        icon: "error",
+        buttons: ["No", "Si"]
+      }).then(respuesta => {
+        if (respuesta) {
+          swal({
+            title: "Aquí vamos de nuevo :)",
+            timer: "3000"
+          })
+          window.location.reload();
+        } else {
+          swal({
+            title: "Has regresado a la pantalla de inicio",
+            timer: "2000"
+          })
+          handleNav();
+        }
+      })
+    } else {
+      swal({
+        content: <div>Ups! Intenta de nuevo</div>,
+        icon: "warning",
+        value: false,
+      });
+    }
+  }
 
   const drop = (e) => {
     e.preventDefault();
@@ -25,11 +64,7 @@ const Tablero = ({ children, id, className, state = [] }) => {
 
         setAux(aux + 1);
       } else {
-        swal({
-          content: <div>Ups! Intenta de nuevo</div>,
-          icon: "warning",
-          value: false,
-        });
+        perderVida();
       }
     }
 

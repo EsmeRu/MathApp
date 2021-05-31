@@ -3,8 +3,10 @@ import Card from "./Card";
 import Container from "../../Container";
 import Tablero from "./TableroOperacion";
 import "./operaciones.css";
+import "firebase/database";
 import swal from "@sweetalert/with-react";
-import { useFirestoreDocData, useFirestore } from "reactfire";
+import { useFirestoreDocData, useFirestore, useDatabase } from "reactfire";
+import { navigate } from "hookrouter";
 
 const IMGS = {
   suma2: "/assets/img/operaciones/sumas/suma-1-1.png",
@@ -28,6 +30,7 @@ const IMGS = {
   resta9: "/assets/img/operaciones/restas/resta9.png",
   resta10: "/assets/img/operaciones/restas/resta10.png",
   fin: "/assets/img/fin-juego-sfondo.png",
+  vidas: "/assets/img/lifes-icons.png",
 };
 
 function Sumar() {
@@ -37,8 +40,69 @@ function Sumar() {
   const [aux, setAux] = useState(0);
   const [buttons, setButtons] = useState([]);
 
+  const dataBaseKey = localStorage.getItem("key");
+  const [puntos, setPuntos] = useState(0);
+  const handleNav = () => navigate("/");
+
+
+  var userEmail = localStorage.getItem("Email").split("@").toString();
+  userEmail = userEmail.split(".").toString();
+  userEmail = userEmail.split("-").toString();
+  userEmail = userEmail.split("_").toString();
+
+  const puntosRef = useDatabase().ref(dataBaseKey).child('puntosContar');
+
+  const obtenerPuntos = () => {
+    puntosRef.on('value', puntaje => {
+      if (puntaje != null) {
+        setPuntos(puntaje.val())
+      }
+    })
+  };
+
+  const sumarPuntos = () => {
+    var nuevosPuntos = puntos + 50;
+    setPuntos(nuevosPuntos);
+    puntosRef.set(nuevosPuntos);
+  };
+
+  /*const perderVida = () => {
+    const vidaPerida = document.getElementById("vida" + vidasRestantes);
+    vidaPerida.parentElement.removeChild(vidaPerida);
+    vidasRestantes--;
+    if (vidasRestantes === 0) {
+      swal({
+        title: "Oh no... :(",
+        text: "Has perdido todas tus vidas\n¿Te gustaria intentarlo de nuevo?",
+        icon: "error",
+        buttons: ["No", "Si"]
+      }).then(respuesta => {
+        if (respuesta) {
+          swal({
+            title: "Aquí vamos de nuevo :)",
+            timer: "3000"
+          })
+          window.location.reload();
+        } else {
+          swal({
+            title: "Has regresado a la pantalla de inicio",
+            timer: "2000"
+          })
+          handleNav();
+        }
+      })
+    } else {
+      swal({
+        content: <div>Ups! Intenta de nuevo</div>,
+        icon: "warning",
+        value: false,
+      });
+    }
+  }*/
+
   useEffect(() => {
     if (status === "success") {
+      obtenerPuntos();
       let btn = buttons;
       btn = [];
       let res = 0,
@@ -73,35 +137,53 @@ function Sumar() {
             <div className="loader"></div>
           </div>
         ) : data?.suma?.length > aux ? (
-          <div className="w-full text-center mb-10">
-            <h2>Vamos a sumar...</h2>
-            <div className="flex justify-center items-center">
-              <img src={IMGS[data.suma[aux].img]} alt="" />
-              <h2 className="">=</h2>
-              <div className="card p-10 bg-red-400 shadow-2xl">
-                <Tablero
-                  id="board"
-                  className="board w-40"
-                  state={[aux, setAux]}
-                ></Tablero>
+          <div>
+            <div className="puntuacion text-center flex my-4 justify-center">
+              <h3 className="mr-10 pt-4">  Puntos: {puntos} </h3>
+              <div className="flex my-4 justify-center" name="divVidas">
+                <h3 className="mr-3"> Vidas: </h3>
+                <a className="flex h-12 w-12 mr-5" id="vida1">
+                  <img src={IMGS["vidas"]} className="icon" />
+                </a>
+                <a className="flex h-12 w-12 mr-5" id="vida2">
+                  <img src={IMGS["vidas"]} className="icon" />
+                </a>
+                <a className="flex h-12 w-12" id="vida3">
+                  <img src={IMGS["vidas"]} className="icon" />
+                </a>
               </div>
             </div>
+            <div className="w-full text-center mb-10">
+              <h2>Vamos a sumar...</h2>
+              <div className="flex justify-center items-center">
+                <img src={IMGS[data.suma[aux].img]} alt="" />
+                <h2 className="">=</h2>
+                <div className="card p-10 bg-red-400 shadow-2xl">
+                  <Tablero
+                    id="board"
+                    className="board w-40"
+                    state={[aux, setAux]}
+                  ></Tablero>
+                </div>
+              </div>
 
-            <div className="flex justify-center">
-              <Tablero id="board-1" className=" board">
-                {buttons.map((v, index) => (
-                  <Card
-                    id={v}
-                    className={estilo[1]}
-                    draggable="true"
-                    key={index}
-                  >
-                    {v}
-                  </Card>
-                ))}
-              </Tablero>
+              <div className="flex justify-center">
+                <Tablero id="board-1" className=" board">
+                  {buttons.map((v, index) => (
+                    <Card
+                      id={v}
+                      className={estilo[1]}
+                      draggable="true"
+                      key={index}
+                    >
+                      {v}
+                    </Card>
+                  ))}
+                </Tablero>
+              </div>
             </div>
           </div>
+
         ) : (
           <div>
             <div className="flex justify-center">

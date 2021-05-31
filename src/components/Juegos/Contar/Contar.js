@@ -6,12 +6,7 @@ import Sketch from "react-p5";
 import "firebase/firestore";
 import "firebase/database";
 
-import {
-  useFirestoreDocData,
-  useFirestore,
-  useDatabase
-} from "reactfire";
-
+import { useFirestoreDocData, useFirestore, useDatabase } from "reactfire";
 
 const IMGS = {
   cero: "/assets/img/numeros/num-cero.png",
@@ -40,6 +35,7 @@ const IMGS = {
 
 const Contar = () => {
   const preguntasRef = useFirestore().collection("juegos").doc("contar");
+
   const { status, data } = useFirestoreDocData(preguntasRef);
   const [buttons, setButtons] = useState([]);
   const [aux, setAux] = useState(0);
@@ -51,20 +47,23 @@ const Contar = () => {
   const puntosRef = useDatabase().ref("sumar");
 
   const obtenerPuntos = () => {
-    puntosRef.child(userEmail).child("puntos").on('value', puntaje => {
-      if (puntaje != null) {
-        setPuntos(puntaje.val())
-      }
-    })
-  }
+    puntosRef
+      .child(userEmail)
+      .child("puntos")
+      .on("value", (puntaje) => {
+        if (puntaje != null) {
+          setPuntos(puntaje.val());
+        }
+      });
+  };
 
   const sumarPuntos = () => {
-    var nuevosPuntos = puntos + 50
+    var nuevosPuntos = puntos + 50;
     setPuntos(nuevosPuntos);
     puntosRef.child(userEmail).set({
-      puntos: nuevosPuntos
-    })
-  }
+      puntos: nuevosPuntos,
+    });
+  };
 
   const contarFuncion = (value) => {
     if (value === data?.preguntas[aux]?.respuesta || aux === 3 || aux == 20) {

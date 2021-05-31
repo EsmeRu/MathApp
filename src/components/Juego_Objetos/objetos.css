@@ -42,3 +42,7 @@
 .memo-block-front {
   background-color: #84dccf;
 }
+.w-vh {
+  width: auto;
+  height: 55vh;
+}

@@ -72,14 +72,14 @@ function Objetos() {
   userEmail = userEmail.split("-").toString();
   userEmail = userEmail.split("_").toString();
 
-  const puntosRef = useDatabase().ref(dataBaseKey).child('puntosObjetos');
+  const puntosRef = useDatabase().ref(dataBaseKey).child("puntosObjetos");
 
   const obtenerPuntos = () => {
-    puntosRef.on('value', puntaje => {
+    puntosRef.on("value", (puntaje) => {
       if (puntaje != null) {
-        setPuntos(puntaje.val())
+        setPuntos(puntaje.val());
       }
-    })
+    });
   };
 
   const sumarPuntos = () => {
@@ -97,22 +97,22 @@ function Objetos() {
         title: "Oh no... :(",
         text: "Has perdido todas tus vidas\n¿Te gustaria intentarlo de nuevo?",
         icon: "error",
-        buttons: ["No", "Si"]
-      }).then(respuesta => {
+        buttons: ["No", "Si"],
+      }).then((respuesta) => {
         if (respuesta) {
           swal({
             title: "Aquí vamos de nuevo :)",
-            timer: "3000"
-          })
+            timer: "3000",
+          });
           window.location.reload();
         } else {
           swal({
             title: "Has regresado a la pantalla de inicio",
-            timer: "2000"
-          })
+            timer: "2000",
+          });
           handleNav();
         }
-      })
+      });
     } else {
       swal({
         content: <div>Ups! Intenta de nuevo</div>,
@@ -120,11 +120,9 @@ function Objetos() {
         value: false,
       });
     }
-  }
+  };
 
-  useEffect(
-    obtenerPuntos
-  )
+  useEffect(obtenerPuntos);
 
   const contarFuncion = (index) => {
     if (data.presionar[aux].respuestas[index].correcto) {
@@ -152,7 +150,7 @@ function Objetos() {
           ) : data?.presionar?.length > aux ? (
             <div>
               <div className="puntuacion text-center flex my-4 justify-center">
-                <h3 className="mr-10 pt-4">  Puntos: {puntos} </h3>
+                <h3 className="mr-10 pt-4"> Puntos: {puntos} </h3>
                 <div className="flex my-4 justify-center" name="divVidas">
                   <h3 className="mr-3"> Vidas: </h3>
                   <a className="flex h-12 w-12 mr-5" id="vida1">
@@ -169,12 +167,12 @@ function Objetos() {
               <div className="recolectar w-full text-center mb-10">
                 <h2>{data.presionar[aux].pregunta}</h2>
                 <div className="pregunta flex justify-center">
-                  <img src={IMGS[data.presionar[aux].img]} className="w-60" />
+                  <img src={IMGS[data.presionar[aux].img]} className="w-vh" />
                 </div>
-                <div className="flex justify-evenly">
+                <div className="flex justify-center gap-4">
                   {data.presionar[aux].respuestas.map((r, index) => (
                     <div
-                      className="objetos p-3 shadow-2xl shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+                      className="p-3 shadow-2xl shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
                       onClick={() => contarFuncion(index)}
                       key={index}
                     >

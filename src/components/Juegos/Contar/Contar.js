@@ -51,14 +51,14 @@ const Contar = () => {
   userEmail = userEmail.split("-").toString();
   userEmail = userEmail.split("_").toString();
 
-  const puntosRef = useDatabase().ref(dataBaseKey).child('puntosContar');
+  const puntosRef = useDatabase().ref(dataBaseKey).child("puntosContar");
 
   const obtenerPuntos = () => {
-    puntosRef.on('value', puntaje => {
+    puntosRef.on("value", (puntaje) => {
       if (puntaje != null) {
-        setPuntos(puntaje.val())
+        setPuntos(puntaje.val());
       }
-    })
+    });
   };
 
   const sumarPuntos = () => {
@@ -76,22 +76,22 @@ const Contar = () => {
         title: "Oh no... :(",
         text: "Has perdido todas tus vidas\n¿Te gustaria intentarlo de nuevo?",
         icon: "error",
-        buttons: ["No", "Si"]
-      }).then(respuesta => {
+        buttons: ["No", "Si"],
+      }).then((respuesta) => {
         if (respuesta) {
           swal({
             title: "Aquí vamos de nuevo :)",
-            timer: "3000"
-          })
+            timer: "3000",
+          });
           window.location.reload();
         } else {
           swal({
             title: "Has regresado a la pantalla de inicio",
-            timer: "2000"
-          })
+            timer: "2000",
+          });
           handleNav();
         }
-      })
+      });
     } else {
       swal({
         content: <div>Ups! Intenta de nuevo</div>,
@@ -99,7 +99,7 @@ const Contar = () => {
         value: false,
       });
     }
-  }
+  };
 
   const contarFuncion = (value) => {
     if (value === data?.preguntas[aux]?.respuesta || aux === 3 || aux == 20) {
@@ -162,7 +162,7 @@ const Contar = () => {
         ) : data.preguntas.length > aux ? (
           <div>
             <div className="puntuacion text-center flex my-4 justify-center">
-              <h3 className="mr-10 pt-4">  Puntos: {puntos} </h3>
+              <h3 className="mr-10 pt-4"> Puntos: {puntos} </h3>
               <div className="flex my-4 justify-center" name="divVidas">
                 <h3 className="mr-3"> Vidas: </h3>
                 <a className="flex h-12 w-12 mr-5" id="vida1">

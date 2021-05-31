@@ -5,6 +5,7 @@ import swal from "@sweetalert/with-react";
 import Sketch from "react-p5";
 import "firebase/firestore";
 import "firebase/database";
+import { navigate } from "hookrouter";
 
 import { useFirestoreDocData, useFirestore, useDatabase } from "reactfire";
 
@@ -31,6 +32,7 @@ const IMGS = {
   diecinueve: "/assets/img/contar/contar-animales-granja.png",
   veinte: "/assets/img/punteado20.png",
   fin: "/assets/img/fin-juego-sfondo.png",
+  vidas: "/assets/img/lifes-icons.png",
 };
 
 const Contar = () => {
@@ -41,7 +43,9 @@ const Contar = () => {
   const [aux, setAux] = useState(0);
   const dataBaseKey = localStorage.getItem("key");
   const [puntos, setPuntos] = useState(0);
+  const handleNav = () => navigate("/");
 
+  var vidasRestantes = 3;
   var userEmail = localStorage.getItem("Email").split("@").toString();
   userEmail = userEmail.split(".").toString();
   userEmail = userEmail.split("-").toString();
@@ -63,6 +67,36 @@ const Contar = () => {
     puntosRef.set(nuevosPuntos);
   };
 
+  const perderVida = () => {
+    const vidaPerida = document.getElementById("vida" + vidasRestantes);
+    vidaPerida.parentElement.removeChild(vidaPerida);
+    vidasRestantes--;
+    if (vidasRestantes === 0) {
+      swal({
+        title: "Oh no... :(",
+        text: "Has perdido todas tus vidas\n¿Te gustaria intentarlo de nuevo?",
+        icon: "error",
+        buttons: ["No", "Si"]
+      }).then(respuesta => {
+        if (respuesta) {
+          swal({
+            title: "Aquí vamos de nuevo :)",
+            timer: "3000"
+          })
+          window.location.reload();
+        } else {
+
+        }
+      })
+    } else {
+      swal({
+        content: <div>Ups! Intenta de nuevo</div>,
+        icon: "warning",
+        value: false,
+      });
+    }
+  }
+
   const contarFuncion = (value) => {
     if (value === data?.preguntas[aux]?.respuesta || aux === 3 || aux == 20) {
       swal({
@@ -74,11 +108,7 @@ const Contar = () => {
       setAux(aux + 1);
       sumarPuntos();
     } else {
-      swal({
-        content: <div>Ups! Intenta de nuevo</div>,
-        icon: "warning",
-        value: false,
-      });
+      perderVida();
     }
   };
 
@@ -127,8 +157,20 @@ const Contar = () => {
           </div>
         ) : data.preguntas.length > aux ? (
           <div>
-            <div className="puntuacion text-center">
-              <h2> {puntos} puntos</h2>
+            <div className="puntuacion text-center flex my-4 justify-center">
+              <h3 className="mr-10 pt-4">  Puntos: {puntos} </h3>
+              <div className="flex my-4 justify-center" name="divVidas">
+                <h3 className="mr-3"> Vidas: </h3>
+                <a className="flex h-12 w-12 mr-5" id="vida1">
+                  <img src={IMGS["vidas"]} className="icon" />
+                </a>
+                <a className="flex h-12 w-12 mr-5" id="vida2">
+                  <img src={IMGS["vidas"]} className="icon" />
+                </a>
+                <a className="flex h-12 w-12" id="vida3">
+                  <img src={IMGS["vidas"]} className="icon" />
+                </a>
+              </div>
             </div>
             <div className="pregunta w-full text-center">
               <h2 id="tituloContar">{data.preguntas[aux].pregunta}</h2>

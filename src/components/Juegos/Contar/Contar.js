@@ -6,9 +6,14 @@ import Sketch from "react-p5";
 import "firebase/firestore";
 import "firebase/database";
 
-import { useFirestoreDocData, useFirestore } from "reactfire";
+import {
+  useFirestoreDocData,
+  useFirestore,
+  useDatabaseObjectData,
+  useDatabase,
+} from "reactfire";
 
-// import state from "sweetalert/typings/modules/state";
+//import state from "sweetalert/typings/modules/state";
 
 const IMGS = {
   cero: "/assets/img/numeros/num-cero.png",
@@ -37,15 +42,26 @@ const IMGS = {
 
 const Contar = () => {
   const preguntasRef = useFirestore().collection("juegos").doc("contar");
-  // const puntosRef = useFirestore().collection("puntos").doc("contar");
-  // const puntosActuales = useFirestoreDocData(puntosRef).data[0];
-  // console.log(puntosActuales);
-  // const obtenerPuntos = () => {};
 
   const { status, data } = useFirestoreDocData(preguntasRef);
   const [buttons, setButtons] = useState([]);
   const [aux, setAux] = useState(0);
-  const [puntos, setPuntos] = useState(0);
+  const userEmail = localStorage.getItem("Email").split("@", 1).toString();
+
+  const puntosRef = useDatabase().ref("sumar");
+  var puntos = 0;
+
+  const obtenerPuntos = () => {
+    puntosRef.child(userEmail).on("value", (usuario) => {
+      if (usuario.val() != null) {
+        console.log(usuario.val());
+        puntos = usuario.val();
+        console.log(puntos);
+      }
+    });
+  };
+
+  obtenerPuntos();
 
   const contarFuncion = (value) => {
     if (value === data?.preguntas[aux]?.respuesta || aux === 3 || aux == 20) {
@@ -54,7 +70,6 @@ const Contar = () => {
         icon: "success",
         value: true,
       });
-      setPuntos(puntos + 10);
       setButtons([]);
       setAux(aux + 1);
     } else {
@@ -110,9 +125,9 @@ const Contar = () => {
           </div>
         ) : data.preguntas.length > aux ? (
           <div>
-            {/* <div className="puntuacion text-center">
-              <h2> {obtenerPuntos} puntos</h2>
-            </div> */}
+            <div className="puntuacion text-center">
+              <h2> {puntos.valueOf()} puntos</h2>
+            </div>
             <div className="pregunta w-full text-center">
               <h2 id="tituloContar">{data.preguntas[aux].pregunta}</h2>
             </div>

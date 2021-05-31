@@ -29,7 +29,7 @@ const IMGS = {
   dieciseis: "/assets/img/contar/contar-manos-estrella.png",
   diecisiete: "/assets/img/",
   dieciocho: "/assets/img/animales/animales-18.png",
-  diecinueve: "/assets/img/contar/contar-animales-granja.png",
+  diecinueve: "/assets/img/contar/contar-patos19.png",
   veinte: "/assets/img/punteado20.png",
   fin: "/assets/img/fin-juego-sfondo.png",
   vidas: "/assets/img/lifes-icons.png",
@@ -47,17 +47,12 @@ const Contar = () => {
   const handleNav = () => navigate("/");
 
   var vidasRestantes = 3;
-  var userEmail = localStorage.getItem("Email").split("@").toString();
-  userEmail = userEmail.split(".").toString();
-  userEmail = userEmail.split("-").toString();
-  userEmail = userEmail.split("_").toString();
+  var userEmail = localStorage.getItem("Email")?.split("@").toString();
+  userEmail = userEmail?.split(".").toString();
+  userEmail = userEmail?.split("-").toString();
+  userEmail = userEmail?.split("_").toString();
 
-<<<<<<< HEAD
   const puntosRef = useDatabase().ref(dataBaseKey).child("puntosContar");
-=======
-
-  const puntosRef = useDatabase().ref(dataBaseKey).child('puntosContar');
->>>>>>> 27b962ad17535513fc7c6fc195053d7adc71c062
 
   const obtenerPuntos = () => {
     puntosRef.on("value", (puntaje) => {
@@ -172,13 +167,12 @@ const Contar = () => {
         ) : data.preguntas.length > aux ? (
           <div>
             <div className="puntuacion text-center flex my-4 justify-center">
-<<<<<<< HEAD
-              <h3 className="mr-10 pt-4"> Puntos: {puntos} </h3>
-=======
-              <h3 className="mr-10 pt-4">  Puntos: {puntosLocales} </h3>
->>>>>>> 27b962ad17535513fc7c6fc195053d7adc71c062
+              <h4 className="mr-10 pt-4 font-black">
+                {" "}
+                Puntos: <span className="text-yellow-500">{puntosLocales}</span>
+              </h4>
               <div className="flex my-4 justify-center" name="divVidas">
-                <h3 className="mr-3"> Vidas: </h3>
+                <h4 className="mr-3 font-black"> Vidas: </h4>
                 <a className="flex h-12 w-12 mr-5" id="vida1">
                   <img src={IMGS["vidas"]} className="icon" />
                 </a>
@@ -205,16 +199,18 @@ const Contar = () => {
                   </button>
                 </div>
               ) : (
-                <img
-                  src={IMGS[data?.preguntas[aux]?.img]}
-                  className="img-pregunta"
-                />
+                <div>
+                  <img
+                    src={IMGS[data?.preguntas[aux]?.img]}
+                    className="w-vh-2"
+                  />
+                </div>
               )}
             </div>
             {aux === 3 ? (
               <></>
             ) : (
-              <div className="respuesta w-full text-center flex justify-center flex-wrap">
+              <div className="respuesta w-full text-center flex justify-center flex-wrap my-5">
                 {buttons.map((v, index) => (
                   <button
                     id="res1"
@@ -230,7 +226,16 @@ const Contar = () => {
           </div>
         ) : (
           <div>
-            <img src={IMGS["fin"]}></img>
+            <div className="flex justify-center">
+              <div className="m-10 max-w-screen-md items-center">
+                <h3 className="mr-10 pt-4 font-black text-center mb-10">
+                  {" "}
+                  Puntaje:{" "}
+                  <span className="text-yellow-500">{puntosLocales}</span>
+                </h3>
+                <img src={IMGS["fin"]}></img>
+              </div>
+            </div>
           </div>
         )}
       </div>

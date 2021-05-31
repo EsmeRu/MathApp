@@ -1,9 +1,9 @@
 import "../objetos.css";
 import React, { useEffect, useState } from "react";
 import TableroMemoria from "./TableroMemoria.js";
-import 'firebase/database';
-import { useDatabase } from 'reactfire';
-import Timer from './Timer';
+import "firebase/database";
+import { useDatabase } from "reactfire";
+import Timer from "./Timer";
 
 const emojiList = [
   "⚡",
@@ -37,14 +37,14 @@ const Memoria = () => {
   userEmail = userEmail.split("-").toString();
   userEmail = userEmail.split("_").toString();
 
-  const puntosRef = useDatabase().ref(dataBaseKey).child('puntosMemoria');
+  const puntosRef = useDatabase().ref(dataBaseKey).child("puntosMemoria");
 
   const obtenerPuntos = () => {
-    puntosRef.on('value', puntaje => {
+    puntosRef.on("value", (puntaje) => {
       if (puntaje != null) {
-        setPuntos(puntaje.val())
+        setPuntos(puntaje.val());
       }
-    })
+    });
   };
 
   const sumarPuntos = () => {
@@ -112,7 +112,10 @@ const Memoria = () => {
   return (
     <div>
       <div className="puntuacion text-center">
-        <h2> Puntos: {puntosLocales} </h2>
+        <h3 className="mr-10 pt-4 font-black">
+          {" "}
+          Puntos: <span className="text-yellow-500">{puntosLocales}</span>
+        </h3>
         <Timer />
       </div>
       <TableroMemoria
@@ -122,7 +125,6 @@ const Memoria = () => {
         finJuego={finJuego}
       />
     </div>
-
   );
 };
 

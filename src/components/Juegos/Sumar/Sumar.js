@@ -48,10 +48,9 @@ function Sumar() {
   userEmail = userEmail.split("-").toString();
   userEmail = userEmail.split("_").toString();
 
-  const puntosRef = useDatabase().ref(dataBaseKey).child('puntosSumar');
+  const puntosRef = useDatabase().ref(dataBaseKey).child("puntosSumar");
 
   const handleNav = () => navigate("/");
-
 
   const obtenerPuntos = () => {
     puntosRef.on("value", (puntaje) => {
@@ -60,10 +59,6 @@ function Sumar() {
       }
     });
   };
-
-
-
-
 
   /*const perderVida = () => {
     const vidaPerida = document.getElementById("vida" + vidasRestantes);
@@ -101,7 +96,7 @@ function Sumar() {
 
   useEffect(() => {
     if (status === "success") {
-      obtenerPuntos()
+      obtenerPuntos();
       let btn = buttons;
       btn = [];
       let res = 0,
@@ -193,6 +188,10 @@ function Sumar() {
           <div>
             <div className="flex justify-center">
               <div className="m-10 max-w-screen-md items-center">
+                <h3 className="mr-10 pt-4 font-black text-center mb-10">
+                  {" "}
+                  Puntaje: <span className="text-yellow-500">{puntos}</span>
+                </h3>
                 <img src={IMGS["fin"]}></img>
               </div>
             </div>

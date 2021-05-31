@@ -157,9 +157,13 @@ function Objetos() {
           ) : data?.presionar?.length > aux ? (
             <div>
               <div className="puntuacion text-center flex my-4 justify-center">
-                <h3 className="mr-10 pt-4"> Puntos: {puntosLocales} </h3>
+                <h4 className="mr-10 pt-4 font-black">
+                  {" "}
+                  Puntos:{" "}
+                  <span className="text-yellow-500">{puntosLocales}</span>
+                </h4>
                 <div className="flex my-4 justify-center" name="divVidas">
-                  <h3 className="mr-3"> Vidas: </h3>
+                  <h4 className="mr-3 font-black"> Vidas: </h4>
                   <a className="flex h-12 w-12 mr-5" id="vida1">
                     <img src={IMGS["vidas"]} className="icon" />
                   </a>
@@ -173,7 +177,7 @@ function Objetos() {
               </div>
               <div className="recolectar w-full text-center mb-10">
                 <h2>{data.presionar[aux].pregunta}</h2>
-                <div className="pregunta flex justify-center">
+                <div className="pregunta flex justify-center mb-8">
                   <img src={IMGS[data.presionar[aux].img]} className="w-vh" />
                 </div>
                 <div className="flex justify-center gap-4">
@@ -194,6 +198,11 @@ function Objetos() {
               <div className="flex justify-center">
                 <div className="m-10 max-w-screen-md items-center">
                   <img src={IMGS["fin"]}></img>
+                  <h3 className="mr-10 pt-4 font-black text-center">
+                    {" "}
+                    Puntaje:{" "}
+                    <span className="text-yellow-500">{puntosLocales}</span>
+                  </h3>
                 </div>
               </div>
             </div>

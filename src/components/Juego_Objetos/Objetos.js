@@ -5,6 +5,7 @@ import Memoria from "./Memoria/Memoria";
 import swal from "@sweetalert/with-react";
 import "firebase/firestore";
 import "firebase/database";
+import { navigate } from "hookrouter";
 
 import { useFirestoreDocData, useFirestore, useDatabase } from "reactfire";
 
@@ -51,6 +52,7 @@ const IMGS = {
   michi1: "/assets/img/contar/gato-1.png",
   michi2: "/assets/img/contar/gato-2.png",
   fin: "/assets/img/fin-juego-sfondo.png",
+  vidas: "/assets/img/lifes-icons.png",
 };
 
 function Objetos() {
@@ -59,10 +61,12 @@ function Objetos() {
   const { status, data } = useFirestoreDocData(preguntasRef);
   const [aux, setAux] = useState(0);
   const [count, setCount] = useState(0);
+  const handleNav = () => navigate("/");
 
   const dataBaseKey = localStorage.getItem("key");
   const [puntos, setPuntos] = useState(0);
 
+  var vidasRestantes = 3;
   var userEmail = localStorage.getItem("Email").split("@").toString();
   userEmail = userEmail.split(".").toString();
   userEmail = userEmail.split("-").toString();
@@ -84,6 +88,44 @@ function Objetos() {
     puntosRef.set(nuevosPuntos);
   };
 
+  const perderVida = () => {
+    const vidaPerida = document.getElementById("vida" + vidasRestantes);
+    vidaPerida.parentElement.removeChild(vidaPerida);
+    vidasRestantes--;
+    if (vidasRestantes === 0) {
+      swal({
+        title: "Oh no... :(",
+        text: "Has perdido todas tus vidas\n¿Te gustaria intentarlo de nuevo?",
+        icon: "error",
+        buttons: ["No", "Si"]
+      }).then(respuesta => {
+        if (respuesta) {
+          swal({
+            title: "Aquí vamos de nuevo :)",
+            timer: "3000"
+          })
+          window.location.reload();
+        } else {
+          swal({
+            title: "Has regresado a la pantalla de inicio",
+            timer: "2000"
+          })
+          handleNav();
+        }
+      })
+    } else {
+      swal({
+        content: <div>Ups! Intenta de nuevo</div>,
+        icon: "warning",
+        value: false,
+      });
+    }
+  }
+
+  useEffect(
+    obtenerPuntos
+  )
+
   const contarFuncion = (index) => {
     if (data.presionar[aux].respuestas[index].correcto) {
       swal({
@@ -94,11 +136,7 @@ function Objetos() {
       setAux(aux + 1);
       sumarPuntos();
     } else {
-      swal({
-        content: <div>Ups! Intenta de nuevo</div>,
-        icon: "warning",
-        value: false,
-      });
+      perderVida();
     }
   };
 
@@ -113,8 +151,20 @@ function Objetos() {
             </div>
           ) : data?.presionar?.length > aux ? (
             <div>
-              <div className="puntuacion text-center">
-                <h2 onChange={obtenerPuntos}> {puntos} puntos</h2>
+              <div className="puntuacion text-center flex my-4 justify-center">
+                <h3 className="mr-10 pt-4">  Puntos: {puntos} </h3>
+                <div className="flex my-4 justify-center" name="divVidas">
+                  <h3 className="mr-3"> Vidas: </h3>
+                  <a className="flex h-12 w-12 mr-5" id="vida1">
+                    <img src={IMGS["vidas"]} className="icon" />
+                  </a>
+                  <a className="flex h-12 w-12 mr-5" id="vida2">
+                    <img src={IMGS["vidas"]} className="icon" />
+                  </a>
+                  <a className="flex h-12 w-12" id="vida3">
+                    <img src={IMGS["vidas"]} className="icon" />
+                  </a>
+                </div>
               </div>
               <div className="recolectar w-full text-center mb-10">
                 <h2>{data.presionar[aux].pregunta}</h2>

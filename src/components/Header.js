@@ -30,7 +30,6 @@ const Header = () => {
             <img src={ICONOS["juego"]} className="icon p-1" />
             Juegos
           </a>
-
           <AuthLogUser />
         </div>
       </nav>

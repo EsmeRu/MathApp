@@ -9,21 +9,23 @@ export default (props) => {
     const firebase = useFirebaseApp();
 
     const closeAuth = async () => {
+
+    }
+
+    const logout = async (event) => {
+        event.preventDefault();
         localStorage.removeItem("Email");
         localStorage.removeItem("key");
-        await firebase.auth().signOut();
+        await swal({
+            title: "¿Seguro que desea salir?",
+            icon: "info",
+            buttons: ["Cancelar", "Salir"]
+        }).then(respuesta => {
+            if (respuesta) {
+                firebase.auth().signOut()
+            }
+        })
     }
-
-    const logout = () => {
-        swal(
-            <div>
-                <h3>¿Seguro que desea salir?</h3>
-                <button onClick={closeAuth}>Aceptar</button>
-            </div>
-        )
-    }
-
-
 
     if (user !== null) {
         return (

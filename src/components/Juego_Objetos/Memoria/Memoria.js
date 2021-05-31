@@ -30,6 +30,7 @@ const Memoria = () => {
 
   const dataBaseKey = localStorage.getItem("key");
   const [puntos, setPuntos] = useState(0);
+  const [puntosLocales, setPuntosLocales] = useState(0);
 
   var userEmail = localStorage.getItem("Email").split("@").toString();
   userEmail = userEmail.split(".").toString();
@@ -49,10 +50,14 @@ const Memoria = () => {
   const sumarPuntos = () => {
     var nuevosPuntos = puntos + 50;
     setPuntos(nuevosPuntos);
+    setPuntosLocales(puntosLocales + 50);
     puntosRef.set(nuevosPuntos);
   };
 
   useEffect(() => {
+    if (puntosLocales === null) {
+      setPuntosLocales(0);
+    }
     obtenerPuntos();
     const shuffledEmojiList = shuffleArray([...emojiList, ...emojiList]);
     setShuffleMemoBlocks(
@@ -107,7 +112,7 @@ const Memoria = () => {
   return (
     <div>
       <div className="puntuacion text-center">
-        <h2> {puntos} puntos</h2>
+        <h2> Puntos: {puntosLocales} </h2>
         <Timer />
       </div>
       <TableroMemoria

@@ -65,6 +65,7 @@ function Objetos() {
 
   const dataBaseKey = localStorage.getItem("key");
   const [puntos, setPuntos] = useState(0);
+  const [puntosLocales, setPuntosLocales] = useState(0);
 
   var vidasRestantes = 3;
   var userEmail = localStorage.getItem("Email").split("@").toString();
@@ -85,6 +86,7 @@ function Objetos() {
   const sumarPuntos = () => {
     var nuevosPuntos = puntos + 50;
     setPuntos(nuevosPuntos);
+    setPuntosLocales(puntosLocales + 50);
     puntosRef.set(nuevosPuntos);
   };
 
@@ -122,7 +124,12 @@ function Objetos() {
     }
   };
 
-  useEffect(obtenerPuntos);
+  useEffect(() => {
+    if (puntosLocales === null) {
+      setPuntosLocales(0);
+    }
+    obtenerPuntos();
+  });
 
   const contarFuncion = (index) => {
     if (data.presionar[aux].respuestas[index].correcto) {
@@ -150,7 +157,7 @@ function Objetos() {
           ) : data?.presionar?.length > aux ? (
             <div>
               <div className="puntuacion text-center flex my-4 justify-center">
-                <h3 className="mr-10 pt-4"> Puntos: {puntos} </h3>
+                <h3 className="mr-10 pt-4"> Puntos: {puntosLocales} </h3>
                 <div className="flex my-4 justify-center" name="divVidas">
                   <h3 className="mr-3"> Vidas: </h3>
                   <a className="flex h-12 w-12 mr-5" id="vida1">

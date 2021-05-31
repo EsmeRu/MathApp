@@ -43,6 +43,7 @@ const Contar = () => {
   const [aux, setAux] = useState(0);
   const dataBaseKey = localStorage.getItem("key");
   const [puntos, setPuntos] = useState(0);
+  const [puntosLocales, setPuntosLocales] = useState(0);
   const handleNav = () => navigate("/");
 
   var vidasRestantes = 3;
@@ -51,7 +52,12 @@ const Contar = () => {
   userEmail = userEmail.split("-").toString();
   userEmail = userEmail.split("_").toString();
 
+<<<<<<< HEAD
   const puntosRef = useDatabase().ref(dataBaseKey).child("puntosContar");
+=======
+
+  const puntosRef = useDatabase().ref(dataBaseKey).child('puntosContar');
+>>>>>>> 27b962ad17535513fc7c6fc195053d7adc71c062
 
   const obtenerPuntos = () => {
     puntosRef.on("value", (puntaje) => {
@@ -64,6 +70,7 @@ const Contar = () => {
   const sumarPuntos = () => {
     var nuevosPuntos = puntos + 50;
     setPuntos(nuevosPuntos);
+    setPuntosLocales(puntosLocales + 50);
     puntosRef.set(nuevosPuntos);
   };
 
@@ -119,6 +126,9 @@ const Contar = () => {
   useEffect(() => {
     if (status === "success") {
       obtenerPuntos();
+      if (puntosLocales === null) {
+        setPuntosLocales(0);
+      }
       const btn = buttons;
       let res = 0,
         auxRes = 0;
@@ -162,7 +172,11 @@ const Contar = () => {
         ) : data.preguntas.length > aux ? (
           <div>
             <div className="puntuacion text-center flex my-4 justify-center">
+<<<<<<< HEAD
               <h3 className="mr-10 pt-4"> Puntos: {puntos} </h3>
+=======
+              <h3 className="mr-10 pt-4">  Puntos: {puntosLocales} </h3>
+>>>>>>> 27b962ad17535513fc7c6fc195053d7adc71c062
               <div className="flex my-4 justify-center" name="divVidas">
                 <h3 className="mr-3"> Vidas: </h3>
                 <a className="flex h-12 w-12 mr-5" id="vida1">

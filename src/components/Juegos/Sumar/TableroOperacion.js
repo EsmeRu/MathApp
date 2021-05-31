@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import swal from "@sweetalert/with-react";
-import { useFirestoreDocData, useFirestore } from "reactfire";
+import "firebase/database";
+import { useFirestoreDocData, useFirestore, useDatabase } from "reactfire";
 import { navigate } from "hookrouter";
 
 const Tablero = ({ children, id, className, state = [] }) => {
@@ -8,10 +9,33 @@ const Tablero = ({ children, id, className, state = [] }) => {
 
   const { status, data } = useFirestoreDocData(preguntasRef);
   const [aux, setAux] = state;
+  const dataBaseKey = localStorage.getItem("key");
+  const [puntos, setPuntos] = useState(0);
 
+  var userEmail = localStorage.getItem("Email").split("@").toString();
+  userEmail = userEmail.split(".").toString();
+  userEmail = userEmail.split("-").toString();
+  userEmail = userEmail.split("_").toString();
+
+  const puntosRef = useDatabase().ref(dataBaseKey).child('puntosSumar');
   var vidasRestantes = 3;
 
   const handleNav = () => navigate("/");
+
+  const obtenerPuntos = () => {
+    puntosRef.on('value', puntaje => {
+      if (puntaje != null) {
+        setPuntos(puntaje.val())
+      }
+    })
+  };
+
+  const sumarPuntos = () => {
+    var nuevosPuntos = puntos + 50;
+    setPuntos(nuevosPuntos);
+    puntosRef.set(nuevosPuntos);
+  };
+
 
   const perderVida = () => {
     const vidaPerida = document.getElementById("vida" + vidasRestantes);
@@ -61,8 +85,8 @@ const Tablero = ({ children, id, className, state = [] }) => {
           icon: "success",
           value: true,
         });
-
         setAux(aux + 1);
+        sumarPuntos();
       } else {
         perderVida();
       }
@@ -74,6 +98,10 @@ const Tablero = ({ children, id, className, state = [] }) => {
   const dragOver = (e) => {
     e.preventDefault();
   };
+
+  useEffect(() => {
+    obtenerPuntos();
+  })
 
   return (
     <div className={className} id={id} onDrop={drop} onDragOver={dragOver}>

@@ -40,17 +40,18 @@ function Sumar() {
   const { status, data } = useFirestoreDocData(preguntasRef);
   const [aux, setAux] = useState(0);
   const [buttons, setButtons] = useState([]);
-
   const dataBaseKey = localStorage.getItem("key");
   const [puntos, setPuntos] = useState(0);
-  const handleNav = () => navigate("/");
 
   var userEmail = localStorage.getItem("Email").split("@").toString();
   userEmail = userEmail.split(".").toString();
   userEmail = userEmail.split("-").toString();
   userEmail = userEmail.split("_").toString();
 
-  const puntosRef = useDatabase().ref(dataBaseKey).child("puntosContar");
+  const puntosRef = useDatabase().ref(dataBaseKey).child('puntosSumar');
+
+  const handleNav = () => navigate("/");
+
 
   const obtenerPuntos = () => {
     puntosRef.on("value", (puntaje) => {
@@ -60,11 +61,9 @@ function Sumar() {
     });
   };
 
-  const sumarPuntos = () => {
-    var nuevosPuntos = puntos + 50;
-    setPuntos(nuevosPuntos);
-    puntosRef.set(nuevosPuntos);
-  };
+
+
+
 
   /*const perderVida = () => {
     const vidaPerida = document.getElementById("vida" + vidasRestantes);
@@ -102,7 +101,7 @@ function Sumar() {
 
   useEffect(() => {
     if (status === "success") {
-      obtenerPuntos();
+      obtenerPuntos()
       let btn = buttons;
       btn = [];
       let res = 0,

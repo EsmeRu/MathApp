@@ -40,11 +40,12 @@ const Contar = () => {
   const [buttons, setButtons] = useState([]);
   const [aux, setAux] = useState(0);
   const dataBaseKey = localStorage.getItem("key");
-
-
   const [puntos, setPuntos] = useState(0);
-  var userEmail = localStorage.getItem("Email").split("@", 1).toString();
+
+  var userEmail = localStorage.getItem("Email").split("@").toString();
   userEmail = userEmail.split(".").toString();
+  userEmail = userEmail.split("-").toString();
+  userEmail = userEmail.split("_").toString();
 
   const puntosRef = useDatabase().ref(dataBaseKey).child('puntosContar');
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./objetos.css";
 import Container from "../Container";
 import Memoria from "./Memoria/Memoria";
@@ -6,7 +6,7 @@ import swal from "@sweetalert/with-react";
 import "firebase/firestore";
 import "firebase/database";
 
-import { useFirestoreDocData, useFirestore } from "reactfire";
+import { useFirestoreDocData, useFirestore, useDatabase } from "reactfire";
 
 const IMGS = {
   memoria: "/assets/img/memoria.png",
@@ -60,6 +60,30 @@ function Objetos() {
   const [aux, setAux] = useState(0);
   const [count, setCount] = useState(0);
 
+  const dataBaseKey = localStorage.getItem("key");
+  const [puntos, setPuntos] = useState(0);
+
+  var userEmail = localStorage.getItem("Email").split("@").toString();
+  userEmail = userEmail.split(".").toString();
+  userEmail = userEmail.split("-").toString();
+  userEmail = userEmail.split("_").toString();
+
+  const puntosRef = useDatabase().ref(dataBaseKey).child('puntosObjetos');
+
+  const obtenerPuntos = () => {
+    puntosRef.on('value', puntaje => {
+      if (puntaje != null) {
+        setPuntos(puntaje.val())
+      }
+    })
+  };
+
+  const sumarPuntos = () => {
+    var nuevosPuntos = puntos + 50;
+    setPuntos(nuevosPuntos);
+    puntosRef.set(nuevosPuntos);
+  };
+
   const contarFuncion = (index) => {
     if (data.presionar[aux].respuestas[index].correcto) {
       swal({
@@ -68,6 +92,7 @@ function Objetos() {
         value: true,
       });
       setAux(aux + 1);
+      sumarPuntos();
     } else {
       swal({
         content: <div>Ups! Intenta de nuevo</div>,
@@ -87,21 +112,26 @@ function Objetos() {
               <div className="loader"></div>
             </div>
           ) : data?.presionar?.length > aux ? (
-            <div className="recolectar w-full text-center mb-10">
-              <h2>{data.presionar[aux].pregunta}</h2>
-              <div className="pregunta flex justify-center">
-                <img src={IMGS[data.presionar[aux].img]} className="w-60" />
+            <div>
+              <div className="puntuacion text-center">
+                <h2 onChange={obtenerPuntos}> {puntos} puntos</h2>
               </div>
-              <div className="flex justify-evenly">
-                {data.presionar[aux].respuestas.map((r, index) => (
-                  <div
-                    className="objetos p-3 shadow-2xl shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
-                    onClick={() => contarFuncion(index)}
-                    key={index}
-                  >
-                    <img src={IMGS[r.img]} className="w-40" />
-                  </div>
-                ))}
+              <div className="recolectar w-full text-center mb-10">
+                <h2>{data.presionar[aux].pregunta}</h2>
+                <div className="pregunta flex justify-center">
+                  <img src={IMGS[data.presionar[aux].img]} className="w-60" />
+                </div>
+                <div className="flex justify-evenly">
+                  {data.presionar[aux].respuestas.map((r, index) => (
+                    <div
+                      className="objetos p-3 shadow-2xl shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+                      onClick={() => contarFuncion(index)}
+                      key={index}
+                    >
+                      <img src={IMGS[r.img]} className="w-40" />
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           ) : (

@@ -19,7 +19,12 @@ export default (props) => {
     const addPointRecord = () => {
         var userEmail = localStorage.getItem("Email").split("@", 1).toString();
         userEmail = userEmail.split(".").toString();
-        //puntosRef.ref("sumar").push();
+        localStorage.setItem("key", puntosRef.ref().push({
+            email: userEmail,
+            puntosContar: 0,
+            puntosSumar: 0,
+            puntosMemorama: 0
+        }).key)
     }
 
     const submit = async () => {
@@ -31,7 +36,7 @@ export default (props) => {
                         icon: "success"
                     })
                     localStorage.setItem('Email', email);
-                    //addPointRecord();
+                    addPointRecord();
                     handleNav();
                 })
                 .catch((error) => {
@@ -59,6 +64,15 @@ export default (props) => {
         }
     }
 
+    const getKey = () => {
+        var refToPuntaje;
+        puntosRef.ref().on('value', puntaje => {
+            refToPuntaje = puntaje.ref;
+
+            console.log(refToPuntaje.child('email').toString());
+        });
+    }
+
     const login = async () => {
         await firebase.auth().signInWithEmailAndPassword(email, password)
             .then(() => {
@@ -68,6 +82,7 @@ export default (props) => {
                     icon: "success",
                     button: "aceptar"
                 })
+                getKey();
                 localStorage.setItem('Email', email);
                 handleNav();
             })
@@ -81,6 +96,7 @@ export default (props) => {
                         button: "aceptar"
                     })
                 } else {
+                    console.log(error)
                     swal({
                         title: "Correo no registrado",
                         text: "Parece que ese correo no se encuentra registrado",

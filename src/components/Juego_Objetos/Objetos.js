@@ -180,16 +180,12 @@ function Objetos() {
                   </div>
                 </div>
               </div>
-              <div className="pregunta w-full text-center">
-                <h2 id="tituloContar" className="text-4xl">
-                  {data.presionar[aux].pregunta}
-                </h2>
-              </div>
-              <div className="recolectar flex mov:flex-col w-full text-center mb-10">
+              <div className="recolectar w-full text-center mb-10">
+                <h2>{data.presionar[aux].pregunta}</h2>
                 <div className="pregunta flex justify-center mb-8">
                   <img src={IMGS[data.presionar[aux].img]} className="w-vh" />
                 </div>
-                <div className="flex sm:flex-col justify-center gap-4">
+                <div className="flex justify-center gap-4">
                   {data.presionar[aux].respuestas.map((r, index) => (
                     <div
                       className="p-3 shadow-2xl shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
@@ -201,7 +197,6 @@ function Objetos() {
                   ))}
                 </div>
               </div>
-              {/*aqui terminan imagenes de abajo*/}
             </div>
           ) : (
             <div>

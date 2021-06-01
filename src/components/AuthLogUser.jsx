@@ -31,21 +31,21 @@ export default (props) => {
         return (
             <a
                 href="/"
-                className="flex h-7 cursor-pointer hover:text-blue-500 text-xl"
+                className={props.estilos["a"]}
                 onClick={logout}
             >
-                <img src={sesion} className="p-1" />
-                Cerrar sesión
+                <img src={sesion} className={props.estilos["img"]}/>
+                <span className={props.estilos["span"]}>Cerrar sesión</span>
             </a>
         )
     } else {
         return (
             <a
                 href="/login"
-                className="flex h-7 cursor-pointer hover:text-blue-500 text-xl"
+                className={props.estilos["a"]}
             >
-                <img src={sesion} className="p-1" />
-                Iniciar Sesión/Registrarse
+                <img src={sesion} className={props.estilos["img"]}/>
+                <span className={props.estilos["span"]}>Iniciar Sesión</span>
             </a>
         )
 

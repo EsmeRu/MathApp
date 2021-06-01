@@ -158,34 +158,41 @@ const Contar = () => {
 
   return (
     <Container>
-      <div className="w-screen h-screen">
+      <div className="w-screen h-screen flex flex-col">
         {status !== "success" ? (
           <div className="flex flex-col items-center">
             Espera un momento
             <div className="loader"></div>
           </div>
         ) : data.preguntas.length > aux ? (
-          <div>
-            <div className="puntuacion text-center flex my-4 justify-center">
-              <h4 className="mr-10 pt-4 font-black">
+          <div className="flex flex-col gap-5">
+            <div className="puntuacion text-center flex my-3 justify-center px-7 sm:bg-gradient-to-t sm:from-gray-50 sticky top-0">
+              <h4 className="mr-10 pt-1 font-black">
                 {" "}
                 Puntos: <span className="text-yellow-500">{puntosLocales}</span>
               </h4>
-              <div className="flex my-4 justify-center" name="divVidas">
+              <div
+                className="flex flex-wrap my-1 justify-center"
+                name="divVidas"
+              >
                 <h4 className="mr-3 font-black"> Vidas: </h4>
-                <a className="flex h-12 w-12 mr-5" id="vida1">
-                  <img src={IMGS["vidas"]} className="icon" />
-                </a>
-                <a className="flex h-12 w-12 mr-5" id="vida2">
-                  <img src={IMGS["vidas"]} className="icon" />
-                </a>
-                <a className="flex h-12 w-12" id="vida3">
-                  <img src={IMGS["vidas"]} className="icon" />
-                </a>
+                <div className="flex justify-center gap-2">
+                  <a className="mov:h-12 mov:w-12 mov:mr-5" id="vida1">
+                    <img src={IMGS["vidas"]} className="icon sm:w-8 sm:h-8" />
+                  </a>
+                  <a className="mov:h-12 mov:w-12 mov:mr-5" id="vida2">
+                    <img src={IMGS["vidas"]} className="icon sm:w-8 sm:h-8" />
+                  </a>
+                  <a className="mov:h-12 mov:w-12" id="vida3">
+                    <img src={IMGS["vidas"]} className="icon sm:w-8 sm:h-8" />
+                  </a>
+                </div>
               </div>
             </div>
             <div className="pregunta w-full text-center">
-              <h2 id="tituloContar">{data.preguntas[aux].pregunta}</h2>
+              <h2 id="tituloContar" className="text-4xl">
+                {data.preguntas[aux].pregunta}
+              </h2>
             </div>
             <div className="img w-full flex justify-center my-7 h-60">
               {aux === 3 ? (
@@ -199,18 +206,20 @@ const Contar = () => {
                   </button>
                 </div>
               ) : (
-                <div>
-                  <img
-                    src={IMGS[data?.preguntas[aux]?.img]}
-                    className="w-vh-2"
-                  />
+                <div className="flex justify-center">
+                  <div className="w-vh-2 items-center mov:mx-10">
+                    <img
+                      src={IMGS[data?.preguntas[aux]?.img]}
+                      className="w-vh-2"
+                    />
+                  </div>
                 </div>
               )}
             </div>
             {aux === 3 ? (
               <></>
             ) : (
-              <div className="respuesta w-full text-center flex justify-center flex-wrap my-5">
+              <div className="respuesta text-center flex justify-center">
                 {buttons.map((v, index) => (
                   <button
                     id="res1"

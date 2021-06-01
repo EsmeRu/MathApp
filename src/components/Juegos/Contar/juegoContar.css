@@ -2,7 +2,8 @@
   font-size: 2rem;
 }
 .respuesta {
-  font-size: 2rem;
+  font-size: 1rem;
+  min-width: fit-content;
 }
 .dibujo {
   /* border: 1px solid #000; */

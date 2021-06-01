@@ -1,6 +1,7 @@
 import React from "react";
 import { useFirebaseApp } from "reactfire";
 import AuthLogUser from "./AuthLogUser";
+import Menu from "./Menu";
 
 const ICONOS = {
   logo: "/assets/img/logo.png",
@@ -9,28 +10,30 @@ const ICONOS = {
 };
 
 const Header = () => {
+  const estilos = {
+    a: "flex h-10 cursor-pointer hover:text-blue-500 text-2xl gap-1 justify-center",
+    span: "flex items-center text-gray-600 font-black hover:text-yellow-400",
+    navegacion: "flex justify-center",
+  };
   return (
     <header className="flex flex-col justify-center items-center bg-gradient-to-b from-blue-800">
       <div className="mt-4">
         <img src={ICONOS["logo"]} className="w-64" />
+        <div className="mov:hidden">
+          <Menu></Menu>
+        </div>
       </div>
-      <nav className="w-screen mb-5">
-        <div className="flex my-4 justify-center">
-          <a
-            href="/"
-            className="flex h-7 cursor-pointer hover:text-blue-500 text-xl"
-          >
-            <img src={ICONOS["inicio"]} className="icon p-1" />
-            Inicio
+      <nav className="w-screen my-4 mb-5 mx-10 sm:hidden">
+        <div id="navegacion" className={estilos["navegacion"]}>
+          <a href="/" className={estilos["a"]}>
+            <img src={ICONOS["inicio"]} />
+            <span className={estilos["span"]}>Inicio</span>
           </a>
-          <a
-            href="/juegos"
-            className="flex h-7 cursor-pointer hover:text-blue-500 text-xl"
-          >
-            <img src={ICONOS["juego"]} className="icon p-1" />
-            Juegos
+          <a href="/juegos" className={estilos["a"]}>
+            <img src={ICONOS["juego"]} />
+            <span className={estilos["span"]}>Juegos</span>
           </a>
-          <AuthLogUser />
+          <AuthLogUser estilos={estilos} />
         </div>
       </nav>
     </header>

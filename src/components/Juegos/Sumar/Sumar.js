@@ -119,7 +119,7 @@ function Sumar() {
 
   const estilo = [
     "flex w-60 h-60 bg-red-400 transition duration-500 ease-in-out hover:bg-red-500 transform hover:-translate-y-1 hover:scale-110",
-    "flex justify-center items-center w-40 h-40 bg-red-400 text-white text-6xl rounded-md transition duration-500 ease-in-out hover:bg-red-500 transform hover:-translate-y-1 hover:scale-110",
+    "flex justify-center items-center mov:w-40 mov:h-40 sm:p-7 sm:text-4xl bg-red-400 text-white text-6xl rounded-md transition duration-500 ease-in-out hover:bg-red-500 transform hover:-translate-y-1 hover:scale-110",
   ];
 
   return (
@@ -131,30 +131,36 @@ function Sumar() {
             <div className="loader"></div>
           </div>
         ) : data?.suma?.length > aux ? (
-          <div>
+          <div className="flex flex-col gap-5">
             <div className="flex justify-center">
               <img src={IMGS["titulo"]} alt="" />
             </div>
-            <div className="puntuacion text-center flex justify-center">
-              <h4 className="mr-10 pt-4 font-black">
+
+            <div className="puntuacion text-center flex my-3 justify-center px-7 sm:bg-gradient-to-t sm:from-gray-50 sticky top-0">
+              <h4 className="mr-10 pt-1 font-black">
                 {" "}
                 Puntos: <span className="text-yellow-500">{puntos}</span>
               </h4>
-              <div className="flex my-4 justify-center" name="divVidas">
+              <div
+                className="flex flex-wrap my-1 justify-center"
+                name="divVidas"
+              >
                 <h4 className="mr-3 font-black"> Vidas: </h4>
-                <a className="flex h-12 w-12 mr-5" id="vida1">
-                  <img src={IMGS["vidas"]} className="icon" />
-                </a>
-                <a className="flex h-12 w-12 mr-5" id="vida2">
-                  <img src={IMGS["vidas"]} className="icon" />
-                </a>
-                <a className="flex h-12 w-12" id="vida3">
-                  <img src={IMGS["vidas"]} className="icon" />
-                </a>
+                <div className="flex justify-center gap-2">
+                  <a className="mov:h-12 mov:w-12 mov:mr-5" id="vida1">
+                    <img src={IMGS["vidas"]} className="icon sm:w-8 sm:h-8" />
+                  </a>
+                  <a className="mov:h-12 mov:w-12 mov:mr-5" id="vida2">
+                    <img src={IMGS["vidas"]} className="icon sm:w-8 sm:h-8" />
+                  </a>
+                  <a className="mov:h-12 mov:w-12" id="vida3">
+                    <img src={IMGS["vidas"]} className="icon sm:w-8 sm:h-8" />
+                  </a>
+                </div>
               </div>
             </div>
-            <div className="w-full text-center mb-10">
-              <div className="flex justify-center items-center m-10">
+            <div className="w-full text-center mb-10 flex flex-col">
+              <div className="flex justify-center items-center m-10 sm:m-5 sm:flex-col">
                 <div className="">
                   <img src={IMGS[data.suma[aux].img]} alt="" />
                 </div>
@@ -162,7 +168,7 @@ function Sumar() {
                 <div className="flex card p-10 bg-red-400 shadow-2xl">
                   <Tablero
                     id="board"
-                    className="board w-20 h-20"
+                    className="board w-20 h-20 sm:w-10 sm:h-10"
                     state={[aux, setAux]}
                   ></Tablero>
                 </div>

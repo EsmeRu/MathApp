@@ -155,32 +155,41 @@ function Objetos() {
               <div className="loader"></div>
             </div>
           ) : data?.presionar?.length > aux ? (
-            <div>
-              <div className="puntuacion text-center flex my-4 justify-center">
-                <h4 className="mr-10 pt-4 font-black">
+            <div className="flex flex-col gap-5">
+              <div className="puntuacion text-center flex my-3 justify-center px-7 sm:bg-gradient-to-t sm:from-gray-50 sticky top-0">
+                <h4 className="mr-10 pt-1 font-black">
                   {" "}
                   Puntos:{" "}
                   <span className="text-yellow-500">{puntosLocales}</span>
                 </h4>
-                <div className="flex my-4 justify-center" name="divVidas">
+                <div
+                  className="flex flex-wrap my-1 justify-center"
+                  name="divVidas"
+                >
                   <h4 className="mr-3 font-black"> Vidas: </h4>
-                  <a className="flex h-12 w-12 mr-5" id="vida1">
-                    <img src={IMGS["vidas"]} className="icon" />
-                  </a>
-                  <a className="flex h-12 w-12 mr-5" id="vida2">
-                    <img src={IMGS["vidas"]} className="icon" />
-                  </a>
-                  <a className="flex h-12 w-12" id="vida3">
-                    <img src={IMGS["vidas"]} className="icon" />
-                  </a>
+                  <div className="flex justify-center gap-2">
+                    <a className="mov:h-12 mov:w-12 mov:mr-5" id="vida1">
+                      <img src={IMGS["vidas"]} className="icon sm:w-8 sm:h-8" />
+                    </a>
+                    <a className="mov:h-12 mov:w-12 mov:mr-5" id="vida2">
+                      <img src={IMGS["vidas"]} className="icon sm:w-8 sm:h-8" />
+                    </a>
+                    <a className="mov:h-12 mov:w-12" id="vida3">
+                      <img src={IMGS["vidas"]} className="icon sm:w-8 sm:h-8" />
+                    </a>
+                  </div>
                 </div>
               </div>
-              <div className="recolectar w-full text-center mb-10">
-                <h2>{data.presionar[aux].pregunta}</h2>
+              <div className="pregunta w-full text-center">
+                <h2 id="tituloContar" className="text-4xl">
+                  {data.presionar[aux].pregunta}
+                </h2>
+              </div>
+              <div className="recolectar flex mov:flex-col w-full text-center mb-10">
                 <div className="pregunta flex justify-center mb-8">
                   <img src={IMGS[data.presionar[aux].img]} className="w-vh" />
                 </div>
-                <div className="flex justify-center gap-4">
+                <div className="flex sm:flex-col justify-center gap-4">
                   {data.presionar[aux].respuestas.map((r, index) => (
                     <div
                       className="p-3 shadow-2xl shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
@@ -192,6 +201,7 @@ function Objetos() {
                   ))}
                 </div>
               </div>
+              {/*aqui terminan imagenes de abajo*/}
             </div>
           ) : (
             <div>

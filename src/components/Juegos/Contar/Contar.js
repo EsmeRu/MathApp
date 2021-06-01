@@ -9,6 +9,7 @@ import { navigate } from "hookrouter";
 
 import { useFirestoreDocData, useFirestore, useDatabase } from "reactfire";
 
+var vidasRestantes = 3;
 const IMGS = {
   cero: "/assets/img/numeros/num-cero.png",
   uno: "/assets/img/letras/letras-abc.png",
@@ -46,7 +47,6 @@ const Contar = () => {
   const [puntosLocales, setPuntosLocales] = useState(0);
   const handleNav = () => navigate("/");
 
-  var vidasRestantes = 3;
   var userEmail = localStorage.getItem("Email")?.split("@").toString();
   userEmail = userEmail?.split(".").toString();
   userEmail = userEmail?.split("-").toString();
@@ -70,7 +70,9 @@ const Contar = () => {
   };
 
   const perderVida = () => {
+    console.log(vidasRestantes);
     const vidaPerida = document.getElementById("vida" + vidasRestantes);
+    console.log(vidaPerida);
     vidaPerida.parentElement.removeChild(vidaPerida);
     vidasRestantes--;
     if (vidasRestantes === 0) {

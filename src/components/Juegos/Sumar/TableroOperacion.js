@@ -4,6 +4,8 @@ import "firebase/database";
 import { useFirestoreDocData, useFirestore, useDatabase } from "reactfire";
 import { navigate } from "hookrouter";
 
+var vidasRestantes = 3;
+
 const Tablero = ({ children, id, className, state = [] }) => {
   const preguntasRef = useFirestore().collection("juegos").doc("operaciones");
 
@@ -18,7 +20,7 @@ const Tablero = ({ children, id, className, state = [] }) => {
   userEmail = userEmail.split("_").toString();
 
   const puntosRef = useDatabase().ref(dataBaseKey).child('puntosSumar');
-  var vidasRestantes = 3;
+
 
   const handleNav = () => navigate("/");
 

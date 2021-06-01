@@ -9,6 +9,7 @@ import { navigate } from "hookrouter";
 
 import { useFirestoreDocData, useFirestore, useDatabase } from "reactfire";
 
+var vidasRestantes = 3;
 const IMGS = {
   memoria: "/assets/img/memoria.png",
   presiona: "/assets/img/presiona.png",
@@ -67,7 +68,7 @@ function Objetos() {
   const [puntos, setPuntos] = useState(0);
   const [puntosLocales, setPuntosLocales] = useState(0);
 
-  var vidasRestantes = 3;
+
   var userEmail = localStorage.getItem("Email").split("@").toString();
   userEmail = userEmail.split(".").toString();
   userEmail = userEmail.split("-").toString();

@@ -106,7 +106,7 @@ function Sumar() {
       Array.from(Array(2), (_, index) => {
         do {
           res = Math.floor(Math.random() * (20 - 1)) + 1;
-          if (res !== auxRes) {
+          if (res !== auxRes && res !== data?.suma[aux]?.respuesta) {
             btn.push(res);
             auxRes = res;
             res = 0;

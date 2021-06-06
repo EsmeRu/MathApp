@@ -6,7 +6,7 @@ import { navigate } from "hookrouter";
 
 var vidasRestantes = 3;
 
-const Tablero = ({ children, id, className, state = [] }) => {
+const Tablero = ({ children, id, className, count, state = [] }) => {
   const preguntasRef = useFirestore().collection("juegos").doc("operaciones");
 
   const { status, data } = useFirestoreDocData(preguntasRef);
@@ -76,19 +76,32 @@ const Tablero = ({ children, id, className, state = [] }) => {
 
     const card_id = e.dataTransfer.getData("card_id");
     const card = document.getElementById(card_id);
-    const tablero = document.getElementById("board-1");
 
     if (id === "board") {
-      if (data.suma[aux].respuesta === parseInt(card.textContent)) {
-        swal({
-          content: <div>Respuesta Correcta</div>,
-          icon: "success",
-          value: true,
-        });
-        setAux(aux + 1);
-        sumarPuntos();
+      if (count === 1) {
+        if (data.suma[aux].respuesta === parseInt(card.textContent)) {
+          swal({
+            content: <div>Respuesta Correcta</div>,
+            icon: "success",
+            value: true,
+          });
+          setAux(aux + 1);
+          sumarPuntos();
+        } else {
+          perderVida();
+        }
       } else {
-        perderVida();
+        if (data.resta[aux].respuesta === parseInt(card.textContent)) {
+          swal({
+            content: <div>Respuesta Correcta</div>,
+            icon: "success",
+            value: true,
+          });
+          setAux(aux + 1);
+          sumarPuntos();
+        } else {
+          perderVida();
+        }
       }
     }
 

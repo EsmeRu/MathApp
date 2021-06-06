@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import 'firebase/auth';
 import 'firebase/database';
 import "firebase/firestore";
-import logo from "../../assets/img/logo.png";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { navigate } from "hookrouter";
 import swal from "sweetalert";
 
 import { useFirebaseApp, useDatabase, useFirestore } from 'reactfire'; //Hooks para usar firebase
+
+const logo = {
+    logo: "/assets/img/logo.png"
+}
 
 export default (props) => {
     const keysRef = useFirestore();
@@ -132,10 +135,10 @@ export default (props) => {
             <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 bgLogin" id="LoginDiv">
                 <div className="max-w-md w-full space-y-8">
                     <div>
-                        <img className="mx-auto w-auto logo" src={logo} alt="Logo-MathApp" />
-                        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                        <img className="mx-auto w-auto logo" src={logo["logo"]} alt="Logo-MathApp" />
+                        <h3 className="mt-6 text-center text-1xl font-extrabold text-red-700">
                             Inicia con tu cuenta
-                        </h2>
+                        </h3>
                     </div>
                     <form className="mt-8 space-y-6">
                         <div className="rounded-md shadow-sm -space-y-px">

@@ -233,7 +233,6 @@ function Objetos() {
           </button>
         </div>
       )}
-      ;
     </Container>
   );
 }

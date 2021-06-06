@@ -9,6 +9,8 @@ import { navigate } from "hookrouter";
 
 const IMGS = {
   titulo: "/assets/img/operaciones/sumas-restas.png",
+  sumas: "/assets/img/operaciones/titulo-sumas.png",
+  restas: "/assets/img/operaciones/titulo-restas.png",
   suma2: "/assets/img/operaciones/sumas/suma-1-1.png",
   suma3: "/assets/img/operaciones/sumas/suma-1-2.png",
   suma4: "/assets/img/operaciones/sumas/suma-2-2.png",
@@ -41,7 +43,9 @@ function Sumar() {
   const [buttons, setButtons] = useState([]);
   const dataBaseKey = localStorage.getItem("key");
   const [puntos, setPuntos] = useState(0);
-  const [juego, setJuego] = useState(0);
+  const [count, setCount] = useState(0);
+  const [imgOp, setImgOp] = useState("");
+  const [lenghtOp, setLenghtOp] = useState(1);
 
   var userEmail = localStorage.getItem("Email").split("@").toString();
   userEmail = userEmail.split(".").toString();
@@ -67,12 +71,20 @@ function Sumar() {
       btn = [];
       let res = 0,
         auxRes = 0;
-      btn.push(data?.suma[aux]?.respuesta);
+      if (count === 1 && lenghtOp > aux) {
+        setLenghtOp(data?.suma?.length);
+        setImgOp(IMGS[data.suma[aux].img]);
+        btn.push(data?.suma[aux]?.respuesta);
+      } else if (count === 2 && lenghtOp > aux) {
+        setLenghtOp(data?.resta?.length);
+        setImgOp(IMGS[data.resta[aux].img]);
+        btn.push(data?.resta[aux]?.respuesta);
+      }
 
       Array.from(Array(2), (_, index) => {
         do {
           res = Math.floor(Math.random() * (20 - 1)) + 1;
-          if (res !== auxRes && res !== data?.suma[aux]?.respuesta) {
+          if (res !== auxRes && res !== btn[0]) {
             btn.push(res);
             auxRes = res;
             res = 0;
@@ -81,7 +93,7 @@ function Sumar() {
       });
       setButtons([...btn]);
     }
-  }, [status, data, aux]);
+  }, [status, data, aux, count]);
 
   const estilo = [
     "flex w-60 h-60 bg-red-400 transition duration-500 ease-in-out hover:bg-red-500 transform hover:-translate-y-1 hover:scale-110",
@@ -102,7 +114,8 @@ function Sumar() {
       <div className="puntuacion text-center flex my-3 justify-center px-7 sm:bg-gradient-to-t sm:from-gray-50 sticky top-0">
         <h4 className="mr-10 pt-1 font-black">
           {" "}
-          Puntos: <span className="text-yellow-500">{puntos}</span>
+          Puntos:{" "}
+          <span className="text-yellow-500">{puntos.toLocaleString()}</span>
         </h4>
         <div className="flex flex-wrap my-1 justify-center" name="divVidas">
           <h4 className="mr-3 font-black"> Vidas: </h4>
@@ -126,13 +139,14 @@ function Sumar() {
     return (
       <div className="flex justify-center items-center m-10 sm:m-5 sm:flex-col">
         <div className="">
-          <img src={IMGS[data.suma[aux].img]} alt="" />
+          <img src={imgOp} alt="" />
         </div>
         <h1 className="font-black"> = </h1>
         <div className="flex card p-10 bg-red-400 shadow-2xl">
           <Tablero
             id="board"
             className="board w-20 h-20 sm:w-10 sm:h-10"
+            count={count}
             state={[aux, setAux]}
           ></Tablero>
         </div>
@@ -157,10 +171,11 @@ function Sumar() {
   const finDelJuego = () => {
     return (
       <div className="flex justify-center">
-        <div className="m-10 max-w-screen-md items-center">
+        <div className="m-10 items-center">
           <h3 className="mr-10 pt-4 font-black text-center mb-10">
             {" "}
-            Puntaje: <span className="text-yellow-500">{puntos}</span>
+            Puntaje:{" "}
+            <span className="text-yellow-500">{puntos.toLocaleString()}</span>
           </h3>
           <img src={IMGS["fin"]}></img>
         </div>
@@ -170,27 +185,41 @@ function Sumar() {
 
   return (
     <Container>
-      <div className="w-screen h-screen">
-        {status !== "success" ? (
-          <div>{loader()}</div>
-        ) : data?.suma?.length > aux ? (
-          <div className="flex flex-col gap-5">
-            <div className="flex justify-center">
-              <img src={IMGS["titulo"]} alt="" />
-            </div>
-            {barraPuntaje()}
-            <div className="w-full text-center mb-10 flex flex-col">
-              {/** Tablero de pregunta */}
-              {tableroPregunta()}
+      {count === 1 || count === 2 ? (
+        <div className="w-screen h-screen">
+          {status !== "success" ? (
+            <div>{loader()}</div>
+          ) : lenghtOp > aux ? (
+            <div className="flex flex-col gap-5">
+              {barraPuntaje()}
+              <div className="w-full text-center mb-10 flex flex-col">
+                {/** Tablero de pregunta */}
+                {tableroPregunta()}
 
-              {/** Tablero de respuesta */}
-              {tableroRespuesta()}
+                {/** Tablero de respuesta */}
+                {tableroRespuesta()}
+              </div>
             </div>
-          </div>
-        ) : (
-          <div>{finDelJuego()}</div>
-        )}
-      </div>
+          ) : (
+            <div>{finDelJuego()}</div>
+          )}
+        </div>
+      ) : (
+        <div className="flex gap-10 m-10 flex-wrap justify-center">
+          <button
+            className="p-3 shadow-2xl shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+            onClick={() => setCount(1)}
+          >
+            <img src={IMGS["sumas"]} alt="juego sumas" />
+          </button>
+          <button
+            className="p-3 shadow-2xl shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+            onClick={() => setCount(2)}
+          >
+            <img src={IMGS["restas"]} alt="juego restas" />
+          </button>
+        </div>
+      )}
     </Container>
   );
 }

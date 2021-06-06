@@ -77,14 +77,14 @@ const Contar = () => {
     vidasRestantes--;
     if (vidasRestantes === 0) {
       swal({
-        title: "Oh no... :(",
+        title: "¡Oh no...!",
         text: "Has perdido todas tus vidas\n¿Te gustaria intentarlo de nuevo?",
         icon: "error",
         buttons: ["No", "Si"],
       }).then((respuesta) => {
         if (respuesta) {
           swal({
-            title: "Aquí vamos de nuevo :)",
+            title: "Aquí vamos de nuevo",
             timer: "3000",
           });
           window.location.reload();
@@ -98,7 +98,7 @@ const Contar = () => {
       });
     } else {
       swal({
-        content: <div>Ups! Intenta de nuevo</div>,
+        content: <div>¡Ups! Intenta de nuevo</div>,
         icon: "warning",
         value: false,
       });

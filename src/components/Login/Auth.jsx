@@ -15,7 +15,7 @@ export default (props) => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const firebase = useFirebaseApp();
-    const handleNav = () => navigate("/");
+    const handleNav = () => navigate("/Home");
     const puntosRef = useDatabase();
 
 

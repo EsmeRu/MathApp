@@ -4,7 +4,6 @@ import Container from "../../Container";
 import Tablero from "./TableroOperacion";
 import "./operaciones.css";
 import "firebase/database";
-import swal from "@sweetalert/with-react";
 import { useFirestoreDocData, useFirestore, useDatabase } from "reactfire";
 import { navigate } from "hookrouter";
 
@@ -42,6 +41,7 @@ function Sumar() {
   const [buttons, setButtons] = useState([]);
   const dataBaseKey = localStorage.getItem("key");
   const [puntos, setPuntos] = useState(0);
+  const [juego, setJuego] = useState(0);
 
   var userEmail = localStorage.getItem("Email").split("@").toString();
   userEmail = userEmail.split(".").toString();
@@ -59,40 +59,6 @@ function Sumar() {
       }
     });
   };
-
-  /*const perderVida = () => {
-    const vidaPerida = document.getElementById("vida" + vidasRestantes);
-    vidaPerida.parentElement.removeChild(vidaPerida);
-    vidasRestantes--;
-    if (vidasRestantes === 0) {
-      swal({
-        title: "Oh no... :(",
-        text: "Has perdido todas tus vidas\n¿Te gustaria intentarlo de nuevo?",
-        icon: "error",
-        buttons: ["No", "Si"]
-      }).then(respuesta => {
-        if (respuesta) {
-          swal({
-            title: "Aquí vamos de nuevo :)",
-            timer: "3000"
-          })
-          window.location.reload();
-        } else {
-          swal({
-            title: "Has regresado a la pantalla de inicio",
-            timer: "2000"
-          })
-          handleNav();
-        }
-      })
-    } else {
-      swal({
-        content: <div>Ups! Intenta de nuevo</div>,
-        icon: "warning",
-        value: false,
-      });
-    }
-  }*/
 
   useEffect(() => {
     if (status === "success") {
@@ -122,86 +88,107 @@ function Sumar() {
     "flex justify-center items-center mov:w-40 mov:h-40 sm:p-7 sm:text-4xl bg-red-400 text-white text-6xl rounded-md transition duration-500 ease-in-out hover:bg-red-500 transform hover:-translate-y-1 hover:scale-110",
   ];
 
+  /** Componentes secundarios */
+  const loader = () => {
+    return (
+      <div className="flex flex-col items-center">
+        Espera un momento
+        <div className="loader"></div>
+      </div>
+    );
+  };
+  const barraPuntaje = () => {
+    return (
+      <div className="puntuacion text-center flex my-3 justify-center px-7 sm:bg-gradient-to-t sm:from-gray-50 sticky top-0">
+        <h4 className="mr-10 pt-1 font-black">
+          {" "}
+          Puntos: <span className="text-yellow-500">{puntos}</span>
+        </h4>
+        <div className="flex flex-wrap my-1 justify-center" name="divVidas">
+          <h4 className="mr-3 font-black"> Vidas: </h4>
+          <div className="flex justify-center gap-2">
+            <a className="mov:h-12 mov:w-12 mov:mr-5" id="vida1">
+              <img src={IMGS["vidas"]} className="icon sm:w-8 sm:h-8" />
+            </a>
+            <a className="mov:h-12 mov:w-12 mov:mr-5" id="vida2">
+              <img src={IMGS["vidas"]} className="icon sm:w-8 sm:h-8" />
+            </a>
+            <a className="mov:h-12 mov:w-12" id="vida3">
+              <img src={IMGS["vidas"]} className="icon sm:w-8 sm:h-8" />
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const tableroPregunta = () => {
+    return (
+      <div className="flex justify-center items-center m-10 sm:m-5 sm:flex-col">
+        <div className="">
+          <img src={IMGS[data.suma[aux].img]} alt="" />
+        </div>
+        <h1 className="font-black"> = </h1>
+        <div className="flex card p-10 bg-red-400 shadow-2xl">
+          <Tablero
+            id="board"
+            className="board w-20 h-20 sm:w-10 sm:h-10"
+            state={[aux, setAux]}
+          ></Tablero>
+        </div>
+      </div>
+    );
+  };
+
+  const tableroRespuesta = () => {
+    return (
+      <div className="flex justify-center">
+        <Tablero id="board-1" className=" board">
+          {buttons.map((v, index) => (
+            <Card id={v} className={estilo[1]} draggable="true" key={index}>
+              {v}
+            </Card>
+          ))}
+        </Tablero>
+      </div>
+    );
+  };
+
+  const finDelJuego = () => {
+    return (
+      <div className="flex justify-center">
+        <div className="m-10 max-w-screen-md items-center">
+          <h3 className="mr-10 pt-4 font-black text-center mb-10">
+            {" "}
+            Puntaje: <span className="text-yellow-500">{puntos}</span>
+          </h3>
+          <img src={IMGS["fin"]}></img>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <Container>
       <div className="w-screen h-screen">
         {status !== "success" ? (
-          <div className="flex flex-col items-center">
-            Espera un momento
-            <div className="loader"></div>
-          </div>
+          <div>{loader()}</div>
         ) : data?.suma?.length > aux ? (
           <div className="flex flex-col gap-5">
             <div className="flex justify-center">
               <img src={IMGS["titulo"]} alt="" />
             </div>
-
-            <div className="puntuacion text-center flex my-3 justify-center px-7 sm:bg-gradient-to-t sm:from-gray-50 sticky top-0">
-              <h4 className="mr-10 pt-1 font-black">
-                {" "}
-                Puntos: <span className="text-yellow-500">{puntos}</span>
-              </h4>
-              <div
-                className="flex flex-wrap my-1 justify-center"
-                name="divVidas"
-              >
-                <h4 className="mr-3 font-black"> Vidas: </h4>
-                <div className="flex justify-center gap-2">
-                  <a className="mov:h-12 mov:w-12 mov:mr-5" id="vida1">
-                    <img src={IMGS["vidas"]} className="icon sm:w-8 sm:h-8" />
-                  </a>
-                  <a className="mov:h-12 mov:w-12 mov:mr-5" id="vida2">
-                    <img src={IMGS["vidas"]} className="icon sm:w-8 sm:h-8" />
-                  </a>
-                  <a className="mov:h-12 mov:w-12" id="vida3">
-                    <img src={IMGS["vidas"]} className="icon sm:w-8 sm:h-8" />
-                  </a>
-                </div>
-              </div>
-            </div>
+            {barraPuntaje()}
             <div className="w-full text-center mb-10 flex flex-col">
-              <div className="flex justify-center items-center m-10 sm:m-5 sm:flex-col">
-                <div className="">
-                  <img src={IMGS[data.suma[aux].img]} alt="" />
-                </div>
-                <h1 className="font-black"> = </h1>
-                <div className="flex card p-10 bg-red-400 shadow-2xl">
-                  <Tablero
-                    id="board"
-                    className="board w-20 h-20 sm:w-10 sm:h-10"
-                    state={[aux, setAux]}
-                  ></Tablero>
-                </div>
-              </div>
+              {/** Tablero de pregunta */}
+              {tableroPregunta()}
 
-              <div className="flex justify-center">
-                <Tablero id="board-1" className=" board">
-                  {buttons.map((v, index) => (
-                    <Card
-                      id={v}
-                      className={estilo[1]}
-                      draggable="true"
-                      key={index}
-                    >
-                      {v}
-                    </Card>
-                  ))}
-                </Tablero>
-              </div>
+              {/** Tablero de respuesta */}
+              {tableroRespuesta()}
             </div>
           </div>
         ) : (
-          <div>
-            <div className="flex justify-center">
-              <div className="m-10 max-w-screen-md items-center">
-                <h3 className="mr-10 pt-4 font-black text-center mb-10">
-                  {" "}
-                  Puntaje: <span className="text-yellow-500">{puntos}</span>
-                </h3>
-                <img src={IMGS["fin"]}></img>
-              </div>
-            </div>
-          </div>
+          <div>{finDelJuego()}</div>
         )}
       </div>
     </Container>

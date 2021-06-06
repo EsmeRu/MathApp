@@ -40,7 +40,7 @@ const Menu = ({ fixed }) => {
               >
                 <ul id="navegacion" className={estilos["navegacion"]}>
                   <li className="">
-                    <a href="/" className={estilos["a"]}>
+                    <a href="/Home" className={estilos["a"]}>
                       <img src={ICONOS["inicio"]} className={estilos["img"]} />
                       <span className={estilos["span"]}>Inicio</span>
                     </a>

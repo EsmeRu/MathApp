@@ -23,6 +23,7 @@ export default (props) => {
         }).then(respuesta => {
             if (respuesta) {
                 firebase.auth().signOut()
+                window.location.reload();
             }
         })
     }
@@ -41,7 +42,7 @@ export default (props) => {
     } else {
         return (
             <a
-                href="/login"
+                href="/"
                 className={props.estilos["a"]}
             >
                 <img src={sesion} className={props.estilos["img"]}/>

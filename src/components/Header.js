@@ -1,5 +1,4 @@
 import React from "react";
-import { useFirebaseApp } from "reactfire";
 import AuthLogUser from "./AuthLogUser";
 import Menu from "./Menu";
 
@@ -25,7 +24,7 @@ const Header = () => {
       </div>
       <nav className="w-screen my-4 mb-5 mx-10 sm:hidden">
         <div id="navegacion" className={estilos["navegacion"]}>
-          <a href="/" className={estilos["a"]}>
+          <a href="/Home" className={estilos["a"]}>
             <img src={ICONOS["inicio"]} />
             <span className={estilos["span"]}>Inicio</span>
           </a>

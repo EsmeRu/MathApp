@@ -19,17 +19,16 @@ const Tablero = ({ children, id, className, state = [] }) => {
   userEmail = userEmail.split("-").toString();
   userEmail = userEmail.split("_").toString();
 
-  const puntosRef = useDatabase().ref(dataBaseKey).child('puntosSumar');
-
+  const puntosRef = useDatabase().ref(dataBaseKey).child("puntosSumar");
 
   const handleNav = () => navigate("/");
 
   const obtenerPuntos = () => {
-    puntosRef.on('value', puntaje => {
+    puntosRef.on("value", (puntaje) => {
       if (puntaje != null) {
-        setPuntos(puntaje.val())
+        setPuntos(puntaje.val());
       }
-    })
+    });
   };
 
   const sumarPuntos = () => {
@@ -38,40 +37,39 @@ const Tablero = ({ children, id, className, state = [] }) => {
     puntosRef.set(nuevosPuntos);
   };
 
-
   const perderVida = () => {
     const vidaPerida = document.getElementById("vida" + vidasRestantes);
     vidaPerida.parentElement.removeChild(vidaPerida);
     vidasRestantes--;
     if (vidasRestantes === 0) {
       swal({
-        title: "Oh no... :(",
+        title: "¡Oh no...!",
         text: "Has perdido todas tus vidas\n¿Te gustaria intentarlo de nuevo?",
         icon: "error",
-        buttons: ["No", "Si"]
-      }).then(respuesta => {
+        buttons: ["No", "Si"],
+      }).then((respuesta) => {
         if (respuesta) {
           swal({
-            title: "Aquí vamos de nuevo :)",
-            timer: "3000"
-          })
+            title: "Aquí vamos de nuevo",
+            timer: "3000",
+          });
           window.location.reload();
         } else {
           swal({
             title: "Has regresado a la pantalla de inicio",
-            timer: "2000"
-          })
+            timer: "2000",
+          });
           handleNav();
         }
-      })
+      });
     } else {
       swal({
-        content: <div>Ups! Intenta de nuevo</div>,
+        content: <div>¡Ups! Intenta de nuevo</div>,
         icon: "warning",
         value: false,
       });
     }
-  }
+  };
 
   const drop = (e) => {
     e.preventDefault();
@@ -103,7 +101,7 @@ const Tablero = ({ children, id, className, state = [] }) => {
 
   useEffect(() => {
     obtenerPuntos();
-  })
+  });
 
   return (
     <div className={className} id={id} onDrop={drop} onDragOver={dragOver}>

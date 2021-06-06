@@ -68,7 +68,6 @@ function Objetos() {
   const [puntos, setPuntos] = useState(0);
   const [puntosLocales, setPuntosLocales] = useState(0);
 
-
   var userEmail = localStorage.getItem("Email").split("@").toString();
   userEmail = userEmail.split(".").toString();
   userEmail = userEmail.split("-").toString();
@@ -97,7 +96,7 @@ function Objetos() {
     vidasRestantes--;
     if (vidasRestantes === 0) {
       swal({
-        title: "Oh no... :(",
+        title: "¡Oh no...!",
         text: "Has perdido todas tus vidas\n¿Te gustaria intentarlo de nuevo?",
         icon: "error",
         buttons: ["No", "Si"],
@@ -118,7 +117,7 @@ function Objetos() {
       });
     } else {
       swal({
-        content: <div>Ups! Intenta de nuevo</div>,
+        content: <div>¡Ups! Intenta de nuevo</div>,
         icon: "warning",
         value: false,
       });

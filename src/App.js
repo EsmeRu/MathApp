@@ -10,11 +10,9 @@ import Juegos from "./components/Juegos/Juegos.js";
 import { useRoutes } from "hookrouter";
 import "./App.css";
 
-import { useFirebaseApp } from 'reactfire'; //Import para usar firebase
-
 export const routes = {
-  "/": () => <Home />,
-  "/login": () => <Login />,
+  "/": () => <Login />,
+  "/Home": () => <Home />,
   "/juego-contar": () => <JuegoContar />,
   "/juego-sumar": () => <JuegoSumar />,
   "/juego-objetos": () => <JuegObjetos />,

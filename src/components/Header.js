@@ -17,7 +17,7 @@ const Header = () => {
   return (
     <header className="flex flex-col justify-center items-center bg-gradient-to-b from-blue-800">
       <div className="mt-4">
-        <img src={ICONOS["logo"]} className="w-64" />
+        <img src={ICONOS["logo"]} alt="Logo-MathApp" className="w-64" />
         <div className="mov:hidden">
           <Menu></Menu>
         </div>
@@ -25,11 +25,11 @@ const Header = () => {
       <nav className="w-screen my-4 mb-5 mx-10 sm:hidden">
         <div id="navegacion" className={estilos["navegacion"]}>
           <a href="/Home" className={estilos["a"]}>
-            <img src={ICONOS["inicio"]} />
+            <img src={ICONOS["inicio"]} alt="Icono-inicio" />
             <span className={estilos["span"]}>Inicio</span>
           </a>
           <a href="/juegos" className={estilos["a"]}>
-            <img src={ICONOS["juego"]} />
+            <img src={ICONOS["juego"]} alt="Icono-juegos" />
             <span className={estilos["span"]}>Juegos</span>
           </a>
           <AuthLogUser estilos={estilos} />

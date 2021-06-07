@@ -129,7 +129,7 @@ function Objetos() {
       setPuntosLocales(0);
     }
     obtenerPuntos();
-  });
+  }, [puntosLocales, obtenerPuntos]);
 
   const contarFuncion = (index) => {
     if (data.presionar[aux].respuestas[index].correcto) {
@@ -168,22 +168,38 @@ function Objetos() {
                 >
                   <h4 className="mr-3 font-black"> Vidas: </h4>
                   <div className="flex justify-center gap-2">
-                    <a className="mov:h-12 mov:w-12 mov:mr-5" id="vida1">
-                      <img src={IMGS["vidas"]} className="icon sm:w-8 sm:h-8" />
-                    </a>
-                    <a className="mov:h-12 mov:w-12 mov:mr-5" id="vida2">
-                      <img src={IMGS["vidas"]} className="icon sm:w-8 sm:h-8" />
-                    </a>
-                    <a className="mov:h-12 mov:w-12" id="vida3">
-                      <img src={IMGS["vidas"]} className="icon sm:w-8 sm:h-8" />
-                    </a>
+                    <span className="mov:h-12 mov:w-12 mov:mr-5" id="vida1">
+                      <img
+                        src={IMGS["vidas"]}
+                        alt="img-corazón-vida"
+                        className="icon sm:w-8 sm:h-8"
+                      />
+                    </span>
+                    <span className="mov:h-12 mov:w-12 mov:mr-5" id="vida2">
+                      <img
+                        src={IMGS["vidas"]}
+                        alt="img-corazón-vida"
+                        className="icon sm:w-8 sm:h-8"
+                      />
+                    </span>
+                    <span className="mov:h-12 mov:w-12" id="vida3">
+                      <img
+                        src={IMGS["vidas"]}
+                        alt="img-corazón-vida"
+                        className="icon sm:w-8 sm:h-8"
+                      />
+                    </span>
                   </div>
                 </div>
               </div>
               <div className="recolectar w-full text-center mb-10">
                 <h2>{data.presionar[aux].pregunta}</h2>
                 <div className="pregunta flex justify-center mb-8">
-                  <img src={IMGS[data.presionar[aux].img]} className="w-vh" />
+                  <img
+                    src={IMGS[data.presionar[aux].img]}
+                    alt="img-pregunta"
+                    className="w-vh"
+                  />
                 </div>
                 <div className="flex justify-center gap-4">
                   {data.presionar[aux].respuestas.map((r, index) => (
@@ -192,7 +208,11 @@ function Objetos() {
                       onClick={() => contarFuncion(index)}
                       key={index}
                     >
-                      <img src={IMGS[r.img]} className="w-40" />
+                      <img
+                        src={IMGS[r.img]}
+                        alt="img-respuesta"
+                        className="w-40"
+                      />
                     </div>
                   ))}
                 </div>
@@ -202,7 +222,7 @@ function Objetos() {
             <div>
               <div className="flex justify-center">
                 <div className="m-10 max-w-screen-md items-center">
-                  <img src={IMGS["fin"]}></img>
+                  <img src={IMGS["fin"]} alt="img-fin-juego" />
                   <h3 className="mr-10 pt-4 font-black text-center">
                     {" "}
                     Puntaje:{" "}

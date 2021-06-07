@@ -32,7 +32,7 @@ const TableroMemoria = ({
       ) : (
         <div className="flex justify-center">
           <div className="m-10 max-w-screen-md items-center">
-            <img src={IMGS["fin"]}></img>
+            <img src={IMGS["fin"]} alt="img-fin-juego" />
           </div>
         </div>
       )}

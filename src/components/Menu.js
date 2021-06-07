@@ -41,13 +41,21 @@ const Menu = ({ fixed }) => {
                 <ul id="navegacion" className={estilos["navegacion"]}>
                   <li className="">
                     <a href="/Home" className={estilos["a"]}>
-                      <img src={ICONOS["inicio"]} className={estilos["img"]} />
+                      <img
+                        src={ICONOS["inicio"]}
+                        alt="icono-casa"
+                        className={estilos["img"]}
+                      />
                       <span className={estilos["span"]}>Inicio</span>
                     </a>
                   </li>
                   <li className="">
                     <a href="/juegos" className={estilos["a"]}>
-                      <img src={ICONOS["juego"]} className={estilos["img"]} />
+                      <img
+                        src={ICONOS["juego"]}
+                        alt="icono-estrella"
+                        className={estilos["img"]}
+                      />
                       <span className={estilos["span"]}>Juegos</span>
                     </a>
                   </li>

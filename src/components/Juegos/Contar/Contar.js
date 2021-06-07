@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "../../Container";
 import "./juegoContar.css";
 import swal from "@sweetalert/with-react";
@@ -106,7 +106,7 @@ const Contar = () => {
   };
 
   const contarFuncion = (value) => {
-    if (value === data?.preguntas[aux]?.respuesta || aux === 3 || aux == 20) {
+    if (value === data?.preguntas[aux]?.respuesta || aux === 3 || aux === 20) {
       swal({
         content: <div>Respuesta Correcta</div>,
         icon: "success",
@@ -119,6 +119,14 @@ const Contar = () => {
       perderVida();
     }
   };
+  useEffect(() => {
+    if (status === "success") {
+      obtenerPuntos();
+      if (puntosLocales === null) {
+        setPuntosLocales(0);
+      }
+    }
+  }, [obtenerPuntos, puntosLocales]);
 
   useEffect(() => {
     if (status === "success") {
@@ -179,15 +187,27 @@ const Contar = () => {
               >
                 <h4 className="mr-3 font-black"> Vidas: </h4>
                 <div className="flex justify-center gap-2">
-                  <a className="mov:h-12 mov:w-12 mov:mr-5" id="vida1">
-                    <img src={IMGS["vidas"]} className="icon sm:w-8 sm:h-8" />
-                  </a>
-                  <a className="mov:h-12 mov:w-12 mov:mr-5" id="vida2">
-                    <img src={IMGS["vidas"]} className="icon sm:w-8 sm:h-8" />
-                  </a>
-                  <a className="mov:h-12 mov:w-12" id="vida3">
-                    <img src={IMGS["vidas"]} className="icon sm:w-8 sm:h-8" />
-                  </a>
+                  <span className="mov:h-12 mov:w-12 mov:mr-5" id="vida1">
+                    <img
+                      src={IMGS["vidas"]}
+                      alt="img-corazón-vida"
+                      className="icon sm:w-8 sm:h-8"
+                    />
+                  </span>
+                  <span className="mov:h-12 mov:w-12 mov:mr-5" id="vida2">
+                    <img
+                      src={IMGS["vidas"]}
+                      alt="img-corazón-vida"
+                      className="icon sm:w-8 sm:h-8"
+                    />
+                  </span>
+                  <span className="mov:h-12 mov:w-12" id="vida3">
+                    <img
+                      src={IMGS["vidas"]}
+                      alt="img-corazón-vida"
+                      className="icon sm:w-8 sm:h-8"
+                    />
+                  </span>
                 </div>
               </div>
             </div>
@@ -212,6 +232,7 @@ const Contar = () => {
                   <div className="w-vh-2 items-center mov:mx-10">
                     <img
                       src={IMGS[data?.preguntas[aux]?.img]}
+                      alt="img-pregunta"
                       className="w-vh-2"
                     />
                   </div>
@@ -244,7 +265,7 @@ const Contar = () => {
                   Puntaje:{" "}
                   <span className="text-yellow-500">{puntosLocales}</span>
                 </h3>
-                <img src={IMGS["fin"]}></img>
+                <img src={IMGS["fin"]} alt="img-fin-juego" />
               </div>
             </div>
           </div>

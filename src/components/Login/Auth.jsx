@@ -12,7 +12,7 @@ const logo = {
     logo: "/assets/img/logo.png"
 }
 
-export default (props) => {
+const Auth = (props) => {
     const keysRef = useFirestore();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -283,3 +283,5 @@ export default (props) => {
         </div>
     )
 }
+
+  export default Auth;

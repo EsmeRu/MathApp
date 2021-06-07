@@ -53,12 +53,14 @@ const Memoria = () => {
     setPuntosLocales(puntosLocales + 50);
     puntosRef.set(nuevosPuntos);
   };
-
   useEffect(() => {
     if (puntosLocales === null) {
       setPuntosLocales(0);
     }
     obtenerPuntos();
+  }, [obtenerPuntos, puntosLocales]);
+
+  useEffect(() => {
     const shuffledEmojiList = shuffleArray([...emojiList, ...emojiList]);
     setShuffleMemoBlocks(
       shuffledEmojiList.map((emoji, i) => ({ index: i, emoji, flipped: false }))

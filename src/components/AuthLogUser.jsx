@@ -5,7 +5,8 @@ import sesion from "../assets/img/i-corazon.png";
 import swal from 'sweetalert';
 import { navigate } from "hookrouter";
 
-export default (props) => {
+
+const AuthLogUser = (props) => {
     const goToLogin = () => navigate("/");
     const { data: user } = useUser();
     const firebase = useFirebaseApp();
@@ -33,7 +34,7 @@ export default (props) => {
                 className={props.estilos["a"]}
                 onClick={logout}
             >
-                <img src={sesion} className={props.estilos["img"]} />
+                <img src={sesion} className={props.estilos["img"]} alt="Icono-Cerrar-Sesión" />
                 <span className={props.estilos["span"]}>Cerrar sesión</span>
             </a>
         )
@@ -43,10 +44,12 @@ export default (props) => {
                 href="/"
                 className={props.estilos["a"]}
             >
-                <img src={sesion} className={props.estilos["img"]} />
+                <img src={sesion} className={props.estilos["img"]} alt="Icono-iniciar-Sesión" />
                 <span className={props.estilos["span"]}>Iniciar Sesión</span>
             </a>
         )
 
     }
 }
+
+export default AuthLogUser;

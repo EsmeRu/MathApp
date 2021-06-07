@@ -5,7 +5,6 @@ import Tablero from "./TableroOperacion";
 import "./operaciones.css";
 import "firebase/database";
 import { useFirestoreDocData, useFirestore, useDatabase } from "reactfire";
-import { navigate } from "hookrouter";
 
 const IMGS = {
   titulo: "/assets/img/operaciones/sumas-restas.png",
@@ -118,15 +117,27 @@ function Sumar() {
         <div className="flex flex-wrap my-1 justify-center" name="divVidas">
           <h4 className="mr-3 font-black"> Vidas: </h4>
           <div className="flex justify-center gap-2">
-            <a className="mov:h-12 mov:w-12 mov:mr-5" id="vida1">
-              <img src={IMGS["vidas"]} className="icon sm:w-8 sm:h-8" />
-            </a>
-            <a className="mov:h-12 mov:w-12 mov:mr-5" id="vida2">
-              <img src={IMGS["vidas"]} className="icon sm:w-8 sm:h-8" />
-            </a>
-            <a className="mov:h-12 mov:w-12" id="vida3">
-              <img src={IMGS["vidas"]} className="icon sm:w-8 sm:h-8" />
-            </a>
+            <span className="mov:h-12 mov:w-12 mov:mr-5" id="vida1">
+              <img
+                src={IMGS["vidas"]}
+                alt="img-corazón-vida"
+                className="icon sm:w-8 sm:h-8"
+              />
+            </span>
+            <span className="mov:h-12 mov:w-12 mov:mr-5" id="vida2">
+              <img
+                src={IMGS["vidas"]}
+                alt="img-corazón-vida"
+                className="icon sm:w-8 sm:h-8"
+              />
+            </span>
+            <span className="mov:h-12 mov:w-12" id="vida3">
+              <img
+                src={IMGS["vidas"]}
+                alt="img-corazón-vida"
+                className="icon sm:w-8 sm:h-8"
+              />
+            </span>
           </div>
         </div>
       </div>
@@ -175,7 +186,7 @@ function Sumar() {
             Puntaje:{" "}
             <span className="text-yellow-500">{puntos.toLocaleString()}</span>
           </h3>
-          <img src={IMGS["fin"]}></img>
+          <img src={IMGS["fin"]} alt="img-fin-juego" />
         </div>
       </div>
     );

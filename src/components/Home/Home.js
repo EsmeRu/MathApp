@@ -27,21 +27,21 @@ const Home = () => {
             onClick={handleGameOne}
           >
             <h2 className={estilosHome[0]}>Contar</h2>
-            <img src={IMGS["contar"]} />
+            <img src={IMGS["contar"]} alt="img-juego-contar" />
           </div>
           <div
             className={`bg-blue-300 ${estilosHome[1]} hover:bg-blue-500`}
             onClick={handleGameTwo}
           >
             <h2 className={estilosHome[0]}>Sumar</h2>
-            <img src={IMGS["sumar"]} />
+            <img src={IMGS["sumar"]} alt="img-juego-sumar" />
           </div>
           <div
             className={`bg-green-300 ${estilosHome[1]} hover:bg-green-500`}
             onClick={handleGameThree}
           >
             <h2 className={estilosHome[0]}>Identificar Objetos</h2>
-            <img src={IMGS["objetos"]} />
+            <img src={IMGS["objetos"]} alt="img-juego-objetos" />
           </div>
         </div>
       </Container>

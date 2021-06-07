@@ -54,8 +54,6 @@ function Sumar() {
 
   const puntosRef = useDatabase().ref(dataBaseKey).child("puntosSumar");
 
-  const handleNav = () => navigate("/");
-
   const obtenerPuntos = () => {
     puntosRef.on("value", (puntaje) => {
       if (puntaje != null) {

@@ -3,14 +3,12 @@ import 'firebase/auth';
 import { useFirebaseApp, useUser } from 'reactfire';
 import sesion from "../assets/img/i-corazon.png";
 import swal from 'sweetalert';
+import { navigate } from "hookrouter";
 
 export default (props) => {
+    const goToLogin = () => navigate("/");
     const { data: user } = useUser();
     const firebase = useFirebaseApp();
-
-    const closeAuth = async () => {
-
-    }
 
     const logout = async (event) => {
         event.preventDefault();
@@ -23,7 +21,7 @@ export default (props) => {
         }).then(respuesta => {
             if (respuesta) {
                 firebase.auth().signOut()
-                window.location.reload();
+                goToLogin();
             }
         })
     }
@@ -35,7 +33,7 @@ export default (props) => {
                 className={props.estilos["a"]}
                 onClick={logout}
             >
-                <img src={sesion} className={props.estilos["img"]}/>
+                <img src={sesion} className={props.estilos["img"]} />
                 <span className={props.estilos["span"]}>Cerrar sesión</span>
             </a>
         )
@@ -45,7 +43,7 @@ export default (props) => {
                 href="/"
                 className={props.estilos["a"]}
             >
-                <img src={sesion} className={props.estilos["img"]}/>
+                <img src={sesion} className={props.estilos["img"]} />
                 <span className={props.estilos["span"]}>Iniciar Sesión</span>
             </a>
         )

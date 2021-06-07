@@ -21,7 +21,7 @@ const Tablero = ({ children, id, className, count, state = [] }) => {
 
   const puntosRef = useDatabase().ref(dataBaseKey).child("puntosSumar");
 
-  const handleNav = () => navigate("/");
+  const handleNav = () => navigate("/Home");
 
   const obtenerPuntos = () => {
     puntosRef.on("value", (puntaje) => {

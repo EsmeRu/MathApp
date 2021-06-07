@@ -62,7 +62,7 @@ function Objetos() {
   const { status, data } = useFirestoreDocData(preguntasRef);
   const [aux, setAux] = useState(0);
   const [count, setCount] = useState(0);
-  const handleNav = () => navigate("/");
+  const handleNav = () => navigate("/Home");
 
   const dataBaseKey = localStorage.getItem("key");
   const [puntos, setPuntos] = useState(0);

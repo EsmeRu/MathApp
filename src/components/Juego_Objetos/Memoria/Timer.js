@@ -9,7 +9,12 @@ export default class Timer extends Component {
     }
 
     handleNav() {
-        navigate("/");
+        navigate("/Home");
+    }
+
+    removeTimer() {
+        const timerHTML = document.getElementById("timer");
+        timerHTML.parentElement.removeChild(timerHTML);
     }
 
     componentDidMount() {

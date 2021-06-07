@@ -116,7 +116,7 @@ const Memoria = () => {
           {" "}
           Puntos: <span className="text-yellow-500">{puntosLocales}</span>
         </h3>
-        <Timer />
+        <Timer id="timer" />
       </div>
       <TableroMemoria
         memoBlocks={shuffledMemoBlocks}

@@ -45,7 +45,7 @@ const Contar = () => {
   const dataBaseKey = localStorage.getItem("key");
   const [puntos, setPuntos] = useState(0);
   const [puntosLocales, setPuntosLocales] = useState(0);
-  const handleNav = () => navigate("/");
+  const handleNav = () => navigate("/Home");
 
   var userEmail = localStorage.getItem("Email")?.split("@").toString();
   userEmail = userEmail?.split(".").toString();

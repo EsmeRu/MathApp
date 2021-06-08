@@ -28,10 +28,10 @@ const IMGS = {
   catorce: "/assets/img/contar/gatos-16.png",
   quince: "/assets/img/contar/contar-manos-estrella.png",
   dieciseis: "/assets/img/contar/contar-manos-estrella.png",
-  diecisiete: "/assets/img/",
+  diecisiete: "/assets/img/contar/17.png",
   dieciocho: "/assets/img/animales/animales-18.png",
   diecinueve: "/assets/img/contar/contar-patos19.png",
-  veinte: "/assets/img/punteado20.png",
+  veinte: "/assets/img/20.png",
   fin: "/assets/img/fin-juego-sfondo.png",
   vidas: "/assets/img/lifes-icons.png",
 };
@@ -218,10 +218,10 @@ const Contar = () => {
             </div>
             <div className="img w-full flex justify-center my-7 h-60">
               {aux === 3 ? (
-                <div className="flex flex-col">
+                <div className="flex flex-col items-center">
                   <Sketch className="dibujo" setup={setup} draw={draw} />
                   <button
-                    className="card p-8 bg-green-600 shadow-2xl shadow-2xl transition duration-500 ease-in-out hover:bg-green-500 transform hover:-translate-y-1 hover:scale-110"
+                    className="card w-4/12 p-8 bg-green-600 shadow-2xl shadow-2xl transition duration-500 ease-in-out hover:bg-green-500 transform hover:-translate-y-1 hover:scale-110"
                     onClick={contarFuncion}
                   >
                     Revisar

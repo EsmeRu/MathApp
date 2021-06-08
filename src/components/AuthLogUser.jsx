@@ -13,8 +13,6 @@ const AuthLogUser = (props) => {
 
     const logout = async (event) => {
         event.preventDefault();
-        localStorage.removeItem("Email");
-        localStorage.removeItem("key");
         await swal({
             title: "¿Seguro que desea salir?",
             icon: "info",
@@ -23,6 +21,8 @@ const AuthLogUser = (props) => {
             if (respuesta) {
                 firebase.auth().signOut()
                 goToLogin();
+                localStorage.removeItem("Email");
+                localStorage.removeItem("key");
             }
         })
     }

@@ -142,7 +142,7 @@ const Contar = () => {
       Array.from(Array(2), (_, index) => {
         do {
           res = Math.floor(Math.random() * (20 - 1)) + 1;
-          if (res !== auxRes) {
+          if (res !== auxRes && res !== btn[0]) {
             btn.push(res);
             auxRes = res;
             res = 0;

@@ -203,7 +203,7 @@ const Auth = (props) => {
             <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 bgLogin hide" id="SigninDiv">
                 <div className="max-w-md w-full space-y-8">
                     <div>
-                        <img className="mx-auto w-auto logo" src={logo} alt="Logo-MathApp" />
+                        <img className="mx-auto w-auto logo" src={logo["logo"]} alt="Logo-MathApp" />
                         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
                             Crea tu cuenta
                         </h2>

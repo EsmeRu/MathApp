@@ -53,6 +53,7 @@ const Contar = () => {
   userEmail = userEmail?.split("_").toString();
 
   const puntosRef = useDatabase().ref(dataBaseKey).child("puntosContar");
+  const cantRef = useDatabase().ref(dataBaseKey).child("cantJuegosContar");
 
   const obtenerPuntos = () => {
     puntosRef.on("value", (puntaje) => {
@@ -61,12 +62,13 @@ const Contar = () => {
       }
     });
   };
-
+  
   const sumarPuntos = () => {
     var nuevosPuntos = puntos + 50;
     setPuntos(nuevosPuntos);
     setPuntosLocales(puntosLocales + 50);
     puntosRef.set(nuevosPuntos);
+    cantRef.set(cantRef.get()+1);
   };
 
   const perderVida = () => {
@@ -75,6 +77,7 @@ const Contar = () => {
     console.log(vidaPerida);
     vidaPerida.parentElement.removeChild(vidaPerida);
     vidasRestantes--;
+    cantRef.set(cantRef.get()+1);
     if (vidasRestantes === 0) {
       swal({
         title: "¡Oh no...!",
@@ -166,6 +169,10 @@ const Contar = () => {
     }
   };
 
+  const reload = () => {
+    window.location.reload(true);
+  }
+ 
   return (
     <Container>
       <div className="w-screen h-screen flex flex-col">
@@ -179,7 +186,7 @@ const Contar = () => {
             <div className="puntuacion text-center flex my-3 justify-center px-7 sm:bg-gradient-to-t sm:from-gray-50 sticky top-0">
               <h4 className="mr-10 pt-1 font-black">
                 {" "}
-                Puntos: <span className="text-yellow-500">{puntosLocales}</span>
+                Puntos: <span className="text-yellow-500">{puntos}</span>
               </h4>
               <div
                 className="flex flex-wrap my-1 justify-center"
@@ -266,6 +273,11 @@ const Contar = () => {
                   <span className="text-yellow-500">{puntosLocales}</span>
                 </h3>
                 <img src={IMGS["fin"]} alt="img-fin-juego" />
+                <h2 className="mr-10 pt-4 font-black text-center mb-10">Desea jugar de nuevo?</h2>
+                <div className="flex justify-center">
+                  <button onClick={() => reload()}>Jugar de nuevo</button>
+                  <button onClick={() => navigate("/Home")}>Salir</button>
+                </div>
               </div>
             </div>
           </div>

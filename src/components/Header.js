@@ -17,7 +17,7 @@ const Header = () => {
   return (
     <header className="flex flex-col justify-center items-center bg-gradient-to-b from-blue-800">
       <div className="mt-4">
-        <img src={ICONOS["logo"]} alt="Logo-MathApp" className="w-64" />
+        <a href="/Home"><img src={ICONOS["logo"]} alt="Logo-MathApp" className="w-64" /></a>
         <div className="mov:hidden">
           <Menu></Menu>
         </div>

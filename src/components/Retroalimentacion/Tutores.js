@@ -1,14 +1,88 @@
 // TODO: añadir un nuevo botón que te llevará al nuevo módulo.
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Container from "../Container";
 import PageVisitsCard from "./componentes/PageVisitsCard";
 import StatusCard from "./componentes/StatusCard";
 import TrafficCard from "./componentes/TrafficCard";
-// import { useFirebaseApp } from "reactfire";
+import { useDatabase } from "reactfire";
 
 const Tutores = () => {
-  //   const firebase = useFirebaseApp();
+  const dataBaseKey = localStorage.getItem("key");
+  const cantidadSumarRef = useDatabase().ref(dataBaseKey).child("cantJuegosSumar");
+  const cantidadContarRef = useDatabase().ref(dataBaseKey).child("cantJuegosContar");
+  const cantidadObjetosRef = useDatabase().ref(dataBaseKey).child("cantJuegosObjetos");
+  const cantidadMemoriaRef = useDatabase().ref(dataBaseKey).child("cantJuegosMemoria");
+  const promSumarRef = useDatabase().ref(dataBaseKey).child("promSumar");
+  const promContarRef = useDatabase().ref(dataBaseKey).child("promContar");
+  const promObjetosRef = useDatabase().ref(dataBaseKey).child("promObjetos");
+  const promMemoriaRef = useDatabase().ref(dataBaseKey).child("promMemoria");
+
+  const [cantidadSumar, setCantidadSumar] = useState(0);
+  const [cantidadContar, setCantidadContar] = useState(0);
+  const [cantidadObjetos, setCantidadObjetos] = useState(0);
+  const [cantidadMemoria, setCantidadMemoria] = useState(0);
+  const [promedioSumar, setPromedioSumar] = useState(0);
+  const [promedioContar, setPromedioContar] = useState(0);
+  const [promedioObjetos, setPromedioObjetos] = useState(0);
+  const [promedioMemoria, setPromedioMemoria] = useState(0);
+
+  const obtenerCantidades = () => {
+    cantidadSumarRef.on("value",(cantidadSumar) => {
+      if(cantidadSumar != null){
+        setCantidadSumar(cantidadSumar.val());
+      }
+    });
+
+    cantidadContarRef.on("value",(cantidadContar) => {
+      if(cantidadContar != null){
+        setCantidadContar(cantidadContar.val());
+      }
+    });
+
+    cantidadObjetosRef.on("value",(cantidadObjetos) => {
+      if(cantidadObjetos != null){
+        setCantidadObjetos(cantidadObjetos.val());
+      }
+    });
+
+    cantidadMemoriaRef.on("value",(cantidadMemoria) => {
+      if(cantidadMemoria != null){
+        setCantidadMemoria(cantidadMemoria.val());
+      }
+    });
+  }
+
+  const obtenerPromedios = () => {
+    promContarRef.on("value",(promedioContar) => {
+      if(promedioContar != null) {
+        setPromedioContar(promedioContar.val())
+      }
+    });
+
+    promSumarRef.on("value",(promedioSumar) => {
+      if(promedioSumar != null) {
+        setPromedioSumar(promedioSumar.val())
+      }
+    });
+
+    promMemoriaRef.on("value",(promedioMemoria) => {
+      if(promedioMemoria != null) {
+        setPromedioMemoria(promedioMemoria.val())
+      }
+    });
+
+    promObjetosRef.on("value",(promedioObjetos) => {
+      if(promedioObjetos != null) {
+        setPromedioObjetos(promedioObjetos.val())
+      }
+    });
+  }
+
+  useEffect(() => {
+    obtenerCantidades();
+    obtenerPromedios();
+  });
 
   return (
     <>
@@ -20,8 +94,8 @@ const Tutores = () => {
                 color="pink"
                 icon="pin"
                 title="Contar"
-                amount="40%"
-                percentage="5"
+                amount={promedioContar+" promedio"}
+                percentage={cantidadContar}
                 percentageIcon="extension"
                 percentageColor="red"
                 date="Número de veces jugado"
@@ -29,9 +103,9 @@ const Tutores = () => {
               <StatusCard
                 color="orange"
                 icon="add_task"
-                title="Sumas"
-                amount="56%"
-                percentage="3"
+                title="Sumas y restas"
+                amount={promedioSumar+" promedio"}
+                percentage={cantidadSumar}
                 percentageIcon="extension"
                 percentageColor="red"
                 date="Número de veces jugado"
@@ -39,9 +113,9 @@ const Tutores = () => {
               <StatusCard
                 color="purple"
                 icon="remove_circle_outline"
-                title="Restas"
-                amount="92%"
-                percentage="1"
+                title="Memoria"
+                amount={promedioMemoria+" promedio"}
+                percentage={cantidadMemoria}
                 percentageIcon="extension"
                 percentageColor="red"
                 date="Número de veces jugado"
@@ -50,8 +124,8 @@ const Tutores = () => {
                 color="blue"
                 icon="emoji_objects"
                 title="Identificar Objetos"
-                amount="49,65%"
-                percentage="12"
+                amount={promedioObjetos+" promedio"}
+                percentage={cantidadObjetos}
                 percentageIcon="extension"
                 percentageColor="red"
                 date="Número de veces jugado"

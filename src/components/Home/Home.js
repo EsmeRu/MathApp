@@ -1,10 +1,12 @@
+// TODO: añadir un nuevo botón que te llevará al nuevo módulo.
+
 import React, { useEffect, useState } from "react";
 import { navigate } from "hookrouter";
 import Container from "../Container";
 import { useFirebaseApp } from "reactfire";
 
 const IMGS = {
-  contar: "/assets/img/contar.png",
+  contar: "/assets/img/play.png",
   sumar: "/assets/img/sumar.png",
   objetos: "/assets/img/objetos.png",
 };
@@ -14,12 +16,10 @@ const Home = () => {
   const goToLogin = () => navigate("/");
   const firebase = useFirebaseApp();
 
-  const handleGameOne = () => navigate("juego-contar"),
-    handleGameTwo = () => navigate("juego-sumar"),
-    handleGameThree = () => navigate("juego-objetos"),
+  const handlePlayGame = () => navigate("juego-contar"),
     estilosHome = [
       "text-2xl text-center", //titulo de card
-      "card p-7 shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110", //Color y tamaño de card
+      "mt-20 w-80 rounded-full shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110", //Color y tamaño de card
     ];
 
   useEffect(() => {
@@ -32,27 +32,12 @@ const Home = () => {
         <>{goToLogin()}</>
       ) : (
         <Container>
-          <div className="flex justify-center flex-wrap">
+          <div className="flex justify-center">
             <div
-              className={`bg-red-400 ${estilosHome[1]} hover:bg-red-500`}
-              onClick={handleGameOne}
+              className={`bg-zinc-100 ${estilosHome[1]} hover:bg-zinc-200`}
+              onClick={handlePlayGame}
             >
-              <h2 className={estilosHome[0]}>Contar</h2>
-              <img src={IMGS["contar"]} alt="img-juego-contar" />
-            </div>
-            <div
-              className={`bg-blue-300 ${estilosHome[1]} hover:bg-blue-500`}
-              onClick={handleGameTwo}
-            >
-              <h2 className={estilosHome[0]}>Sumar</h2>
-              <img src={IMGS["sumar"]} alt="img-juego-sumar" />
-            </div>
-            <div
-              className={`bg-green-300 ${estilosHome[1]} hover:bg-green-500`}
-              onClick={handleGameThree}
-            >
-              <h2 className={estilosHome[0]}>Identificar Objetos</h2>
-              <img src={IMGS["objetos"]} alt="img-juego-objetos" />
+              <img src={IMGS["contar"]} alt="Empezar juegos" />
             </div>
           </div>
         </Container>

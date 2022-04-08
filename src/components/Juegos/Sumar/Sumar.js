@@ -5,6 +5,7 @@ import Tablero from "./TableroOperacion";
 import "./operaciones.css";
 import "firebase/database";
 import { useFirestoreDocData, useFirestore, useDatabase } from "reactfire";
+import { navigate } from "hookrouter";
 
 const IMGS = {
   titulo: "/assets/img/operaciones/sumas-restas.png",
@@ -36,13 +37,15 @@ const IMGS = {
 
 function Sumar() {
   const preguntasRef = useFirestore().collection("juegos").doc("operaciones");
+  const handleGameThree = () => navigate("juego-objetos");
+  const handleNav = () => navigate("/Home");
 
   const { status, data } = useFirestoreDocData(preguntasRef);
   const [aux, setAux] = useState(0);
   const [buttons, setButtons] = useState([]);
   const dataBaseKey = localStorage.getItem("key");
   const [puntos, setPuntos] = useState(0);
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
   const [imgOp, setImgOp] = useState("");
   const [lenghtOp, setLenghtOp] = useState(1);
 
@@ -72,6 +75,12 @@ function Sumar() {
         setLenghtOp(data?.suma?.length);
         setImgOp(IMGS[data.suma[aux].img]);
         btn.push(data?.suma[aux]?.respuesta);
+      }
+      //Pasar al siguiente nivel restas
+      else if (count === 1 && lenghtOp === aux) {
+        setCount(2);
+        setLenghtOp(1);
+        setAux(0);
       } else if (count === 2 && lenghtOp > aux) {
         setLenghtOp(data?.resta?.length);
         setImgOp(IMGS[data.resta[aux].img]);
@@ -95,6 +104,10 @@ function Sumar() {
   const estilo = [
     "flex w-60 h-60 bg-red-400 transition duration-500 ease-in-out hover:bg-red-500 transform hover:-translate-y-1 hover:scale-110",
     "flex justify-center items-center mov:w-40 mov:h-40 sm:p-7 sm:text-4xl bg-red-400 text-white text-6xl rounded-md transition duration-500 ease-in-out hover:bg-red-500 transform hover:-translate-y-1 hover:scale-110",
+  ];
+  const estiloBtnNext = [
+    "flex justify-center items-center",
+    "bg-red-400 rounded-full shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:bg-red-500 p-4 m-3",
   ];
 
   /** Componentes secundarios */
@@ -179,7 +192,7 @@ function Sumar() {
 
   const finDelJuego = () => {
     return (
-      <div className="flex justify-center">
+      <div className="flex justify-center flex-col items-center">
         <div className="m-10 items-center">
           <h3 className="mr-10 pt-4 font-black text-center mb-10">
             {" "}
@@ -187,6 +200,17 @@ function Sumar() {
             <span className="text-yellow-500">{puntos.toLocaleString()}</span>
           </h3>
           <img src={IMGS["fin"]} alt="img-fin-juego" />
+        </div>
+        <div className={`${estiloBtnNext[0]}`}>
+          <div
+            className={`${estiloBtnNext[1]} bg-blue-500 hover:bg-blue-700`}
+            onClick={handleGameThree}
+          >
+            Siguiente juego
+          </div>
+          <div className={`${estiloBtnNext[1]}`} onClick={handleNav}>
+            Volver al inicio
+          </div>
         </div>
       </div>
     );

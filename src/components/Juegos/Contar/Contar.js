@@ -36,6 +36,11 @@ const IMGS = {
   vidas: "/assets/img/lifes-icons.png",
 };
 
+const estiloBtnNext = [
+  "flex justify-center items-center",
+  "bg-red-400 rounded-full shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:bg-red-500 p-4 m-3",
+];
+
 const Contar = () => {
   const preguntasRef = useFirestore().collection("juegos").doc("contar");
 
@@ -46,6 +51,7 @@ const Contar = () => {
   const [puntos, setPuntos] = useState(0);
   const [puntosLocales, setPuntosLocales] = useState(0);
   const handleNav = () => navigate("/Home");
+  const handleGameNivelTwo = () => navigate("juego-sumar");
 
   var userEmail = localStorage.getItem("Email")?.split("@").toString();
   userEmail = userEmail?.split(".").toString();
@@ -265,7 +271,20 @@ const Contar = () => {
                   Puntaje:{" "}
                   <span className="text-yellow-500">{puntosLocales}</span>
                 </h3>
-                <img src={IMGS["fin"]} alt="img-fin-juego" />
+                <div className="">
+                  <img src={IMGS["fin"]} alt="img-fin-juego" />
+                </div>
+                <div className={`${estiloBtnNext[0]}`}>
+                  <div
+                    className={`${estiloBtnNext[1]} bg-blue-500 hover:bg-blue-700`}
+                    onClick={handleGameNivelTwo}
+                  >
+                    Siguiente juego
+                  </div>
+                  <div className={`${estiloBtnNext[1]}`} onClick={handleNav}>
+                    Volver al inicio
+                  </div>
+                </div>
               </div>
             </div>
           </div>

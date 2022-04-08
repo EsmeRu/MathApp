@@ -9,6 +9,7 @@ import JuegObjetos from "./components/Juego_Objetos/Objetos.js";
 import Juegos from "./components/Juegos/Juegos.js";
 import { useRoutes } from "hookrouter";
 import "./App.css";
+import Memoria from "./components/Juego_Objetos/Memoria/Memoria";
 
 export const routes = {
   "/": () => <Login />,
@@ -16,6 +17,7 @@ export const routes = {
   "/juego-contar": () => <JuegoContar />,
   "/juego-sumar": () => <JuegoSumar />,
   "/juego-objetos": () => <JuegObjetos />,
+  "/juego-memoria": () => <Memoria />,
   "/juegos": () => <Juegos />,
 };
 

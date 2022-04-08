@@ -61,12 +61,18 @@ function Objetos() {
 
   const { status, data } = useFirestoreDocData(preguntasRef);
   const [aux, setAux] = useState(0);
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
   const handleNav = () => navigate("/Home");
+  const handleGameMemory = () => navigate("juego-memoria");
 
   const dataBaseKey = localStorage.getItem("key");
   const [puntos, setPuntos] = useState(0);
   const [puntosLocales, setPuntosLocales] = useState(0);
+
+  const estiloBtnNext = [
+    "flex justify-center items-center",
+    "bg-red-400 rounded-full shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:bg-red-500 p-4 m-3",
+  ];
 
   var userEmail = localStorage.getItem("Email").split("@").toString();
   userEmail = userEmail.split(".").toString();
@@ -228,6 +234,17 @@ function Objetos() {
                     Puntaje:{" "}
                     <span className="text-yellow-500">{puntosLocales}</span>
                   </h3>
+                </div>
+              </div>
+              <div className={`${estiloBtnNext[0]}`}>
+                <div
+                  className={`${estiloBtnNext[1]} bg-blue-500 hover:bg-blue-700`}
+                  onClick={handleGameMemory}
+                >
+                  Siguiente juego
+                </div>
+                <div className={`${estiloBtnNext[1]}`} onClick={handleNav}>
+                  Volver al inicio
                 </div>
               </div>
             </div>

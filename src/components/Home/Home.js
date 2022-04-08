@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { navigate } from "hookrouter";
 import Container from "../Container";
 import { useFirebaseApp } from "reactfire";
+import ClosingAlert from "@material-tailwind/react/ClosingAlert";
 
 const IMGS = {
   contar: "/assets/img/play.png",
@@ -32,6 +33,16 @@ const Home = () => {
         <>{goToLogin()}</>
       ) : (
         <Container>
+          <div className="inicio">
+            <div className="w-2/4">
+              <ClosingAlert color="lightGreen">
+                <p className="iniciarJuego">
+                  Para iniciar el juego presiona el botón.
+                </p>
+              </ClosingAlert>
+            </div>
+          </div>
+
           <div className="flex justify-center">
             <div
               className={`bg-zinc-100 ${estilosHome[1]} hover:bg-zinc-200`}

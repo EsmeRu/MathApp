@@ -164,6 +164,7 @@ const Contar = () => {
       perderVida();
     }
   };
+  
   useEffect(() => {
     if (status === "success") {
       obtenerPuntos();

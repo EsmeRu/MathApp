@@ -90,6 +90,9 @@ function Sumar() {
       obtenerPuntos();
       obtenerCantidad();
       obtenerPromedio();
+      if(puntosLocales === null) {
+        setPuntosLocales(0);
+      }
       let btn = buttons;
       btn = [];
       let res = 0,
@@ -148,7 +151,7 @@ function Sumar() {
         <h4 className="mr-10 pt-1 font-black">
           {" "}
           Puntos:{" "}
-          <span className="text-yellow-500">{puntosLocales.toLocaleString()}</span>
+          <span className="text-yellow-500">{puntosLocales}</span>
         </h4>
         <div className="flex flex-wrap my-1 justify-center" name="divVidas">
           <h4 className="mr-3 font-black"> Vidas: </h4>

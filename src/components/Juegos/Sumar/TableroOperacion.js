@@ -153,10 +153,15 @@ const Tablero = ({ children, id, className, count, state = [] }) => {
   };
 
   useEffect(() => {
-    obtenerPuntos();
-    obtenerPromedio();
-    obtenerCantidad();
-  });
+    if (status === "success") {
+      obtenerPuntos();
+      obtenerCantidad();
+      obtenerPromedio();
+      if (puntosLocales === null) {
+        setPuntosLocales(0);
+      }
+    }
+  }, [obtenerPuntos, puntosLocales]);
 
   return (
     <div className={className} id={id} onDrop={drop} onDragOver={dragOver}>

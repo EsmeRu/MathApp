@@ -59,6 +59,7 @@ const Contar = () => {
   userEmail = userEmail?.split("_").toString();
 
   const puntosRef = useDatabase().ref(dataBaseKey).child("puntosContar");
+  const cantRef = useDatabase().ref(dataBaseKey).child("cantJuegosContar");
 
   const obtenerPuntos = () => {
     puntosRef.on("value", (puntaje) => {
@@ -73,6 +74,7 @@ const Contar = () => {
     setPuntos(nuevosPuntos);
     setPuntosLocales(puntosLocales + 50);
     puntosRef.set(nuevosPuntos);
+    cantRef.set(cantRef.get() + 1);
   };
 
   const perderVida = () => {
@@ -81,6 +83,7 @@ const Contar = () => {
     console.log(vidaPerida);
     vidaPerida.parentElement.removeChild(vidaPerida);
     vidasRestantes--;
+    cantRef.set(cantRef.get() + 1);
     if (vidasRestantes === 0) {
       swal({
         title: "¡Oh no...!",
@@ -172,6 +175,10 @@ const Contar = () => {
     }
   };
 
+  const reload = () => {
+    window.location.reload(true);
+  };
+
   return (
     <Container>
       <div className="w-screen h-screen flex flex-col">
@@ -185,7 +192,7 @@ const Contar = () => {
             <div className="puntuacion text-center flex my-3 justify-center px-7 sm:bg-gradient-to-t sm:from-gray-50 sticky top-0">
               <h4 className="mr-10 pt-1 font-black">
                 {" "}
-                Puntos: <span className="text-yellow-500">{puntosLocales}</span>
+                Puntos: <span className="text-yellow-500">{puntos}</span>
               </h4>
               <div
                 className="flex flex-wrap my-1 justify-center"

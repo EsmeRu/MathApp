@@ -15,22 +15,31 @@ const logo = {
 const Auth = (props) => {
     const keysRef = useFirestore();
     const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const firebase = useFirebaseApp();
     const handleNav = () => navigate("/Home");
     const puntosRef = useDatabase();
 
-
     const addPointRecord = () => {
         var userEmail = localStorage.getItem("Email").split("@", 1).toString();
         userEmail = userEmail.split(".").toString();
         localStorage.setItem("key", puntosRef.ref().push({
             email: userEmail,
+            username: username,
             puntosContar: 0,
             puntosSumar: 0,
             puntosMemoria: 0,
-            puntosObjetos: 0
+            puntosObjetos: 0,
+            cantJuegosContar: 0,
+            cantJuegosSumar: 0,
+            cantJuegosMemoria: 0,
+            cantJuegosObjetos: 0,
+            promContar: 0,
+            promSumar: 0,
+            promMemoria: 0,
+            promObjetos: 0
         }).key)
 
         keysRef.collection("keys").add({
@@ -222,6 +231,20 @@ const Auth = (props) => {
                                     className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                     placeholder="Correo Electrónico"
                                     onChange={(ev) => setEmail(ev.target.value)}
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="username" className="sr-only">
+                                    Nombre de usuario
+                                    </label>
+                                <input
+                                    id="usernameSignIn"
+                                    type="username"
+                                    autoComplete="username"
+                                    required
+                                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                    placeholder="Nombre de usuario"
+                                    onChange={(ev) => setUsername(ev.target.value)}
                                 />
                             </div>
                             <div>

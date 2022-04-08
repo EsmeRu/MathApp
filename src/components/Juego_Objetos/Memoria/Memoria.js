@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import TableroMemoria from "./TableroMemoria.js";
 import "firebase/database";
 import { useDatabase } from "reactfire";
-import Timer from "./Timer";
 
+const time = new Date();
 const emojiList = [
   "⚡",
   "🍕",
@@ -135,6 +135,11 @@ const Memoria = () => {
     }
   };
 
+  /* const handlerStopTimer = () => {
+    setFinTimer(Timer.call());
+    finTimer.pause();
+  } */
+
   return (
     <div>
       <div className="puntuacion text-center">
@@ -142,7 +147,6 @@ const Memoria = () => {
           {" "}
           Puntos: <span className="text-yellow-500">{puntosLocales}</span>
         </h3>
-        <Timer id="timer"/>
       </div>
       <TableroMemoria
         memoBlocks={shuffledMemoBlocks}

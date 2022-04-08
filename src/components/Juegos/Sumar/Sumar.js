@@ -45,10 +45,12 @@ function Sumar() {
   const [buttons, setButtons] = useState([]);
   const dataBaseKey = localStorage.getItem("key");
   const [puntos, setPuntos] = useState(0);
+  const [puntosLocales, setPuntosLocales] = useState(0);
   const [count, setCount] = useState(1);
   const [imgOp, setImgOp] = useState("");
   const [lenghtOp, setLenghtOp] = useState(1);
   var cantidadJuegos = 0;
+  var promedioJuego = 0;
 
   var userEmail = localStorage.getItem("Email").split("@").toString();
   userEmail = userEmail.split(".").toString();
@@ -57,6 +59,7 @@ function Sumar() {
 
   const puntosRef = useDatabase().ref(dataBaseKey).child("puntosSumar");
   const cantRef = useDatabase().ref(dataBaseKey).child("cantJuegosSumar");
+  const promRef =useDatabase().ref(dataBaseKey).child("promSumar");
 
   const obtenerPuntos = () => {
     puntosRef.on("value", (puntaje) => {
@@ -74,10 +77,19 @@ function Sumar() {
     });
   }
 
+  const obtenerPromedio = () => {
+    promRef.on("value", (promedio) => {
+      if(promedio != null){
+        promedioJuego = promedio.val();
+      }
+    })
+  }
+
   useEffect(() => {
     if (status === "success") {
       obtenerPuntos();
       obtenerCantidad();
+      obtenerPromedio();
       let btn = buttons;
       btn = [];
       let res = 0,
@@ -136,7 +148,7 @@ function Sumar() {
         <h4 className="mr-10 pt-1 font-black">
           {" "}
           Puntos:{" "}
-          <span className="text-yellow-500">{puntos.toLocaleString()}</span>
+          <span className="text-yellow-500">{puntosLocales.toLocaleString()}</span>
         </h4>
         <div className="flex flex-wrap my-1 justify-center" name="divVidas">
           <h4 className="mr-3 font-black"> Vidas: </h4>

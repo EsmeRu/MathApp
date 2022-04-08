@@ -15,7 +15,7 @@ const TableroMemoria = ({
   animating,
   handleMemoClick,
   memoBlocks,
-  finJuego,
+  finJuego
 }) => {
   return (
     <main>

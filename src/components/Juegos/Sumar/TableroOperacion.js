@@ -14,7 +14,9 @@ const Tablero = ({ children, id, className, count, state = [] }) => {
   const [aux, setAux] = state;
   const dataBaseKey = localStorage.getItem("key");
   const [puntos, setPuntos] = useState(0);
+  const [puntosLocales, setPuntosLocales] = useState(0);
   var cantidadJuegos = 0;
+  var promedioJuego = 0;
 
   var userEmail = localStorage.getItem("Email").split("@").toString();
   userEmail = userEmail.split(".").toString();
@@ -23,6 +25,7 @@ const Tablero = ({ children, id, className, count, state = [] }) => {
 
   const puntosRef = useDatabase().ref(dataBaseKey).child("puntosSumar");
   const cantRef = useDatabase().ref(dataBaseKey).child("cantJuegosSumar");
+  const promRef =useDatabase().ref(dataBaseKey).child("promSumar");
 
   const handleNav = () => navigate("/Home");
 
@@ -42,15 +45,30 @@ const Tablero = ({ children, id, className, count, state = [] }) => {
     });
   }
 
+  const obtenerPromedio = () => {
+    promRef.on("value", (promedio) => {
+      if(promedio != null){
+        promedioJuego = promedio.val();
+      }
+    })
+  }
+
+  const calcularPromedio = () => {
+    promedioJuego = puntos / cantidadJuegos;
+    promRef.set(promedioJuego);
+  }
+
   const sumarPuntos = () => {
     var nuevosPuntos = puntos + 50;
     setPuntos(nuevosPuntos);
+    setPuntosLocales(puntosLocales + 50);     
     puntosRef.set(nuevosPuntos);
     if(newIntent != null) {      
       cantRef.set(cantidadJuegos+1);
       newIntent = null;
       console.log(newIntent);
     }
+    calcularPromedio();
   };
 
   const perderVida = () => {
@@ -63,6 +81,7 @@ const Tablero = ({ children, id, className, count, state = [] }) => {
     vidaPerida.parentElement.removeChild(vidaPerida);
     vidasRestantes--;
     if (vidasRestantes === 0) {
+      calcularPromedio();
       swal({
         title: "¡Oh no...!",
         text: "Has perdido todas tus vidas\n¿Te gustaria intentarlo de nuevo?",
@@ -135,6 +154,7 @@ const Tablero = ({ children, id, className, count, state = [] }) => {
 
   useEffect(() => {
     obtenerPuntos();
+    obtenerPromedio();
     obtenerCantidad();
   });
 

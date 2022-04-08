@@ -54,6 +54,7 @@ const Contar = () => {
   const handleNav = () => navigate("/Home");
   const handleGameNivelTwo = () => navigate("juego-sumar");
   var cantidadJuegos = 0;
+  var promedioJuego = 0;
 
   var userEmail = localStorage.getItem("Email")?.split("@").toString();
   userEmail = userEmail?.split(".").toString();
@@ -62,6 +63,7 @@ const Contar = () => {
 
   const puntosRef = useDatabase().ref(dataBaseKey).child("puntosContar");
   const cantRef = useDatabase().ref(dataBaseKey).child("cantJuegosContar");
+  const promRef =useDatabase().ref(dataBaseKey).child("promContar");
 
   const obtenerPuntos = () => {
     puntosRef.on("value", (puntaje) => {
@@ -79,6 +81,19 @@ const Contar = () => {
     });
   }
 
+  const obtenerPromedio = () => {
+    promRef.on("value", (promedio) => {
+      if(promedio != null){
+        promedioJuego = promedio.val();
+      }
+    })
+  }
+
+  const calcularPromedio = () => {
+    promedioJuego = puntos / cantidadJuegos;
+    promRef.set(promedioJuego);
+  }
+
   const sumarPuntos = () => {
     var nuevosPuntos = puntos + 50;
     setPuntos(nuevosPuntos);
@@ -90,7 +105,7 @@ const Contar = () => {
       newIntent = null;
       console.log(newIntent);
     }
-    
+    calcularPromedio();
   };
 
   const perderVida = () => {
@@ -105,6 +120,7 @@ const Contar = () => {
       console.log(newIntent);
     }
     if (vidasRestantes === 0) {
+      calcularPromedio();
       swal({
         title: "¡Oh no...!",
         text: "Has perdido todas tus vidas\n¿Te gustaria intentarlo de nuevo?",
@@ -143,7 +159,7 @@ const Contar = () => {
       });
       setButtons([]);
       setAux(aux + 1);
-      sumarPuntos();
+      sumarPuntos();      
     } else {
       perderVida();
     }
@@ -152,6 +168,7 @@ const Contar = () => {
     if (status === "success") {
       obtenerPuntos();
       obtenerCantidad();
+      obtenerPromedio();
       if (puntosLocales === null) {
         setPuntosLocales(0);
       }
@@ -162,6 +179,7 @@ const Contar = () => {
     if (status === "success") {
       obtenerPuntos();
       obtenerCantidad();
+      obtenerPromedio();
       if (puntosLocales === null) {
         setPuntosLocales(0);
       }

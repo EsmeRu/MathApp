@@ -28,7 +28,7 @@ export default class Timer extends Component {
             }
             if (seconds === 0) {
                 if (minutes === 0) {
-                    clearInterval(this.myInterval)
+                    clearInterval(this.myInterval);
                 } else {
                     this.setState(({ minutes }) => ({
                         minutes: minutes - 1,
@@ -40,7 +40,7 @@ export default class Timer extends Component {
     }
 
     componentWillUnmount() {
-        clearInterval(this.myInterval)
+        clearInterval(this.myInterval);
     }
 
     timeOver = () => {

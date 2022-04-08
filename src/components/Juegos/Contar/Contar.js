@@ -10,6 +10,7 @@ import { navigate } from "hookrouter";
 import { useFirestoreDocData, useFirestore, useDatabase } from "reactfire";
 
 var vidasRestantes = 3;
+var newIntent = 1;
 const IMGS = {
   cero: "/assets/img/numeros/num-cero.png",
   uno: "/assets/img/letras/letras-abc.png",
@@ -52,6 +53,7 @@ const Contar = () => {
   const [puntosLocales, setPuntosLocales] = useState(0);
   const handleNav = () => navigate("/Home");
   const handleGameNivelTwo = () => navigate("juego-sumar");
+  var cantidadJuegos = 0;
 
   var userEmail = localStorage.getItem("Email")?.split("@").toString();
   userEmail = userEmail?.split(".").toString();
@@ -69,12 +71,26 @@ const Contar = () => {
     });
   };
 
+  const obtenerCantidad = () => {    
+    cantRef.on("value", (cantidad) => {
+      if (cantidad != null) {
+        cantidadJuegos = cantidad.val();
+      }
+    });
+  }
+
   const sumarPuntos = () => {
     var nuevosPuntos = puntos + 50;
     setPuntos(nuevosPuntos);
     setPuntosLocales(puntosLocales + 50);
-    puntosRef.set(nuevosPuntos);
-    cantRef.set(cantRef.get() + 1);
+    puntosRef.set(nuevosPuntos);    
+    console.log(newIntent);
+    if(newIntent != null) {      
+      cantRef.set(cantidadJuegos+1);
+      newIntent = null;
+      console.log(newIntent);
+    }
+    
   };
 
   const perderVida = () => {
@@ -83,7 +99,11 @@ const Contar = () => {
     console.log(vidaPerida);
     vidaPerida.parentElement.removeChild(vidaPerida);
     vidasRestantes--;
-    cantRef.set(cantRef.get() + 1);
+    if(newIntent != null) {      
+      cantRef.set(cantidadJuegos+1);
+      newIntent = null;
+      console.log(newIntent);
+    }
     if (vidasRestantes === 0) {
       swal({
         title: "¡Oh no...!",
@@ -131,6 +151,7 @@ const Contar = () => {
   useEffect(() => {
     if (status === "success") {
       obtenerPuntos();
+      obtenerCantidad();
       if (puntosLocales === null) {
         setPuntosLocales(0);
       }
@@ -140,6 +161,7 @@ const Contar = () => {
   useEffect(() => {
     if (status === "success") {
       obtenerPuntos();
+      obtenerCantidad();
       if (puntosLocales === null) {
         setPuntosLocales(0);
       }
@@ -192,7 +214,7 @@ const Contar = () => {
             <div className="puntuacion text-center flex my-3 justify-center px-7 sm:bg-gradient-to-t sm:from-gray-50 sticky top-0">
               <h4 className="mr-10 pt-1 font-black">
                 {" "}
-                Puntos: <span className="text-yellow-500">{puntos}</span>
+                Puntos: <span className="text-yellow-500">{puntosLocales}</span>
               </h4>
               <div
                 className="flex flex-wrap my-1 justify-center"

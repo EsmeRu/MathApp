@@ -10,6 +10,7 @@ import { navigate } from "hookrouter";
 import { useFirestoreDocData, useFirestore, useDatabase } from "reactfire";
 
 var vidasRestantes = 3;
+var newIntent = 1;
 const IMGS = {
   memoria: "/assets/img/memoria.png",
   presiona: "/assets/img/presiona.png",
@@ -68,6 +69,7 @@ function Objetos() {
   const dataBaseKey = localStorage.getItem("key");
   const [puntos, setPuntos] = useState(0);
   const [puntosLocales, setPuntosLocales] = useState(0);
+  var cantidadJuegos = 0;
 
   const estiloBtnNext = [
     "flex justify-center items-center",
@@ -80,6 +82,7 @@ function Objetos() {
   userEmail = userEmail.split("_").toString();
 
   const puntosRef = useDatabase().ref(dataBaseKey).child("puntosObjetos");
+  const cantRef = useDatabase().ref(dataBaseKey).child("cantJuegosObjetos");
 
   const obtenerPuntos = () => {
     puntosRef.on("value", (puntaje) => {
@@ -89,17 +92,35 @@ function Objetos() {
     });
   };
 
+  const obtenerCantidad = () => {    
+    cantRef.on("value", (cantidad) => {
+      if (cantidad != null) {
+        cantidadJuegos = cantidad.val();
+      }
+    });
+  }
+
   const sumarPuntos = () => {
     var nuevosPuntos = puntos + 50;
     setPuntos(nuevosPuntos);
     setPuntosLocales(puntosLocales + 50);
     puntosRef.set(nuevosPuntos);
+    if(newIntent != null) {      
+      cantRef.set(cantidadJuegos+1);
+      newIntent = null;
+      console.log(newIntent);
+    }
   };
 
   const perderVida = () => {
     const vidaPerida = document.getElementById("vida" + vidasRestantes);
     vidaPerida.parentElement.removeChild(vidaPerida);
     vidasRestantes--;
+    if(newIntent != null) {      
+      cantRef.set(cantidadJuegos+1);
+      newIntent = null;
+      console.log(newIntent);
+    }
     if (vidasRestantes === 0) {
       swal({
         title: "¡Oh no...!",
@@ -135,6 +156,7 @@ function Objetos() {
       setPuntosLocales(0);
     }
     obtenerPuntos();
+    obtenerCantidad();
   }, [puntosLocales, obtenerPuntos]);
 
   const contarFuncion = (index) => {

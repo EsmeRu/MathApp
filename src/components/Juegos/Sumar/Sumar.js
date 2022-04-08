@@ -48,6 +48,7 @@ function Sumar() {
   const [count, setCount] = useState(1);
   const [imgOp, setImgOp] = useState("");
   const [lenghtOp, setLenghtOp] = useState(1);
+  var cantidadJuegos = 0;
 
   var userEmail = localStorage.getItem("Email").split("@").toString();
   userEmail = userEmail.split(".").toString();
@@ -55,6 +56,7 @@ function Sumar() {
   userEmail = userEmail.split("_").toString();
 
   const puntosRef = useDatabase().ref(dataBaseKey).child("puntosSumar");
+  const cantRef = useDatabase().ref(dataBaseKey).child("cantJuegosSumar");
 
   const obtenerPuntos = () => {
     puntosRef.on("value", (puntaje) => {
@@ -64,9 +66,18 @@ function Sumar() {
     });
   };
 
+  const obtenerCantidad = () => {    
+    cantRef.on("value", (cantidad) => {
+      if (cantidad != null) {
+        cantidadJuegos = cantidad.val();
+      }
+    });
+  }
+
   useEffect(() => {
     if (status === "success") {
       obtenerPuntos();
+      obtenerCantidad();
       let btn = buttons;
       btn = [];
       let res = 0,

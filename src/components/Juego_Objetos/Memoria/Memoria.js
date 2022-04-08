@@ -21,6 +21,7 @@ const emojiList = [
   "🍒",
   "🍓",
 ];
+var newIntent = 1;
 
 const Memoria = () => {
   const [shuffledMemoBlocks, setShuffleMemoBlocks] = useState([]);
@@ -31,6 +32,7 @@ const Memoria = () => {
   const dataBaseKey = localStorage.getItem("key");
   const [puntos, setPuntos] = useState(0);
   const [puntosLocales, setPuntosLocales] = useState(0);
+  var cantidadJuegos = 0;
 
   var userEmail = localStorage.getItem("Email").split("@").toString();
   userEmail = userEmail.split(".").toString();
@@ -38,6 +40,8 @@ const Memoria = () => {
   userEmail = userEmail.split("_").toString();
 
   const puntosRef = useDatabase().ref(dataBaseKey).child("puntosMemoria");
+  const cantRef = useDatabase().ref(dataBaseKey).child("cantJuegosMemoria");
+  
 
   const obtenerPuntos = () => {
     puntosRef.on("value", (puntaje) => {
@@ -47,17 +51,32 @@ const Memoria = () => {
     });
   };
 
+  const obtenerCantidad = () => {    
+    cantRef.on("value", (cantidad) => {
+      if (cantidad != null) {
+        cantidadJuegos = cantidad.val();
+      }
+    });
+  }
+
   const sumarPuntos = () => {
     var nuevosPuntos = puntos + 50;
     setPuntos(nuevosPuntos);
     setPuntosLocales(puntosLocales + 50);
     puntosRef.set(nuevosPuntos);
+    if(newIntent != null) {      
+      cantRef.set(cantidadJuegos+1);
+      newIntent = null;
+      console.log(newIntent);
+    }
   };
+
   useEffect(() => {
     if (puntosLocales === null) {
       setPuntosLocales(0);
     }
     obtenerPuntos();
+    obtenerCantidad();
   }, [obtenerPuntos, puntosLocales]);
 
   useEffect(() => {
@@ -88,6 +107,11 @@ const Memoria = () => {
     if (selectedMemoBlock === null) {
       setSelectedMemoBlock(memoBlock);
       console.log("este es el primero que se levanta");
+      if(newIntent != null) {      
+        cantRef.set(cantidadJuegos+1);
+        newIntent = null;
+        console.log(newIntent);
+      }
     } else if (selectedMemoBlock.emoji === memoBlock.emoji) {
       setSelectedMemoBlock(null);
       sumarPuntos();
@@ -118,7 +142,7 @@ const Memoria = () => {
           {" "}
           Puntos: <span className="text-yellow-500">{puntosLocales}</span>
         </h3>
-        <Timer id="timer" />
+        <Timer id="timer"/>
       </div>
       <TableroMemoria
         memoBlocks={shuffledMemoBlocks}

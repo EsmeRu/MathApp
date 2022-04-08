@@ -5,6 +5,7 @@ import { useFirestoreDocData, useFirestore, useDatabase } from "reactfire";
 import { navigate } from "hookrouter";
 
 var vidasRestantes = 3;
+var newIntent = 1;
 
 const Tablero = ({ children, id, className, count, state = [] }) => {
   const preguntasRef = useFirestore().collection("juegos").doc("operaciones");
@@ -13,6 +14,7 @@ const Tablero = ({ children, id, className, count, state = [] }) => {
   const [aux, setAux] = state;
   const dataBaseKey = localStorage.getItem("key");
   const [puntos, setPuntos] = useState(0);
+  var cantidadJuegos = 0;
 
   var userEmail = localStorage.getItem("Email").split("@").toString();
   userEmail = userEmail.split(".").toString();
@@ -20,6 +22,7 @@ const Tablero = ({ children, id, className, count, state = [] }) => {
   userEmail = userEmail.split("_").toString();
 
   const puntosRef = useDatabase().ref(dataBaseKey).child("puntosSumar");
+  const cantRef = useDatabase().ref(dataBaseKey).child("cantJuegosSumar");
 
   const handleNav = () => navigate("/Home");
 
@@ -31,13 +34,31 @@ const Tablero = ({ children, id, className, count, state = [] }) => {
     });
   };
 
+  const obtenerCantidad = () => {    
+    cantRef.on("value", (cantidad) => {
+      if (cantidad != null) {
+        cantidadJuegos = cantidad.val();
+      }
+    });
+  }
+
   const sumarPuntos = () => {
     var nuevosPuntos = puntos + 50;
     setPuntos(nuevosPuntos);
     puntosRef.set(nuevosPuntos);
+    if(newIntent != null) {      
+      cantRef.set(cantidadJuegos+1);
+      newIntent = null;
+      console.log(newIntent);
+    }
   };
 
   const perderVida = () => {
+    if(newIntent != null) {      
+      cantRef.set(cantidadJuegos+1);
+      newIntent = null;
+      console.log(newIntent);
+    }
     const vidaPerida = document.getElementById("vida" + vidasRestantes);
     vidaPerida.parentElement.removeChild(vidaPerida);
     vidasRestantes--;
@@ -114,6 +135,7 @@ const Tablero = ({ children, id, className, count, state = [] }) => {
 
   useEffect(() => {
     obtenerPuntos();
+    obtenerCantidad();
   });
 
   return (

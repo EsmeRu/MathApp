@@ -9,10 +9,18 @@ import { useDatabase } from "reactfire";
 
 const Tutores = () => {
   const dataBaseKey = localStorage.getItem("key");
-  const cantidadSumarRef = useDatabase().ref(dataBaseKey).child("cantJuegosSumar");
-  const cantidadContarRef = useDatabase().ref(dataBaseKey).child("cantJuegosContar");
-  const cantidadObjetosRef = useDatabase().ref(dataBaseKey).child("cantJuegosObjetos");
-  const cantidadMemoriaRef = useDatabase().ref(dataBaseKey).child("cantJuegosMemoria");
+  const cantidadSumarRef = useDatabase()
+    .ref(dataBaseKey)
+    .child("cantJuegosSumar");
+  const cantidadContarRef = useDatabase()
+    .ref(dataBaseKey)
+    .child("cantJuegosContar");
+  const cantidadObjetosRef = useDatabase()
+    .ref(dataBaseKey)
+    .child("cantJuegosObjetos");
+  const cantidadMemoriaRef = useDatabase()
+    .ref(dataBaseKey)
+    .child("cantJuegosMemoria");
   const promSumarRef = useDatabase().ref(dataBaseKey).child("promSumar");
   const promContarRef = useDatabase().ref(dataBaseKey).child("promContar");
   const promObjetosRef = useDatabase().ref(dataBaseKey).child("promObjetos");
@@ -28,56 +36,56 @@ const Tutores = () => {
   const [promedioMemoria, setPromedioMemoria] = useState(0);
 
   const obtenerCantidades = () => {
-    cantidadSumarRef.on("value",(cantidadSumar) => {
-      if(cantidadSumar != null){
+    cantidadSumarRef.on("value", (cantidadSumar) => {
+      if (cantidadSumar != null) {
         setCantidadSumar(cantidadSumar.val());
       }
     });
 
-    cantidadContarRef.on("value",(cantidadContar) => {
-      if(cantidadContar != null){
+    cantidadContarRef.on("value", (cantidadContar) => {
+      if (cantidadContar != null) {
         setCantidadContar(cantidadContar.val());
       }
     });
 
-    cantidadObjetosRef.on("value",(cantidadObjetos) => {
-      if(cantidadObjetos != null){
+    cantidadObjetosRef.on("value", (cantidadObjetos) => {
+      if (cantidadObjetos != null) {
         setCantidadObjetos(cantidadObjetos.val());
       }
     });
 
-    cantidadMemoriaRef.on("value",(cantidadMemoria) => {
-      if(cantidadMemoria != null){
+    cantidadMemoriaRef.on("value", (cantidadMemoria) => {
+      if (cantidadMemoria != null) {
         setCantidadMemoria(cantidadMemoria.val());
       }
     });
-  }
+  };
 
   const obtenerPromedios = () => {
-    promContarRef.on("value",(promedioContar) => {
-      if(promedioContar != null) {
-        setPromedioContar(promedioContar.val())
+    promContarRef.on("value", (promedioContar) => {
+      if (promedioContar != null) {
+        setPromedioContar(promedioContar.val());
       }
     });
 
-    promSumarRef.on("value",(promedioSumar) => {
-      if(promedioSumar != null) {
-        setPromedioSumar(promedioSumar.val())
+    promSumarRef.on("value", (promedioSumar) => {
+      if (promedioSumar != null) {
+        setPromedioSumar(promedioSumar.val());
       }
     });
 
-    promMemoriaRef.on("value",(promedioMemoria) => {
-      if(promedioMemoria != null) {
-        setPromedioMemoria(promedioMemoria.val())
+    promMemoriaRef.on("value", (promedioMemoria) => {
+      if (promedioMemoria != null) {
+        setPromedioMemoria(promedioMemoria.val());
       }
     });
 
-    promObjetosRef.on("value",(promedioObjetos) => {
-      if(promedioObjetos != null) {
-        setPromedioObjetos(promedioObjetos.val())
+    promObjetosRef.on("value", (promedioObjetos) => {
+      if (promedioObjetos != null) {
+        setPromedioObjetos(promedioObjetos.val());
       }
     });
-  }
+  };
 
   useEffect(() => {
     obtenerCantidades();
@@ -94,7 +102,7 @@ const Tutores = () => {
                 color="pink"
                 icon="pin"
                 title="Contar"
-                amount={promedioContar+" promedio"}
+                amount={promedioContar + " promedio"}
                 percentage={cantidadContar}
                 percentageIcon="extension"
                 percentageColor="red"
@@ -104,7 +112,7 @@ const Tutores = () => {
                 color="orange"
                 icon="add_task"
                 title="Sumas y restas"
-                amount={promedioSumar+" promedio"}
+                amount={promedioSumar + " promedio"}
                 percentage={cantidadSumar}
                 percentageIcon="extension"
                 percentageColor="red"
@@ -114,7 +122,7 @@ const Tutores = () => {
                 color="purple"
                 icon="remove_circle_outline"
                 title="Memoria"
-                amount={promedioMemoria+" promedio"}
+                amount={promedioMemoria + " promedio"}
                 percentage={cantidadMemoria}
                 percentageIcon="extension"
                 percentageColor="red"
@@ -124,7 +132,7 @@ const Tutores = () => {
                 color="blue"
                 icon="emoji_objects"
                 title="Identificar Objetos"
-                amount={promedioObjetos+" promedio"}
+                amount={promedioObjetos + " promedio"}
                 percentage={cantidadObjetos}
                 percentageIcon="extension"
                 percentageColor="red"
@@ -134,10 +142,20 @@ const Tutores = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-5 xl:grid-cols-1">
               <div className="col-start-1 col-end-5 lg:col-start-1 lg:col-end-7 px-4 mb-14">
-                <PageVisitsCard />
+                <PageVisitsCard
+                  promedioContar={promedioContar}
+                  promedioSumar={promedioSumar}
+                  promedioMemoria={promedioMemoria}
+                  promedioObjetos={promedioObjetos}
+                />
               </div>
               <div className="col-start-5 col-end-5 lg:col-start-1 lg:col-end-7 px-4 mb-14">
-                <TrafficCard />
+                <TrafficCard
+                  cantidadContar={cantidadContar}
+                  cantidadSumar={cantidadSumar}
+                  cantidadMemoria={cantidadMemoria}
+                  cantidadObjetos={cantidadObjetos}
+                />
               </div>
             </div>
           </div>

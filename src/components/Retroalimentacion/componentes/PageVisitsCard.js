@@ -2,7 +2,19 @@ import Card from "@material-tailwind/react/Card";
 import CardHeader from "@material-tailwind/react/CardHeader";
 import CardBody from "@material-tailwind/react/CardBody";
 
-export default function PageVisitsCard() {
+const gamesTable = {
+  contar: "Contar",
+  operaciones: "Sumas y restas",
+  memoria: "Memoria",
+  objetos: "Identificar Objetos",
+};
+
+export default function PageVisitsCard({
+  promedioContar,
+  promedioSumar,
+  promedioMemoria,
+  promedioObjetos,
+}) {
   return (
     <Card>
       <CardHeader color="blue" contentPosition="none">
@@ -29,13 +41,46 @@ export default function PageVisitsCard() {
             <tbody>
               <tr>
                 <th className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
-                  Contar
+                  {gamesTable["contar"]}
                 </th>
                 <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
-                  1,200 pts.
+                  {promedioContar} pts.
                 </td>
                 <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
-                  50%
+                  {(promedioContar * 100) / 1025}%
+                </td>
+              </tr>
+              <tr>
+                <th className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
+                  {gamesTable["operaciones"]}
+                </th>
+                <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
+                  {promedioSumar} pts.
+                </td>
+                <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
+                  {(promedioSumar * 100) / 975}%
+                </td>
+              </tr>
+              <tr>
+                <th className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
+                  {gamesTable["memoria"]}
+                </th>
+                <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
+                  {promedioMemoria} pts.
+                </td>
+                <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
+                  {(promedioMemoria * 100) / 250}%
+                </td>
+              </tr>
+              <tr>
+                <th className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
+                  {gamesTable["objetos"]}
+                </th>
+                <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
+                  {promedioObjetos} pts.
+                </td>
+                <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
+                  {(promedioObjetos * 100) / 750}%
                 </td>
               </tr>
             </tbody>

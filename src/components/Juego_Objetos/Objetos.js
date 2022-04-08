@@ -70,6 +70,7 @@ function Objetos() {
   const [puntos, setPuntos] = useState(0);
   const [puntosLocales, setPuntosLocales] = useState(0);
   var cantidadJuegos = 0;
+  var promedioJuego = 0;
 
   const estiloBtnNext = [
     "flex justify-center items-center",
@@ -83,6 +84,7 @@ function Objetos() {
 
   const puntosRef = useDatabase().ref(dataBaseKey).child("puntosObjetos");
   const cantRef = useDatabase().ref(dataBaseKey).child("cantJuegosObjetos");
+  const promRef =useDatabase().ref(dataBaseKey).child("promObjetos");
 
   const obtenerPuntos = () => {
     puntosRef.on("value", (puntaje) => {
@@ -100,6 +102,19 @@ function Objetos() {
     });
   }
 
+  const obtenerPromedio = () => {
+    promRef.on("value", (promedio) => {
+      if(promedio != null){
+        promedioJuego = promedio.val();
+      }
+    })
+  }
+
+  const calcularPromedio = () => {
+    promedioJuego = puntos / cantidadJuegos;
+    promRef.set(promedioJuego);
+  }
+
   const sumarPuntos = () => {
     var nuevosPuntos = puntos + 50;
     setPuntos(nuevosPuntos);
@@ -108,8 +123,8 @@ function Objetos() {
     if(newIntent != null) {      
       cantRef.set(cantidadJuegos+1);
       newIntent = null;
-      console.log(newIntent);
     }
+    calcularPromedio();
   };
 
   const perderVida = () => {
@@ -122,6 +137,7 @@ function Objetos() {
       console.log(newIntent);
     }
     if (vidasRestantes === 0) {
+      calcularPromedio();
       swal({
         title: "¡Oh no...!",
         text: "Has perdido todas tus vidas\n¿Te gustaria intentarlo de nuevo?",
@@ -157,6 +173,7 @@ function Objetos() {
     }
     obtenerPuntos();
     obtenerCantidad();
+    obtenerPromedio();
   }, [puntosLocales, obtenerPuntos]);
 
   const contarFuncion = (index) => {

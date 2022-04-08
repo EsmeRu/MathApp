@@ -39,7 +39,8 @@ const Auth = (props) => {
             promContar: 0,
             promSumar: 0,
             promMemoria: 0,
-            promObjetos: 0
+            promObjetos: 0,
+            puntosActualesSumar: 0
         }).key)
 
         keysRef.collection("keys").add({

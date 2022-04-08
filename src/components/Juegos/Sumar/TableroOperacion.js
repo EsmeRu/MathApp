@@ -14,7 +14,7 @@ const Tablero = ({ children, id, className, count, state = [] }) => {
   const [aux, setAux] = state;
   const dataBaseKey = localStorage.getItem("key");
   const [puntos, setPuntos] = useState(0);
-  const [puntosLocales, setPuntosLocales] = useState(0);
+  const [puntosActuales, setPuntosActuales] = useState(0);
   var cantidadJuegos = 0;
   var promedioJuego = 0;
 
@@ -26,6 +26,7 @@ const Tablero = ({ children, id, className, count, state = [] }) => {
   const puntosRef = useDatabase().ref(dataBaseKey).child("puntosSumar");
   const cantRef = useDatabase().ref(dataBaseKey).child("cantJuegosSumar");
   const promRef =useDatabase().ref(dataBaseKey).child("promSumar");
+  const puntosActualesRef = useDatabase().ref(dataBaseKey).child("puntosActualesSumar");
 
   const handleNav = () => navigate("/Home");
 
@@ -53,6 +54,14 @@ const Tablero = ({ children, id, className, count, state = [] }) => {
     })
   }
 
+  const obtenerPuntosLocales = () => {
+    puntosActualesRef.on("value",(puntillos) => {
+      if(puntillos != null) {
+        setPuntosActuales(puntillos.val());
+      }
+    })
+  }
+
   const calcularPromedio = () => {
     promedioJuego = puntos / cantidadJuegos;
     promRef.set(promedioJuego);
@@ -60,13 +69,15 @@ const Tablero = ({ children, id, className, count, state = [] }) => {
 
   const sumarPuntos = () => {
     var nuevosPuntos = puntos + 50;
+    var puntosNuevos = puntosActuales + 50;
     setPuntos(nuevosPuntos);
-    setPuntosLocales(puntosLocales + 50);     
+    setPuntosActuales(puntosNuevos);
+    console.log(puntosActuales);
     puntosRef.set(nuevosPuntos);
+    puntosActualesRef.set(puntosNuevos);
     if(newIntent != null) {      
       cantRef.set(cantidadJuegos+1);
       newIntent = null;
-      console.log(newIntent);
     }
     calcularPromedio();
   };
@@ -82,6 +93,7 @@ const Tablero = ({ children, id, className, count, state = [] }) => {
     vidasRestantes--;
     if (vidasRestantes === 0) {
       calcularPromedio();
+      puntosActualesRef.set(0);
       swal({
         title: "¡Oh no...!",
         text: "Has perdido todas tus vidas\n¿Te gustaria intentarlo de nuevo?",
@@ -120,6 +132,7 @@ const Tablero = ({ children, id, className, count, state = [] }) => {
     if (id === "board") {
       if (count === 1) {
         if (data.suma[aux].respuesta === parseInt(card.textContent)) {
+          puntosActualesRef.set(puntosActuales+50);
           swal({
             content: <div>Respuesta Correcta</div>,
             icon: "success",
@@ -132,6 +145,7 @@ const Tablero = ({ children, id, className, count, state = [] }) => {
         }
       } else {
         if (data.resta[aux].respuesta === parseInt(card.textContent)) {
+          puntosActualesRef.set(puntosActuales+50);
           swal({
             content: <div>Respuesta Correcta</div>,
             icon: "success",
@@ -157,11 +171,9 @@ const Tablero = ({ children, id, className, count, state = [] }) => {
       obtenerPuntos();
       obtenerCantidad();
       obtenerPromedio();
-      if (puntosLocales === null) {
-        setPuntosLocales(0);
-      }
+      obtenerPuntosLocales();
     }
-  }, [obtenerPuntos, puntosLocales]);
+  }, [obtenerPuntos,puntosActuales]);
 
   return (
     <div className={className} id={id} onDrop={drop} onDragOver={dragOver}>

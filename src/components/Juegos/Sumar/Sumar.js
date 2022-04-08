@@ -45,7 +45,7 @@ function Sumar() {
   const [buttons, setButtons] = useState([]);
   const dataBaseKey = localStorage.getItem("key");
   const [puntos, setPuntos] = useState(0);
-  const [puntosLocales, setPuntosLocales] = useState(0);
+  const [puntosActuales, setPuntosActuales] = useState(0);
   const [count, setCount] = useState(1);
   const [imgOp, setImgOp] = useState("");
   const [lenghtOp, setLenghtOp] = useState(1);
@@ -60,6 +60,7 @@ function Sumar() {
   const puntosRef = useDatabase().ref(dataBaseKey).child("puntosSumar");
   const cantRef = useDatabase().ref(dataBaseKey).child("cantJuegosSumar");
   const promRef =useDatabase().ref(dataBaseKey).child("promSumar");
+  const puntosActualesRef = useDatabase().ref(dataBaseKey).child("puntosActualesSumar");
 
   const obtenerPuntos = () => {
     puntosRef.on("value", (puntaje) => {
@@ -85,14 +86,20 @@ function Sumar() {
     })
   }
 
+  const obtenerPuntosLocales = () => {
+    puntosActualesRef.on("value",(puntillos) => {
+      if(puntillos != null) {
+        setPuntosActuales(puntillos.val());
+      }
+    })
+  }
+
   useEffect(() => {
     if (status === "success") {
       obtenerPuntos();
       obtenerCantidad();
       obtenerPromedio();
-      if(puntosLocales === null) {
-        setPuntosLocales(0);
-      }
+      obtenerPuntosLocales();
       let btn = buttons;
       btn = [];
       let res = 0,
@@ -151,7 +158,7 @@ function Sumar() {
         <h4 className="mr-10 pt-1 font-black">
           {" "}
           Puntos:{" "}
-          <span className="text-yellow-500">{puntosLocales}</span>
+          <span className="text-yellow-500">{puntosActuales.toLocaleString()}</span>
         </h4>
         <div className="flex flex-wrap my-1 justify-center" name="divVidas">
           <h4 className="mr-3 font-black"> Vidas: </h4>
@@ -223,7 +230,7 @@ function Sumar() {
           <h3 className="mr-10 pt-4 font-black text-center mb-10">
             {" "}
             Puntaje:{" "}
-            <span className="text-yellow-500">{puntos.toLocaleString()}</span>
+            <span className="text-yellow-500">{puntosActuales.toLocaleString()}</span>
           </h3>
           <img src={IMGS["fin"]} alt="img-fin-juego" />
         </div>

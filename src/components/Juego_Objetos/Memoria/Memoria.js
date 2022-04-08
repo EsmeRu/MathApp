@@ -33,6 +33,7 @@ const Memoria = () => {
   const [puntos, setPuntos] = useState(0);
   const [puntosLocales, setPuntosLocales] = useState(0);
   var cantidadJuegos = 0;
+  var promedioJuego = 0;
 
   var userEmail = localStorage.getItem("Email").split("@").toString();
   userEmail = userEmail.split(".").toString();
@@ -41,6 +42,7 @@ const Memoria = () => {
 
   const puntosRef = useDatabase().ref(dataBaseKey).child("puntosMemoria");
   const cantRef = useDatabase().ref(dataBaseKey).child("cantJuegosMemoria");
+  const promRef =useDatabase().ref(dataBaseKey).child("promMemoria");
   
 
   const obtenerPuntos = () => {
@@ -59,16 +61,29 @@ const Memoria = () => {
     });
   }
 
+  const obtenerPromedio = () => {
+    promRef.on("value", (promedio) => {
+      if(promedio != null){
+        promedioJuego = promedio.val();
+      }
+    })
+  }
+
+  const calcularPromedio = () => {
+    promedioJuego = puntos / cantidadJuegos;
+    promRef.set(promedioJuego);
+  }
+
   const sumarPuntos = () => {
-    var nuevosPuntos = puntos + 50;
-    setPuntos(nuevosPuntos);
-    setPuntosLocales(puntosLocales + 50);
-    puntosRef.set(nuevosPuntos);
     if(newIntent != null) {      
       cantRef.set(cantidadJuegos+1);
       newIntent = null;
-      console.log(newIntent);
     }
+    var nuevosPuntos = puntos + 50;
+    setPuntos(nuevosPuntos);
+    setPuntosLocales(puntosLocales + 50);
+    puntosRef.set(nuevosPuntos);    
+    calcularPromedio();
   };
 
   useEffect(() => {
@@ -77,6 +92,7 @@ const Memoria = () => {
     }
     obtenerPuntos();
     obtenerCantidad();
+    obtenerPromedio();
   }, [obtenerPuntos, puntosLocales]);
 
   useEffect(() => {
@@ -105,16 +121,17 @@ const Memoria = () => {
     shuffledMemoBlocksCopy.splice(memoBlock.index, 1, flippedMemoBlock);
     setShuffleMemoBlocks(shuffledMemoBlocksCopy);
     if (selectedMemoBlock === null) {
-      setSelectedMemoBlock(memoBlock);
-      console.log("este es el primero que se levanta");
       if(newIntent != null) {      
         cantRef.set(cantidadJuegos+1);
         newIntent = null;
         console.log(newIntent);
       }
+      setSelectedMemoBlock(memoBlock);
+      console.log("este es el primero que se levanta");      
     } else if (selectedMemoBlock.emoji === memoBlock.emoji) {
       setSelectedMemoBlock(null);
       sumarPuntos();
+      calcularPromedio();
       console.log("este es cuando coincide con el segundo");
       setFinJuego(finJuego + 2);
     } else {
